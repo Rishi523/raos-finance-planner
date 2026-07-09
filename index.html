@@ -1,0 +1,1623 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MyFamily Finance — Planner</title>
+<style>
+:root{
+  --bg:#f4f6f3; --card:#fff; --ink:#15231c; --muted:#66736b;
+  --green:#04a974; --green-dark:#087a58; --green2:#e7f8f1; --blue:#3566a8; --blue2:#edf3fb;
+  --red:#b23a34; --red2:#fcebea; --orange:#a85a18; --orange2:#fdf1e5;
+  --yellow:#fff8dc; --border:#dfe6e1; --soft:#f8faf8; --shadow:0 10px 30px rgba(25,52,38,.07);
+  --sidebar:264px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+button,input,select,textarea{font:inherit}
+button{border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+button:hover{transform:translateY(-1px)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[contenteditable]:focus-visible{outline:3px solid rgba(23,107,77,.2);outline-offset:1px}
+.primary{background:var(--green);color:white;box-shadow:0 5px 14px rgba(23,107,77,.18)}.primary:hover{background:var(--green-dark)}
+.secondary{background:#edf1ee;color:#24352b}.danger{background:var(--red2);color:var(--red)}.ghost{background:transparent;color:var(--green);border:1px solid #9fc5b4}
+.appShell{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr)}
+.sidebar{background:#0f172a;color:white;padding:24px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;z-index:20;overflow-y:auto}
+.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(145deg,#53b889,#1d7958);display:flex;align-items:center;justify-content:center;color:white;font-size:22px;font-weight:900;box-shadow:inset 0 1px rgba(255,255,255,.3)}
+.brandName{font-size:16px;font-weight:800;letter-spacing:-.01em}.brandMeta{font-size:11px;color:#b9d0c6;margin-top:2px}
+.sidebar .brand{padding:0 8px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
+.navLabel{font-size:10px;color:#8fb2a3;text-transform:uppercase;letter-spacing:.13em;font-weight:800;padding:24px 11px 8px}
+.tabs{display:flex;flex-direction:column;gap:4px}.tab{display:flex;align-items:center;gap:11px;width:100%;background:transparent;color:#bfd2c9;text-align:left;padding:11px 12px;border-radius:10px;font-size:13px}.tab:hover{background:rgba(255,255,255,.07);color:white;transform:none}.tab.active{background:#f5fbf8;color:#123d2d;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.tabIcon{width:20px;text-align:center;font-size:15px}.sidebarFoot{margin-top:auto;padding:16px 10px 2px;color:#9ebbae;font-size:11px;line-height:1.6}
+.main{min-width:0}.top{height:82px;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;gap:18px;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:15}
+.pageEyebrow{font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:.1em;font-weight:800}.pageTitle{font-size:21px;line-height:1.2;margin:3px 0 0;letter-spacing:-.025em}.top .actions{align-items:center}
+.wrap{max-width:1540px;margin:0 auto;padding:26px 32px 48px}
+h1,h2,h3{letter-spacing:-.025em}h1{font-size:24px;margin:0}h2{font-size:17px;margin:0}h3{font-size:14px;margin:0}.sub{color:var(--muted);font-size:13px;margin-top:3px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.span3{grid-column:span 3}.span4{grid-column:span 4}.span5{grid-column:span 5}.span6{grid-column:span 6}.span7{grid-column:span 7}.span8{grid-column:span 8}.span12{grid-column:span 12}
+.kpi{min-height:136px;position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;width:92px;height:92px;border-radius:50%;right:-34px;bottom:-44px;background:currentColor;opacity:.055}.kpi .label{font-size:12px;color:var(--muted);font-weight:750}.kpi .value{font-size:27px;font-weight:850;margin-top:13px;letter-spacing:-.04em}.kpi .hint{font-size:11px;color:var(--muted);margin-top:6px}.kpi.good{background:linear-gradient(145deg,#fff,var(--green2));color:var(--green)}.kpi.warn{background:linear-gradient(145deg,#fff,var(--orange2));color:var(--orange)}.kpi.bad{background:linear-gradient(145deg,#fff,var(--red2));color:var(--red)}.kpi.blue{background:linear-gradient(145deg,#fff,var(--blue2));color:var(--blue)}
+.sectionTitle{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}.sectionTitle p{margin:4px 0 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.tableToolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 14px}.tableToolbar .search{min-width:230px;flex:1}.tableToolbar select{width:auto;min-width:150px}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}th,td{border-bottom:1px solid #edf0ee;padding:11px 12px;vertical-align:middle}
+th{background:#f7f9f7;color:#59675f;text-align:left;position:sticky;top:0;z-index:1;white-space:nowrap;font-size:10px;text-transform:uppercase;letter-spacing:.055em}
+tbody tr:hover td{background:#fbfcfb}td.edit,th.edit{background:#fffef8;outline:1px dashed transparent;min-width:92px}td.edit:focus,th.edit:focus{outline:2px solid #e5ab4f;background:white}
+td.calc{background:#fafcfb;font-weight:800}.tableWrap{overflow:auto;max-height:620px;border:1px solid var(--border);border-radius:12px}.tableWrap table tr:last-child td{border-bottom:0}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900}
+.high{background:var(--red2);color:var(--red)}.medium{background:var(--orange2);color:var(--orange)}.low{background:var(--green2);color:var(--green)}.ok{background:var(--green2);color:var(--green)}
+.alert{padding:13px 14px;border-radius:11px;border:1px solid var(--border);background:white;margin-bottom:10px;font-size:13px}.alert.red{background:var(--red2);border-color:#f2c5c2}.alert.green{background:var(--green2);border-color:#b9ddcc}.alert.orange{background:var(--orange2);border-color:#efd0af}.alert.blue{background:var(--blue2);border-color:#c5d6ed}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}.helpGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.small{font-size:12px;color:var(--muted)}.right{text-align:right}.hidden{display:none!important}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+input,select,textarea{width:100%;border:1px solid #ccd7d0;border-radius:9px;padding:9px 10px;background:white;color:var(--ink)}textarea{min-height:82px;resize:vertical}
+canvas{display:block;width:100%;height:260px;background:white;border-radius:10px}.chartSmall{height:220px}.chartLegend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:10px}
+.greenText{color:var(--green);font-weight:900}.redText{color:var(--red);font-weight:900}.orangeText{color:var(--orange);font-weight:900}.blueText{color:var(--blue);font-weight:900}
+.pillbar{display:flex;gap:8px;flex-wrap:wrap}.pill{padding:7px 10px;border-radius:999px;background:#edf2ef;font-size:11px;font-weight:750;color:#46554c}
+.hero{background:radial-gradient(circle at 88% 20%,rgba(4,169,116,.32),transparent 28%),linear-gradient(125deg,#0f172a,#17243b);color:white;padding:27px 28px}.hero .sub{color:#cbd5e1}.heroGrid{display:grid;grid-template-columns:1.3fr repeat(3,.7fr);gap:20px;align-items:center}.heroMetric{border-left:1px solid rgba(255,255,255,.16);padding-left:20px}.heroMetric span{display:block;color:#aebccd;font-size:11px}.heroMetric b{display:block;font-size:20px;margin-top:5px}.heroActions{display:flex;gap:8px;margin-top:18px}.hero .primary{background:var(--green);color:white}.hero .ghost{color:white;border-color:rgba(255,255,255,.4)}
+.progressTrack{height:7px;background:#e8edea;border-radius:999px;overflow:hidden}.progressFill{height:100%;background:var(--green);border-radius:inherit}.list{display:flex;flex-direction:column}.listItem{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #edf0ee}.listItem:last-child{border-bottom:0}.dateBox{background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center;padding:5px 3px;line-height:1.05}.dateBox b{display:block;font-size:15px}.dateBox span{font-size:9px;color:var(--muted);text-transform:uppercase}.listTitle{font-weight:750;font-size:13px}.listMeta{font-size:11px;color:var(--muted);margin-top:2px}.listAmount{font-weight:800;text-align:right}.emptyState{padding:32px;text-align:center;color:var(--muted);font-size:13px}
+.calendarHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--border);border-radius:12px;overflow:hidden}.calDow{background:#f5f8f6;padding:9px;text-align:center;font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase}.calDay{min-height:105px;padding:8px;border-top:1px solid var(--border);border-right:1px solid var(--border);background:white}.calDay:nth-child(7n){border-right:0}.calDay.muted{background:#fafbfa;color:#abb3ae}.calNum{font-size:11px;font-weight:800}.calDay.today .calNum{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;background:var(--green);color:white}.calItem{margin-top:6px;padding:5px 6px;border-radius:6px;background:var(--green2);color:var(--green-dark);font-size:9px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.calItem.warn{background:var(--orange2);color:var(--orange)}
+.modal{position:fixed;inset:0;background:rgba(10,28,20,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}.modalCard{background:white;width:min(680px,100%);max-height:90vh;overflow:auto;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.25)}.modalHead{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--border)}.modalBody{padding:22px}.formGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.field label{display:block;font-size:11px;font-weight:800;color:#4f5e55;margin-bottom:6px}.field.full{grid-column:1/-1}.modalFoot{display:flex;justify-content:flex-end;gap:8px;padding:16px 22px;border-top:1px solid var(--border)}.iconButton{width:34px;height:34px;padding:0;border-radius:9px;background:#f0f3f1;color:#46564d}
+.authGate{z-index:120;background:linear-gradient(135deg,rgba(15,23,42,.92),rgba(10,28,20,.76))}.authCard{width:min(520px,100%)}.authHero{padding:26px 26px 18px;background:#0f172a;color:white}.authHero h2{font-size:22px;margin-bottom:6px}.authHero .sub{color:#bcc7d8}.authActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.cloudPill{max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scorePanel{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}.scoreRing{--score:0;width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) calc(var(--score)*1%),#e8eeea 0);position:relative}.scoreRing:before{content:"";position:absolute;inset:10px;border-radius:50%;background:white}.scoreRing strong{position:relative;font-size:28px;letter-spacing:-.05em}.scoreRing span{position:absolute;top:67px;font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:800}.checklist{display:grid;gap:8px}.checkItem{display:grid;grid-template-columns:20px 1fr auto;gap:9px;align-items:center;font-size:12px}.checkIcon{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#eef2ef;color:#7b8980;font-size:10px;font-weight:900}.checkItem.done .checkIcon{background:var(--green2);color:var(--green-dark)}.checkItem button{padding:5px 8px;font-size:10px}
+.actionCard{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:13px;align-items:flex-start;padding:15px 0;border-bottom:1px solid #edf0ee}.actionCard:last-child{border-bottom:0}.actionNum{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:var(--green2);color:var(--green-dark);font-weight:850;font-size:12px}.actionTitle{font-size:13px;font-weight:800}.actionText{font-size:11px;color:var(--muted);margin-top:3px}.actionCard button{padding:7px 10px;font-size:10px}
+.metricRow{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}.metricRow.two{grid-template-columns:repeat(2,1fr)}.metricCell{background:white;padding:16px}.metricCell span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:750}.metricCell strong{display:block;margin-top:7px;font-size:20px;letter-spacing:-.035em}.metricCell small{display:block;color:var(--muted);margin-top:3px}
+.chartTooltip{position:fixed;display:none;pointer-events:none;z-index:9999;background:#0f172a;color:white;border-radius:9px;padding:9px 11px;box-shadow:0 10px 30px rgba(15,23,42,.24);font-size:11px;line-height:1.5}.chartTooltip b{display:block;font-size:12px}.chartTooltip span{color:#b9c5d5}
+.scenarioControls{display:grid;gap:18px}.rangeField label{display:flex;justify-content:space-between;gap:12px;font-size:12px;font-weight:750;margin-bottom:8px}.rangeField input[type=range]{padding:0;border:0;accent-color:var(--green)}.compareGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.compareCard{border:1px solid var(--border);border-radius:13px;padding:17px;background:#fbfcfb}.compareCard.recommended{border-color:#80cdb1;background:var(--green2)}.compareCard .tag{font-size:9px;text-transform:uppercase;letter-spacing:.07em;font-weight:850;color:var(--green-dark)}.compareValue{font-size:26px;font-weight:850;letter-spacing:-.04em;margin:7px 0}.delta{font-size:11px;color:var(--muted)}
+.goalCard{padding:18px;border:1px solid var(--border);border-radius:13px;background:white}.goalTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.goalValue{font-size:18px;font-weight:850;margin:14px 0 8px}.goalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.goalGrid .field label{font-size:9px}.setupBanner{display:flex;justify-content:space-between;align-items:center;gap:18px;background:#f0faf6;border:1px solid #b9e4d3;border-radius:14px;padding:15px 17px}.setupBanner b{font-size:13px}.setupBanner p{font-size:11px;color:var(--muted);margin:2px 0 0}.setupBanner button{white-space:nowrap}
+.activityForm{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1.4fr auto;gap:10px;align-items:end}.activityForm .field label{font-size:9px}.activityAmount{font-variant-numeric:tabular-nums}.linkedBadge{display:inline-flex;gap:5px;align-items:center;color:var(--green-dark);background:var(--green2);border-radius:999px;padding:4px 7px;font-size:9px;font-weight:800}.assumption{font-size:10px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;margin-top:12px}.coach{background:#0f172a;color:white}.coach .sub{color:#aab5c6}.coachBubble{background:#1d293d;border:1px solid #334155;border-radius:12px;padding:15px;margin-top:15px;font-size:12px;line-height:1.6}.coachBubble b{color:#6ee7b7}.miniBars{display:grid;gap:10px}.miniBarHead{display:flex;justify-content:space-between;gap:10px;font-size:11px;margin-bottom:5px}
+.mobileNavToggle{display:none}.desktopOnly{display:inline-flex}
+@media(max-width:1100px){.span3{grid-column:span 6}.heroGrid{grid-template-columns:1fr 1fr}.heroMetric:nth-child(2){border-left:0;padding-left:0}.appShell{grid-template-columns:220px}.sidebar{padding-left:12px;padding-right:12px}}
+@media(max-width:760px){.appShell{display:block}.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;height:68px;padding:7px 8px;background:#0f172a}.sidebar .brand,.navLabel,.sidebarFoot{display:none}.tabs{height:100%;display:flex;flex-direction:row;overflow-x:auto;gap:3px}.tab{min-width:68px;flex:1;display:flex;flex-direction:column;gap:2px;justify-content:center;text-align:center;padding:5px 7px;font-size:9px}.tabIcon{font-size:15px}.top{height:auto;min-height:70px;padding:12px 16px}.top .pageEyebrow{display:none}.pageTitle{font-size:18px}.top .actions .secondary{display:none}.wrap{padding:18px 14px 94px}.span3,.span4,.span5,.span6,.span7,.span8{grid-column:span 12}.heroGrid{display:block}.heroMetric{border:0;border-top:1px solid rgba(255,255,255,.15);padding:12px 0 0;margin-top:12px}.calendar{min-width:700px}.calendarScroll{overflow:auto}.formGrid,.helpGrid{grid-template-columns:1fr}.field.full{grid-column:auto}.desktopOnly{display:none}.metricRow,.metricRow.two,.compareGrid{grid-template-columns:1fr}.activityForm{grid-template-columns:1fr 1fr}.activityForm .field:first-child{grid-column:1/-1}.scorePanel{grid-template-columns:1fr;text-align:center}.scoreRing{margin:auto}.actionCard{grid-template-columns:34px 1fr}.actionCard button{grid-column:2;justify-self:start}.setupBanner{align-items:flex-start;flex-direction:column}}
+@media print{.sidebar,.top,.actions,.toolbar,.modal{display:none!important}.appShell{display:block}.card{box-shadow:none}.wrap{max-width:none;padding:0}}
+</style>
+</head>
+<body>
+<div id="app" class="appShell">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">₹</div><div><div class="brandName">MyFamily Finance</div><div class="brandMeta">Private planning workspace</div></div></div>
+    <div class="navLabel">Workspace</div>
+    <nav class="tabs" id="tabs" aria-label="Main navigation"></nav>
+    <div class="sidebarFoot">Cloud sync uses Supabase when signed in.<br>Export a backup before major edits.</div>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <div><div class="pageEyebrow">Financial workspace</div><h1 class="pageTitle" id="pageTitle">Overview</h1></div>
+      <div class="actions">
+        <span id="saveStatus" class="pill">Auto-save on</span>
+        <span id="cloudStatus" class="pill cloudPill">Cloud: checking</span>
+        <button class="secondary" id="signOutButton" onclick="signOutUser()">Sign out</button>
+        <button class="secondary" onclick="exportBackup()">Export backup</button>
+        <button class="primary" id="headerPrimaryButton" onclick="headerPrimaryAction()">+ Add payment</button>
+        <input id="importFile" type="file" accept=".json" class="hidden" onchange="importBackup(event,false)">
+      </div>
+    </header>
+    <div class="wrap"><div id="content"></div></div>
+  </main>
+</div>
+
+<div id="authGate" class="modal authGate hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="modalCard authCard">
+    <div class="authHero"><h2 id="authTitle">Secure finance planner login</h2><div class="sub">Sign in to store your planner in Supabase. The public website source contains no real family finance data.</div></div>
+    <form id="authForm" onsubmit="signInUser(event)">
+      <div class="modalBody"><div class="formGrid">
+        <div class="field full"><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+        <div class="field full"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Minimum 6 characters" required></div>
+        <div class="field full"><div id="authMessage" class="small">Use Supabase Auth. If this is your first time, create an account, then import your backup from Settings.</div></div>
+      </div></div>
+      <div class="modalFoot authActions"><button type="submit" class="primary">Sign in</button><button type="button" class="secondary" onclick="signUpUser()">Create account</button><button type="button" class="ghost" onclick="continueLocalOnly()">Continue local only</button></div>
+    </form>
+  </div>
+</div>
+
+<div id="obligationModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="if(event.target===this)closeObligationModal()">
+  <div class="modalCard">
+    <div class="modalHead"><div><h2 id="modalTitle">Add a payment</h2><div class="sub">Create a loan, chit, or one-time responsibility.</div></div><button class="iconButton" onclick="closeObligationModal()" aria-label="Close">×</button></div>
+    <form id="obligationForm" onsubmit="saveObligation(event)">
+      <div class="modalBody"><div class="formGrid">
+        <div class="field"><label for="obSection">Payment type</label><select id="obSection" required><option>Loan / EMI</option><option>One-Time Responsibility</option><option>Chit Not Lifted</option><option>Chit Lifted</option><option>Gold Loan</option><option>Other</option></select></div>
+        <div class="field"><label for="obName">Name</label><input id="obName" required placeholder="e.g. Home loan"></div>
+        <div class="field"><label for="obAmount">Current balance / face value ₹</label><input id="obAmount" inputmode="decimal" type="number" min="0" placeholder="0"></div>
+        <div class="field"><label for="obMonthly">Monthly payment ₹</label><input id="obMonthly" inputmode="decimal" type="number" min="0" placeholder="0"></div>
+        <div class="field"><label for="obDueDay">Due day</label><input id="obDueDay" type="number" min="1" max="31" placeholder="1–31"></div>
+        <div class="field"><label for="obPriority">Priority</label><select id="obPriority"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
+        <div class="field"><label for="obRate">Interest rate %</label><input id="obRate" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Optional"></div>
+        <div class="field"><label for="obMonths">Months remaining</label><input id="obMonths" inputmode="numeric" type="number" min="0" placeholder="Optional"></div>
+        <div class="field full"><label for="obNotes">Notes</label><textarea id="obNotes" placeholder="Add context or reminders"></textarea></div>
+      </div></div>
+      <div class="modalFoot"><button type="button" class="secondary" onclick="closeObligationModal()">Cancel</button><button type="submit" class="primary">Add to planner</button></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const APP_KEY='family_finance_editable_planner_v14';
+const OLD_KEYS=['family_finance_editable_planner_v13','family_finance_editable_planner_v12','family_finance_editable_planner_v11','family_finance_editable_planner_v10','family_finance_editable_planner_v9','family_finance_editable_planner_v8','family_finance_editable_planner_v7','family_finance_editable_planner_v6','family_finance_editable_planner_v5','family_finance_editable_planner_v4','family_finance_editable_planner_v3'];
+const BACKUP_VERSION=14;
+const SUPABASE_URL='https://ililoxxgmeqeuhgeefsz.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_LhjCFWw4GtiRTiKp6djFHA_DeEUpbm0';
+const CLOUD_TABLE='finance_plans';
+let state=null, activeTab='dashboard';
+let supabaseClient=null,currentUser=null,localOnly=false,cloudError='';
+
+const defaultState={
+  tables:{
+    toPay:{
+      title:'To Pay Master',
+      columns:[
+        {key:'section',label:'Section'},{key:'name',label:'Name'},{key:'amount',label:'Face Value / Current Balance ₹'},
+        {key:'chitType',label:'Chit Type'},{key:'chitOrganizer',label:'Chit Organizer'},{key:'openingPaid',label:'Opening Paid ₹'},{key:'monthlyDue',label:'Monthly EMI ₹'},
+        {key:'afterLiftMonthly',label:'Monthly After Lift ₹'},{key:'postLiftMonths',label:'Months To Pay After Lift'},{key:'frequency',label:'Frequency'},
+        {key:'dueDay',label:'Due Day'},{key:'totalMonths',label:'Total Months'},{key:'monthsDone',label:'Months Done'},
+        {key:'liftMonth',label:'Lift Month From Now'},{key:'payoutStart',label:'Payout Month 1 ₹'},
+        {key:'payoutIncrease',label:'Payout Increase / Month ₹'},{key:'expectedPayout',label:'Manual Expected Payout ₹'},
+        {key:'foremanCommissionRate',label:'Foreman Commission %'},{key:'liftPlan',label:'Lift Plan Yes/No'},{key:'interestRate',label:'Interest Rate %'},{key:'priority',label:'Priority'},{key:'status',label:'Status'},{key:'notes',label:'Notes'}
+      ],
+      rows:[]
+    },
+    assets:{
+      title:'Assets',
+      columns:[{key:'name',label:'Asset Name'},{key:'category',label:'Category'},{key:'value',label:'Estimated Value ₹'},{key:'liquidity',label:'Liquidity'},{key:'valuationDate',label:'Valuation Date'},{key:'monthlyIncome',label:'Monthly Income ₹'},{key:'status',label:'Status'},{key:'notes',label:'Notes'}],
+      rows:[]
+    },
+    income:{
+      title:'Income',
+      columns:[{key:'name',label:'Income Source'},{key:'linkedAssetId',label:'Linked Asset'},{key:'expected',label:'Expected Monthly ₹'},{key:'high',label:'High Estimate ₹'},{key:'stability',label:'Stability'},{key:'growthRate',label:'Annual Growth %'},{key:'notes',label:'Notes'}],
+      rows:[]
+    },
+    cashLog:{
+      title:'Cash Log',
+      columns:[{key:'date',label:'Date'},{key:'type',label:'Type'},{key:'section',label:'Section'},{key:'name',label:'Name'},{key:'amount',label:'Amount ₹'},{key:'status',label:'Status'},{key:'notes',label:'Notes'}],
+      rows:[]
+    }
+  },
+  profile:{familyName:'Our family',planName:'Family financial plan',reminderEmail:'',emergencyFund:0,monthlyLivingCost:0,lastExportAt:''},
+  goals:[],
+  scenario:{extraMonthly:50000,lumpSum:0,incomeChange:0},
+  customSuggestions:[]
+};
+
+const tabList=[
+  ['dashboard','Overview','⌂'],['planner','Planner','▦'],['topay','Obligations','₹'],['chit','Chit plan','◫'],['analysis','Scenarios','↗'],['suggestions','Action plan','◇'],['goals','Goals','◎'],['assets','Wealth','◉'],['log','Activity','≡'],['settings','Settings','⚙']
+];
+const pageTitles={dashboard:'Financial overview',planner:'Monthly payment planner',topay:'Payments & obligations',chit:'Chit lift plan',analysis:'Scenario lab',suggestions:'Smart action plan',goals:'Financial goals',assets:'Assets & income',log:'Payment activity',settings:'Plan settings'};
+let plannerMonthOffset=0;
+let toPaySearch='';
+let toPaySection='All';
+
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function n(v){ if(v===null||v===undefined||v==='') return 0; return Number(String(v).replace(/[₹,\s]/g,''))||0}
+function fmt(v){v=n(v); return '₹'+v.toLocaleString('en-IN',{maximumFractionDigits:0})}
+function pct(v){return (n(v)||0).toFixed(2)+'%'}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]))}
+function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
+function getRows(t){return state.tables[t].rows}
+function monthKey(date=new Date()){return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')}
+function monthDiff(fromKey,toDate=new Date()){
+  const match=String(fromKey||'').match(/^(\d{4})-(\d{2})$/); if(!match)return 0;
+  return Math.max((toDate.getFullYear()-Number(match[1]))*12+(toDate.getMonth()+1-Number(match[2])),0);
+}
+function isoDate(date){return date.toISOString().slice(0,10)}
+function normalizedObligationName(value){return String(value||'').trim().toLowerCase().replace(/\s+/g,' ')}
+function obligationNameGroups(rows=getRowsSafe('toPay')){
+  return rows.reduce((groups,row)=>{
+    const key=normalizedObligationName(row.name);
+    if(!key)return groups;
+    if(!groups[key])groups[key]=[];
+    groups[key].push(row);
+    return groups;
+  },{});
+}
+function obligationNameGroup(row){
+  const key=normalizedObligationName(row?.name);
+  return key?(obligationNameGroups()[key]||[]):[];
+}
+function duplicateObligationGroups(){
+  return Object.values(obligationNameGroups()).filter(group=>group.length>1);
+}
+function syncObligationDisplayName(row,previousName){
+  if(!row)return;
+  const previousKey=normalizedObligationName(previousName);
+  getRows('cashLog').forEach(log=>{
+    const sameLinked=log.obligationId===row.id;
+    const legacySameName=!log.obligationId&&previousKey&&normalizedObligationName(log.name)===previousKey;
+    if(sameLinked||legacySameName){
+      log.name=row.name;
+      log.section=row.section;
+      if(!log.obligationId)log.obligationId=row.id;
+    }
+  });
+}
+function groupMetaHTML(row){
+  const group=obligationNameGroup(row);
+  if(group.length<2)return '';
+  const monthly=group.reduce((a,r)=>a+monthlyObligation(r),0),total=group.reduce((a,r)=>a+balance(r),0);
+  return `<div class="listMeta"><span class="linkedBadge">${group.length} records grouped by name</span> Combined balance ${fmt(total)} · monthly ${fmt(monthly)}</div>`;
+}
+function initMonthTracking(row){
+  if(!row || (!isChit(row)&&!n(row.totalMonths)))return;
+  if(!row.monthTrackingStart)row.monthTrackingStart=monthKey();
+  if(!('monthsDoneBase' in row)||row.monthsDoneBase==='')row.monthsDoneBase=n(row.monthsDone);
+}
+function resetMonthTracking(row){
+  if(!row)return;
+  row.monthsDoneBase=n(row.monthsDone);
+  row.monthTrackingStart=monthKey();
+}
+
+function normalizeState(){
+  if(!state || !state.tables) state=clone(defaultState);
+  for(const key of ['toPay','assets','income','cashLog']){
+    if(!state.tables[key]) state.tables[key]=clone(defaultState.tables[key]);
+    const defaultCols=defaultState.tables[key].columns;
+    defaultCols.forEach(dc=>{
+      if(!state.tables[key].columns.find(c=>c.key===dc.key)) state.tables[key].columns.push(dc);
+      state.tables[key].rows.forEach(r=>{if(!(dc.key in r)) r[dc.key]=''});
+    });
+  }
+  const removedAssetFields=new Set(['owner','acquisitionCost','debtAgainst']);
+  state.tables.assets.columns=state.tables.assets.columns.filter(c=>!removedAssetFields.has(c.key));
+  state.tables.assets.rows.forEach(r=>removedAssetFields.forEach(key=>delete r[key]));
+  for(const key of ['assets','income']){
+    const preferred=defaultState.tables[key].columns,preferredKeys=new Set(preferred.map(c=>c.key)),existing=state.tables[key].columns;
+    state.tables[key].columns=[...preferred.map(col=>existing.find(c=>c.key===col.key)||clone(col)),...existing.filter(c=>!preferredKeys.has(c.key))];
+  }
+  getRowsSafe('toPay').forEach(r=>{
+    if(String(r.name||'').toLowerCase().includes('chit')&&!String(r.section||'').toLowerCase().includes('chit'))r.section='Chit Not Lifted';
+    if(!r.id)r.id='obl_'+uid();prepareChitRow(r);initMonthTracking(r);
+  });
+  state.migrations={...(state.migrations||{})};
+  if(!state.migrations.chitCashModelV2){
+    getRowsSafe('toPay').forEach(r=>{
+      if(!isChit(r))return;
+      if(isLiftedChit(r)||String(r.notes||'').toLowerCase().includes('expected payout'))r.expectedPayout=0;
+      r.liftPlan='No';
+    });
+    state.migrations.chitCashModelV2=true;
+  }
+  getRowsSafe('assets').forEach(r=>{if(!r.id)r.id='ast_'+uid()});
+  getRowsSafe('income').forEach(r=>{if(!r.id)r.id='inc_'+uid()});
+  migrateAssetIncomeLinks();
+  getRowsSafe('cashLog').forEach(log=>{
+    if(!log.id)log.id='txn_'+uid();
+    if(!log.obligationId){const linked=getRowsSafe('toPay').find(r=>String(r.name||'').trim().toLowerCase()===String(log.name||'').trim().toLowerCase());if(linked)log.obligationId=linked.id}
+  });
+  state.profile={...clone(defaultState.profile),...(state.profile||{})};
+  state.scenario={...clone(defaultState.scenario),...(state.scenario||{})};
+  state.automation={autoCompletePaid:true,...(state.automation||{})};
+  if(!Array.isArray(state.goals))state.goals=[];
+  if(!state.goals.length)state.goals.push({id:'goal_'+uid(),name:'Emergency reserve',category:'Safety',target:monthlyPlanCost(),current:n(state.profile.emergencyFund),deadline:'',notes:'Build a reserve equal to one month of planned outflow.'});
+  state.goals.forEach(g=>{if(!g.id)g.id='goal_'+uid()});
+  if(!Array.isArray(state.customSuggestions)) state.customSuggestions=[];
+}
+function linkedIncomeRows(asset){return getRowsSafe('income').filter(row=>row.linkedAssetId===asset.id)}
+function assetMonthlyIncome(asset){const linked=linkedIncomeRows(asset);return linked.length?linked.reduce((a,row)=>a+n(row.expected),0):n(asset.monthlyIncome)}
+function refreshAssetIncome(assetId){const asset=getRowsSafe('assets').find(row=>row.id===assetId);if(asset){const linked=linkedIncomeRows(asset);asset.monthlyIncome=linked.length?linked.reduce((a,row)=>a+n(row.expected),0):0}}
+function ensureAssetIncomeLink(asset){
+  const amount=n(asset.monthlyIncome),linked=linkedIncomeRows(asset);if(linked.length){linked[0].expected=amount;if(n(linked[0].high)<amount)linked[0].high=amount;return}
+  if(amount>0)getRows('income').push({id:'inc_'+uid(),name:asset.name,linkedAssetId:asset.id,expected:amount,high:amount,stability:'Medium',growthRate:'',notes:'Automatically linked from asset monthly income'});
+}
+function migrateAssetIncomeLinks(){
+  const assets=getRowsSafe('assets'),income=getRowsSafe('income');
+  income.forEach(row=>{if(!row.linkedAssetId){const match=assets.find(asset=>String(asset.name||'').trim().toLowerCase()===String(row.name||'').trim().toLowerCase());if(match)row.linkedAssetId=match.id}});
+  assets.forEach(asset=>{const linked=linkedIncomeRows(asset);if(linked.length)asset.monthlyIncome=linked.reduce((a,row)=>a+n(row.expected),0);else if(n(asset.monthlyIncome)>0)income.push({id:'inc_'+uid(),name:asset.name,linkedAssetId:asset.id,expected:n(asset.monthlyIncome),high:n(asset.monthlyIncome),stability:'Medium',growthRate:'',notes:'Automatically linked from asset monthly income'})});
+}
+function getRowsSafe(t){return state && state.tables && state.tables[t] && Array.isArray(state.tables[t].rows) ? state.tables[t].rows : []}
+function chitTemplate(type){
+  if(type==='1 Lakh Chit') return {amount:100000, monthlyDue:5000, afterLiftMonthly:5000, postLiftMonths:12, totalMonths:20, payoutStart:0, payoutIncrease:0, foremanCommissionRate:5, chitOrganizer:'Local / private chit'};
+  if(type==='2 Lakh Chit') return {amount:200000, monthlyDue:10000, afterLiftMonthly:10000, postLiftMonths:12, totalMonths:20, payoutStart:0, payoutIncrease:0, foremanCommissionRate:5, chitOrganizer:'Local / private chit'};
+  return null;
+}
+function defaultChitOrganizer(r){
+  const name=String(r?.name||'').toLowerCase();
+  if(name.includes('fund')||name.includes('company'))return 'Chit fund company';
+  return 'Local / private chit';
+}
+function commissionRateForOrganizer(label){return String(label||'').toLowerCase().includes('company')?2.5:5}
+function commissionRateForChit(r){return n(r.foremanCommissionRate)||commissionRateForOrganizer(r.chitOrganizer||defaultChitOrganizer(r))}
+function guessChitType(r){
+  if(String(r.chitType||'').trim()) return r.chitType;
+  if(!isNotLiftedChit(r)) return 'Manual';
+  if(n(r.monthlyDue)===5000 || n(r.amount)===100000) return '1 Lakh Chit';
+  if(n(r.monthlyDue)===10000 || n(r.amount)===200000) return '2 Lakh Chit';
+  return 'Manual';
+}
+function prepareChitRow(r){
+  if(!isChit(r)) return;
+  r.chitType = guessChitType(r);
+  const missingPostLiftMonths=!n(r.postLiftMonths);
+  if(!('afterLiftMonthly' in r)) r.afterLiftMonthly='';
+  if(!('postLiftMonths' in r)) r.postLiftMonths='';
+  if(!('payoutStart' in r)) r.payoutStart='';
+  if(!('payoutIncrease' in r)) r.payoutIncrease='';
+  if(!('foremanCommissionRate' in r)) r.foremanCommissionRate='';
+  if(!r.chitOrganizer) r.chitOrganizer=defaultChitOrganizer(r);
+  if(!n(r.foremanCommissionRate)) r.foremanCommissionRate=commissionRateForOrganizer(r.chitOrganizer);
+  const temp = chitTemplate(r.chitType);
+  if(temp){
+    if(!n(r.amount)) r.amount=temp.amount;
+    if(!n(r.monthlyDue)) r.monthlyDue=temp.monthlyDue;
+    if(missingPostLiftMonths && ((r.chitType==='2 Lakh Chit'&&n(r.afterLiftMonthly)===12000)||(r.chitType==='1 Lakh Chit'&&n(r.afterLiftMonthly)===6000))) r.afterLiftMonthly=temp.afterLiftMonthly;
+    if(!n(r.afterLiftMonthly)) r.afterLiftMonthly=temp.afterLiftMonthly;
+    if(!n(r.postLiftMonths)) r.postLiftMonths=temp.postLiftMonths;
+    if(!n(r.totalMonths)) r.totalMonths=temp.totalMonths;
+    if(!n(r.payoutStart)) r.payoutStart=temp.payoutStart;
+    if(!n(r.payoutIncrease)) r.payoutIncrease=temp.payoutIncrease;
+    if(!r.chitOrganizer) r.chitOrganizer=temp.chitOrganizer;
+    if(!n(r.foremanCommissionRate)) r.foremanCommissionRate=commissionRateForOrganizer(r.chitOrganizer||temp.chitOrganizer);
+  }
+}
+function applyChitTypeDefaults(rowIndex){
+  const r=getRows('toPay')[rowIndex]; if(!r) return;
+  const temp=chitTemplate(r.chitType);
+  if(temp){
+    r.amount=temp.amount;
+    r.monthlyDue=temp.monthlyDue;
+    r.afterLiftMonthly=temp.afterLiftMonthly;
+    r.postLiftMonths=temp.postLiftMonths;
+    r.totalMonths=temp.totalMonths;
+    r.payoutStart=temp.payoutStart;
+    r.payoutIncrease=temp.payoutIncrease;
+    r.chitOrganizer=temp.chitOrganizer;
+    r.foremanCommissionRate=commissionRateForOrganizer(r.chitOrganizer);
+  }
+}
+
+function initSupabase(){
+  if(supabaseClient) return supabaseClient;
+  if(window.supabase && SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY){
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+  }
+  return supabaseClient;
+}
+function isCloudMode(){return !!supabaseClient && !!currentUser && !localOnly}
+function showAuthGate(){const gate=document.getElementById('authGate'); if(gate) gate.classList.remove('hidden')}
+function hideAuthGate(){const gate=document.getElementById('authGate'); if(gate) gate.classList.add('hidden')}
+function setAuthMessage(msg,isError=false){
+  const el=document.getElementById('authMessage');
+  if(el){el.textContent=msg;el.className=isError?'alert red':'small'}
+}
+function updateCloudStatus(){
+  const status=document.getElementById('cloudStatus');
+  const signOut=document.getElementById('signOutButton');
+  if(signOut) signOut.style.display=currentUser&&!localOnly?'inline-flex':'none';
+  if(!status) return;
+  if(localOnly){status.textContent='Cloud: local only';status.title='Not syncing to Supabase';return}
+  if(currentUser){status.textContent='Cloud: '+(currentUser.email||'signed in');status.title=currentUser.id||'';return}
+  if(cloudError){status.textContent='Cloud: setup needed';status.title=cloudError;return}
+  status.textContent=supabaseClient?'Cloud: sign in required':'Cloud: unavailable';
+}
+async function startApp(){
+  initSupabase();
+  if(supabaseClient){
+    try{
+      const {data,error}=await supabaseClient.auth.getSession();
+      if(error) throw error;
+      currentUser=data?.session?.user||null;
+    }catch(e){
+      cloudError=e.message||String(e);
+      currentUser=null;
+    }
+  }
+  if(currentUser) await loadCloudState();
+  else loadPlainState();
+  normalizeState();
+  render();
+  updateCloudStatus();
+  saveNow(false);
+  if(!currentUser && !localOnly) showAuthGate();
+}
+async function loadCloudState(){
+  try{
+    const {data,error}=await supabaseClient.from(CLOUD_TABLE).select('state,updated_at').eq('user_id',currentUser.id).maybeSingle();
+    if(error) throw error;
+    if(data?.state){
+      state=data.state;
+      cloudError='';
+      return;
+    }
+    loadPlainState();
+    cloudError='';
+  }catch(e){
+    console.error(e);
+    cloudError=e.message||String(e);
+    loadPlainState();
+    toast('Cloud load failed. Using local copy.');
+  }
+}
+async function saveCloudState(showToast=false){
+  if(!isCloudMode()) return;
+  try{
+    const payload={user_id:currentUser.id,state:state,updated_at:new Date().toISOString()};
+    const {error}=await supabaseClient.from(CLOUD_TABLE).upsert(payload,{onConflict:'user_id'});
+    if(error) throw error;
+    cloudError='';
+    updateSaveStatus('cloud');
+    updateCloudStatus();
+    if(showToast) toast('Saved to cloud');
+  }catch(e){
+    console.error(e);
+    cloudError=e.message||String(e);
+    updateSaveStatus('local');
+    updateCloudStatus();
+    if(showToast) toast('Cloud save failed; local backup saved');
+  }
+}
+async function signInUser(event){
+  if(event) event.preventDefault();
+  initSupabase();
+  if(!supabaseClient){setAuthMessage('Supabase library is not available. Check internet connection or CDN access.',true);return}
+  const email=document.getElementById('authEmail')?.value.trim();
+  const password=document.getElementById('authPassword')?.value;
+  setAuthMessage('Signing in...');
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){setAuthMessage(error.message,true);return}
+  currentUser=data.user;
+  localOnly=false;
+  hideAuthGate();
+  await loadCloudState();
+  normalizeState();
+  render();
+  updateCloudStatus();
+  saveNow(false);
+  toast('Signed in');
+}
+async function signUpUser(){
+  initSupabase();
+  if(!supabaseClient){setAuthMessage('Supabase library is not available. Check internet connection or CDN access.',true);return}
+  const email=document.getElementById('authEmail')?.value.trim();
+  const password=document.getElementById('authPassword')?.value;
+  if(!email||!password){setAuthMessage('Enter email and password first.',true);return}
+  setAuthMessage('Creating account...');
+  const {data,error}=await supabaseClient.auth.signUp({email,password});
+  if(error){setAuthMessage(error.message,true);return}
+  currentUser=data.session?.user||data.user||null;
+  if(data.session){
+    localOnly=false;
+    hideAuthGate();
+    loadPlainState();
+    normalizeState();
+    render();
+    updateCloudStatus();
+    saveNow(true);
+    return;
+  }
+  setAuthMessage('Account created. If email confirmation is enabled in Supabase, confirm the email and then sign in.');
+}
+async function signOutUser(){
+  if(supabaseClient) await supabaseClient.auth.signOut();
+  currentUser=null;
+  localOnly=false;
+  loadPlainState();
+  normalizeState();
+  render();
+  updateCloudStatus();
+  showAuthGate();
+}
+function continueLocalOnly(){
+  localOnly=true;
+  hideAuthGate();
+  loadPlainState();
+  normalizeState();
+  render();
+  updateCloudStatus();
+  saveNow(false);
+}
+function loadPlainState(){
+  try{
+    let raw=localStorage.getItem(APP_KEY);
+    if(!raw){
+      for(const k of OLD_KEYS){ if(localStorage.getItem(k)){ raw=localStorage.getItem(k); break; } }
+    }
+    if(!raw){ state=clone(defaultState); return; }
+    const obj=JSON.parse(raw);
+
+    // Support older encrypted/plain backup formats if imported from previous version.
+    if(obj && obj.state){ state=obj.state; return; }
+    if(obj && obj.mode==='plain' && obj.data){
+      const decoded=JSON.parse(decodeURIComponent(escape(atob(obj.data))));
+      state=decoded.state || decoded;
+      return;
+    }
+
+    // If old data was encrypted, we cannot open it without old password.
+    if(obj && obj.mode==='aes-gcm'){
+      state=clone(defaultState);
+      alert('Old saved data was password-protected. This new no-password version cannot open old encrypted data directly. Please start fresh or import a plain backup.');
+      return;
+    }
+    state=obj.state || obj || clone(defaultState);
+  }catch(e){
+    console.error(e);
+    state=clone(defaultState);
+  }
+}
+function saveNow(showToast=true){
+  if(!state) return;
+  syncStatusFromCashLog();
+  const payload={version:BACKUP_VERSION,state:state,savedAt:new Date().toISOString(),storage:isCloudMode()?'supabase-plus-local-cache':'plain-local'};
+  localStorage.setItem(APP_KEY,JSON.stringify(payload));
+  updateSaveStatus(isCloudMode()?'syncing':'local');
+  if(isCloudMode()) saveCloudState(showToast);
+  else if(showToast) toast(localOnly?'Saved locally':'Saved locally');
+}
+let saveTimer=null; 
+function autoSave(){
+  clearTimeout(saveTimer);
+  const el=document.getElementById('saveStatus');
+  if(el) el.textContent='Saving...';
+  saveTimer=setTimeout(()=>saveNow(false),300);
+}
+function updateSaveStatus(mode='local'){
+  const el=document.getElementById('saveStatus');
+  if(el) el.textContent=(mode==='cloud'?'Cloud saved':mode==='syncing'?'Cloud syncing':'Saved locally')+': '+new Date().toLocaleTimeString();
+}
+function toast(msg){let el=document.createElement('div');el.textContent=msg;el.style.cssText=`position:fixed;right:18px;bottom:${window.innerWidth<760?'82px':'18px'};background:#0f172a;color:white;padding:12px 16px;border-radius:12px;z-index:9999;box-shadow:var(--shadow);font-weight:750;font-size:12px`;document.body.appendChild(el);setTimeout(()=>el.remove(),1500)}
+function exportBackup(){
+  state.profile.lastExportAt=new Date().toISOString();
+  saveNow(false);
+  const payload=localStorage.getItem(APP_KEY);
+  const blob=new Blob([payload],{type:'application/json'});
+  const a=document.createElement('a'); const url=URL.createObjectURL(blob);
+  a.href=url;
+  a.download='family-finance-backup-v14.json'; 
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast('Backup exported');
+}
+function importBackup(event,fromLock){
+  const file=event.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const obj=JSON.parse(reader.result);
+      if(obj && obj.state) state=obj.state;
+      else if(obj && obj.mode==='plain' && obj.data){
+        const decoded=JSON.parse(decodeURIComponent(escape(atob(obj.data))));
+        state=decoded.state || decoded;
+      }else if(obj && obj.mode==='aes-gcm'){
+        alert('This backup is encrypted from an older password version. Please open the old password version and export a plain/new backup, or start fresh.');
+        return;
+      }else state=obj;
+      normalizeState();
+      saveNow();
+      render();
+      toast('Backup imported and saved');
+    }catch(e){alert('Invalid backup file');}
+  };
+  reader.readAsText(file);
+}
+
+function linkedLogs(ref){
+  const row=typeof ref==='object'?ref:null,id=row?.id||String(ref||''),name=String(row?.name||ref||'').trim().toLowerCase();
+  return getRows('cashLog').filter(log=>String(log.obligationId||'')===id||(!log.obligationId&&String(log.name||'').trim().toLowerCase()===name));
+}
+function linkedObligation(log){return getRows('toPay').find(r=>r.id===log.obligationId)||null}
+function paidLogged(ref){return linkedLogs(ref).filter(r=>String(r.type||'').toLowerCase()==='payment'&&String(r.status||'').toLowerCase()==='done').reduce((a,r)=>a+n(r.amount),0)}
+function countPaid(ref){return linkedLogs(ref).filter(r=>String(r.type||'').toLowerCase()==='payment'&&String(r.status||'').toLowerCase()==='done').length}
+function isChit(r){return String(r.section).toLowerCase().includes('chit')||String(r.name).toLowerCase().includes('chit')}
+function isLiftedChit(r){return String(r.section).toLowerCase().includes('chit lifted')||(isChit(r)&&String(r.name).toLowerCase().includes('lifted'))}
+function isNotLiftedChit(r){return String(r.section).toLowerCase().includes('not lifted')||(isChit(r)&&!isLiftedChit(r))}
+function isLoan(r){return String(r.section).toLowerCase().includes('loan')&&!isChit(r)}
+function isOneTime(r){return String(r.section).toLowerCase().includes('one-time')}
+function isDone(r){return String(r.status||'Active').toLowerCase()==='done'}
+function activeRows(){return getRows('toPay').filter(r=>!isDone(r))}
+function monthlyObligation(r){return n(r.monthlyDue)}
+function manualMonthsDone(r){return ('monthsDoneBase' in r && r.monthsDoneBase!=='')?n(r.monthsDoneBase):n(r.monthsDone)}
+function elapsedTrackedMonths(r){return r.monthTrackingStart?monthDiff(r.monthTrackingStart):0}
+function autoMonthsDone(r){
+  if(!n(r.totalMonths))return n(r.monthsDone);
+  const byCalendar=manualMonthsDone(r)+elapsedTrackedMonths(r);
+  const byPayments=manualMonthsDone(r)+countPaid(r);
+  return Math.min(n(r.totalMonths),Math.max(byCalendar,byPayments));
+}
+
+function rawBalance(r){
+  if(isChit(r)&&n(r.totalMonths)>0&&n(r.monthlyDue)>0){
+    const installment=monthlyObligation(r);
+    return Math.max(n(monthsLeft(r))*installment,0);
+  }
+  const base=n(r.amount)-n(r.openingPaid)-paidLogged(r);
+  return Math.max(base,0);
+}
+function balance(r){return isDone(r)?0:rawBalance(r)}
+function monthsDoneDisplay(r){return n(r.totalMonths)?autoMonthsDone(r):n(r.monthsDone)}
+function monthsLeft(r){return n(r.totalMonths)?Math.max(n(r.totalMonths)-monthsDoneDisplay(r),0):''}
+function remainingCommitment(r){return rawBalance(r)}
+function activeAssets(){return getRows('assets').filter(r=>String(r.status||'Hold').toLowerCase()!=='sold')}
+function grossAssets(){return activeAssets().reduce((a,r)=>a+n(r.value),0)}
+function totalPending(){return getRows('toPay').reduce((a,r)=>a+balance(r),0)}
+function monthlyOutgoing(){return getRows('toPay').filter(r=>balance(r)>0).reduce((a,r)=>a+monthlyObligation(r),0)}
+function monthlyLivingCost(){return n(state.profile?.monthlyLivingCost)}
+function monthlyPlanCost(){return monthlyOutgoing()+monthlyLivingCost()}
+function expectedIncome(){return getRows('income').reduce((a,r)=>a+n(r.expected),0)}
+function highIncome(){return getRows('income').reduce((a,r)=>a+n(r.high),0)}
+function loanPayoffInfo(r){
+  const principal=balance(r),emi=monthlyObligation(r),annual=n(r.interestRate),monthlyRate=annual/1200;
+  if(!isLoan(r)||principal<=0)return {status:'none',months:0,interest:0,totalPaid:0};
+  if(emi<=0)return {status:'missing-emi',months:Infinity,interest:0,totalPaid:0};
+  if(annual<=0){
+    const months=Math.ceil(principal/emi),totalPaid=months*emi,interest=Math.max(totalPaid-principal,0);
+    return {status:'ok',months,interest,totalPaid,monthlyRate:0};
+  }
+  const firstInterest=principal*monthlyRate;
+  if(emi<=firstInterest)return {status:'unpayable',months:Infinity,interest:Infinity,totalPaid:Infinity,firstInterest};
+  const months=Math.ceil(-Math.log(1-principal*monthlyRate/emi)/Math.log(1+monthlyRate));
+  const totalPaid=months*emi,interest=Math.max(totalPaid-principal,0);
+  return {status:'ok',months,interest,totalPaid,firstInterest};
+}
+function loanPayoffDate(months){if(!isFinite(months)||months>600)return 'Needs review';const d=new Date();d.setMonth(d.getMonth()+Math.max(months,0));return d.toLocaleDateString(undefined,{month:'short',year:'numeric'})}
+function loanPayoffLabel(info){if(info.status==='missing-emi')return 'Add EMI';if(info.status==='unpayable')return 'EMI too low';if(info.status!=='ok')return '—';return `${formatDuration(info.months)} · ${loanPayoffDate(info.months)}`}
+function selectedChits(){return activeRows().filter(r=>isNotLiftedChit(r)&&n(r.expectedPayout)>0)}
+
+function calculatedExpectedPayout(r){
+  return isNotLiftedChit(r)?Math.max(n(r.expectedPayout),0):0;
+}
+function chitMath(r){
+  prepareChitRow(r);
+  const beforeDue=monthlyObligation(r);
+  const afterDue=beforeDue;
+  const left=n(monthsLeft(r)); 
+  const payout=calculatedExpectedPayout(r);
+  const payBefore=0;
+  const payAfterMonths=left;
+  const payAfter=Math.max(payAfterMonths,0)*afterDue;
+  const noLiftPayable=left*beforeDue;
+  const usable=Math.max(payout,0);
+  const discount=Math.max(n(r.amount)-payout,0);
+  const commission=payout>0?Math.max(n(r.amount)*commissionRateForChit(r)/100,0):0;
+  const dividendPool=Math.max(discount-commission,0);
+  const netAfterFuture=usable-payAfter;
+  const fundingCost=Math.max(payBefore+payAfter-payout,0);
+  return {left,payout,payBefore,payAfter,payAfterMonths,noLiftPayable,usable,afterDue,discount,commission,dividendPool,netAfterFuture,fundingCost,commissionRate:commissionRateForChit(r)};
+}
+function chitPlan(){
+  const chits=selectedChits();
+  let gross=0,before=0,afterObligation=0,usable=0;
+  chits.forEach(r=>{const m=chitMath(r); gross+=m.payout; before+=m.payBefore; afterObligation+=m.payAfter; usable+=m.usable;});
+  const oneTime=getRows('toPay').filter(r=>isOneTime(r)&&balance(r)>0).reduce((a,r)=>a+balance(r),0);
+  return {chits,gross,before,usable,oneTime,afterObligation,leftAfterOneTime:usable-oneTime};
+}
+function allocationPlan(){
+  let cash=chitPlan().usable;
+  let targets=getRows('toPay').filter(r=>balance(r)>0 && (isOneTime(r)||isLoan(r)));
+  targets.sort((a,b)=>{
+    const score=x=> (isOneTime(x)?1000:0) + n(x.interestRate)*10 + (x.priority==='High'?50:0);
+    return score(b)-score(a);
+  });
+  return targets.map(r=>{let pay=Math.min(cash,balance(r)); cash-=pay; return {name:r.name,section:r.section,balance:balance(r),pay,status:pay>=balance(r)?'Full Clear':(pay>0?'Partial':'No Cash'),cashLeft:cash,interestRate:n(r.interestRate),notes:r.notes||''}});
+}
+
+function render(){
+  renderTabs();
+  updateHeaderPrimaryAction();
+  const title=document.getElementById('pageTitle'); if(title) title.textContent=pageTitles[activeTab]||'MyFamily Finance';
+  const c=document.getElementById('content');
+  if(activeTab==='dashboard') c.innerHTML=dashboardHTML();
+  if(activeTab==='planner') c.innerHTML=plannerHTML();
+  if(activeTab==='topay') c.innerHTML=toPayHTML();
+  if(activeTab==='chit') c.innerHTML=chitHTML();
+  if(activeTab==='analysis') c.innerHTML=analysisHTML();
+  if(activeTab==='suggestions') c.innerHTML=suggestionsHTML();
+  if(activeTab==='goals') c.innerHTML=goalsHTML();
+  if(activeTab==='assets') c.innerHTML=assetsIncomeHTML();
+  if(activeTab==='log') c.innerHTML=activityHTML();
+  if(activeTab==='settings') c.innerHTML=settingsHTML();
+  drawCharts();
+}
+function renderTabs(){document.getElementById('tabs').innerHTML=tabList.map(([id,label,icon])=>`<button class="tab ${activeTab===id?'active':''}" aria-current="${activeTab===id?'page':'false'}" onclick="activeTab='${id}';render()"><span class="tabIcon">${icon}</span><span>${label}</span></button>`).join('')}
+function updateHeaderPrimaryAction(){
+  const btn=document.getElementById('headerPrimaryButton'); if(!btn)return;
+  if(activeTab==='planner'){
+    const missing=unscheduledRows().length;
+    btn.textContent=missing?`Fix ${missing} missing dates`:'Planner complete';
+    btn.disabled=!missing;
+  }else{
+    btn.textContent='+ Add payment';
+    btn.disabled=false;
+  }
+}
+function headerPrimaryAction(){if(activeTab==='planner')focusMissingDueDates();else openObligationModal()}
+
+function kpi(label,value,kind,hint=''){return `<div class="card kpi span3 ${kind}"><div class="label">${label}</div><div class="value">${value}</div>${hint?`<div class="hint">${hint}</div>`:''}</div>`}
+
+
+function te(label){
+  const dict={
+    'Not-Lifted Monthly EMI':'లిఫ్ట్ చేయని చిట్టీల నెలవారీ చెల్లింపు',
+    'Not-Lifted Expected Money':'లిఫ్ట్ చేస్తే వచ్చే మొత్తం',
+    'Already Lifted Monthly Pay':'ఇప్పటికే లిఫ్ట్ చేసిన చిట్టీల నెలవారీ చెల్లింపు',
+    'Monthly Gap':'నెలవారీ లోటు',
+    'Loan Balance To Pay':'చెల్లించాల్సిన లోన్ మొత్తం',
+    'Chit Balance To Pay':'చెల్లించాల్సిన చిట్టీల మొత్తం',
+    'One-Time Pending':'ఒక్కసారి చెల్లించాల్సిన పెండింగ్ మొత్తం',
+    'Total Payable':'మొత్తం చెల్లించాల్సింది',
+    'Not-Lifted Chits Summary':'లిఫ్ట్ చేయని చిట్టీల సారాంశం',
+    'Already Lifted Chits Summary':'ఇప్పటికే లిఫ్ట్ చేసిన చిట్టీల సారాంశం',
+    'Income vs Outgoing':'ఆదాయం vs ఖర్చులు',
+    'Payable Split':'చెల్లించాల్సిన మొత్తం విభజన',
+    'One-Time Responsibilities':'ఒక్కసారి చెల్లించాల్సిన బాధ్యతలు',
+    'Save Status':'సేవ్ స్థితి',
+    'Dashboard':'డాష్‌బోర్డ్','To Pay':'చెల్లించాల్సింది','Chit Lift Plan':'చిట్టీ లిఫ్ట్ ప్లాన్','Analysis':'విశ్లేషణ','Suggestions':'సలహాలు','Assets / Income':'ఆస్తులు / ఆదాయం','Cash Log':'నగదు లాగ్','Settings':'సెట్టింగ్స్'
+  };
+  return dict[label] || '';
+}
+function bi(label){const t=te(label); return t?`${label} (${t})`:label}
+function notLiftedSummary(){
+  const rows=activeRows().filter(isNotLiftedChit);
+  return {
+    count: rows.length,
+    monthlyPay: rows.reduce((a,r)=>a+monthlyObligation(r),0),
+    totalExpected: rows.reduce((a,r)=>a+calculatedExpectedPayout(r),0),
+    totalChitValue: rows.reduce((a,r)=>a+n(r.amount),0)
+  };
+}
+function liftedSummary(){
+  const rows=activeRows().filter(isLiftedChit);
+  return {
+    count: rows.length,
+    monthlyPay: rows.reduce((a,r)=>a+monthlyObligation(r),0),
+    balance: rows.reduce((a,r)=>a+balance(r),0)
+  };
+}
+function paySummary(){
+  const rows=activeRows();
+  const loan=rows.filter(isLoan).reduce((a,r)=>a+balance(r),0);
+  const notLifted=rows.filter(isNotLiftedChit).reduce((a,r)=>a+balance(r),0);
+  const lifted=rows.filter(isLiftedChit).reduce((a,r)=>a+balance(r),0);
+  const chit=notLifted+lifted;
+  const oneTime=rows.filter(isOneTime).reduce((a,r)=>a+balance(r),0);
+  const other=rows.filter(r=>!isLoan(r)&&!isChit(r)&&!isOneTime(r)).reduce((a,r)=>a+balance(r),0);
+  const total=loan+chit+oneTime+other;
+  return {loan,notLifted,lifted,chit,oneTime,other,total};
+}
+function monthlySummary(){
+  const rows=activeRows();
+  return {
+    loans: rows.filter(isLoan).reduce((a,r)=>a+monthlyObligation(r),0),
+    notLifted: rows.filter(isNotLiftedChit).reduce((a,r)=>a+monthlyObligation(r),0),
+    lifted: rows.filter(isLiftedChit).reduce((a,r)=>a+monthlyObligation(r),0),
+    oneTime: 0,
+    other: rows.filter(r=>!isLoan(r)&&!isChit(r)&&!isOneTime(r)).reduce((a,r)=>a+monthlyObligation(r),0)
+  };
+}
+
+function syncStatusFromCashLog(){
+  getRows('toPay').forEach(r=>{
+    const logs=linkedLogs(r).filter(log=>String(log.status||'').toLowerCase()==='done');
+    const explicitlyClosed=logs.some(log=>log.closesObligation===true||String(log.notes||'').includes('Auto-created from To Pay status Done'));
+    const fullyPaid=isChit(r)?n(r.totalMonths)>0&&n(monthsLeft(r))===0:rawBalance(r)===0;
+    if(state.automation?.autoCompletePaid&&(explicitlyClosed||fullyPaid))r.status='Done';
+    else if(isDone(r)&&logs.length&&!explicitlyClosed&&!fullyPaid)r.status='Active';
+  });
+}
+function ensureCashLogDoneEntry(row){
+  const name=String(row.name||'').trim();
+  if(!name) return;
+  const exists=linkedLogs(row).some(r=>r.closesObligation===true||String(r.notes||'').includes('Auto-created from To Pay status Done'));
+  if(!exists){
+    getRows('cashLog').push({
+      id:'txn_'+uid(),
+      obligationId:row.id,
+      date:new Date().toISOString().slice(0,10),
+      type:'Payment',
+      section:row.section||'',
+      name:name,
+      amount:isChit(row)?remainingCommitment(row):rawBalance(row),
+      status:'Done',
+      closesObligation:true,
+      notes:'Auto-created from To Pay status Done'
+    });
+  }
+}
+function activeOneTimeRows(){
+  syncStatusFromCashLog();
+  return getRows('toPay').filter(r=>isOneTime(r)&&!isDone(r)&&balance(r)>0);
+}
+function dueDayNumber(value){
+  const match=String(value||'').match(/(?:^|\D)([1-9]|[12]\d|3[01])(?:\D|$)/);
+  return match?Number(match[1]):0;
+}
+function daysInMonth(year,month){return new Date(year,month+1,0).getDate()}
+function scheduledRows(){return activeRows().filter(r=>monthlyObligation(r)>0&&dueDayNumber(r.dueDay)>0)}
+function unscheduledRows(){return activeRows().filter(r=>monthlyObligation(r)>0&&!dueDayNumber(r.dueDay))}
+function nextDueDate(r,from=new Date()){
+  const day=dueDayNumber(r.dueDay); if(!day) return null;
+  let date=new Date(from.getFullYear(),from.getMonth(),Math.min(day,daysInMonth(from.getFullYear(),from.getMonth())));
+  const today=new Date(from.getFullYear(),from.getMonth(),from.getDate());
+  if(date<today){const y=from.getMonth()===11?from.getFullYear()+1:from.getFullYear();const m=(from.getMonth()+1)%12;date=new Date(y,m,Math.min(day,daysInMonth(y,m)))}
+  return date;
+}
+function daysUntil(date,from=new Date()){
+  const today=new Date(from.getFullYear(),from.getMonth(),from.getDate());
+  const target=new Date(date.getFullYear(),date.getMonth(),date.getDate());
+  return Math.round((target-today)/86400000);
+}
+function upcomingPayments(limit=6){return scheduledRows().map(r=>({r,date:nextDueDate(r)})).filter(x=>x.date).sort((a,b)=>a.date-b.date).slice(0,limit)}
+function paymentsDueInRange(startDay,endDay){
+  return scheduledRows().map(r=>({r,date:nextDueDate(r)})).filter(x=>x.date).map(x=>({...x,days:daysUntil(x.date)})).filter(x=>x.days>=startDay&&x.days<=endDay).sort((a,b)=>a.date-b.date||monthlyObligation(b.r)-monthlyObligation(a.r));
+}
+function paymentAmount(items){return items.reduce((a,x)=>a+monthlyObligation(x.r),0)}
+function dateBoxHTML(date){return `<div class="dateBox"><b>${date.getDate()}</b><span>${date.toLocaleDateString(undefined,{month:'short'})}</span></div>`}
+function relativeDue(date){const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),days=Math.round((date-today)/86400000);return days===0?'Due today':days===1?'Due tomorrow':'Due in '+days+' days'}
+function upcomingListHTML(limit=6){
+  const items=upcomingPayments(limit);
+  if(!items.length) return '<div class="emptyState">Add a due day to a monthly payment to see it here.</div>';
+  return `<div class="list">${items.map(({r,date})=>`<div class="listItem">${dateBoxHTML(date)}<div><div class="listTitle">${esc(r.name)}</div><div class="listMeta">${esc(r.section)} · ${relativeDue(date)}</div></div><div class="listAmount">${fmt(monthlyObligation(r))}<div class="listMeta">${esc(r.priority||'Medium')}</div></div></div>`).join('')}</div>`;
+}
+function reminderEmail(){return state.profile?.reminderEmail||''}
+function reminderSubject(items,date){
+  const when=date?date.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}):'tomorrow';
+  return items.length===1?`Payment due ${when}: ${items[0].r.name}`:`${items.length} payments due ${when}`;
+}
+function reminderBody(items,date){
+  const when=date?date.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'tomorrow';
+  const lines=[
+    `Payment reminder for ${when}`,
+    '',
+    ...items.map(({r})=>`• ${r.name} — ${fmt(monthlyObligation(r))} — ${r.section}${r.notes?' — '+r.notes:''}`),
+    '',
+    `Total due: ${fmt(paymentAmount(items))}`,
+    '',
+    'Open the family finance planner, record the payment after it is made, and verify the remaining balance.'
+  ];
+  return lines.join('\n');
+}
+function openReminderEmail(items){
+  if(!items.length){alert('No scheduled payments found for this reminder.');return}
+  const date=items[0].date;
+  const url=`mailto:${encodeURIComponent(reminderEmail())}?subject=${encodeURIComponent(reminderSubject(items,date))}&body=${encodeURIComponent(reminderBody(items,date))}`;
+  window.location.href=url;
+}
+function openTomorrowReminderEmail(){openReminderEmail(paymentsDueInRange(1,1))}
+function openPaymentReminderEmail(id){
+  const r=getRows('toPay').find(row=>row.id===id),date=r?nextDueDate(r):null;
+  if(!r||!date){alert('Add a valid due day first.');return}
+  openReminderEmail([{r,date,days:daysUntil(date)}]);
+}
+function icsEscape(value){return String(value||'').replace(/\\/g,'\\\\').replace(/,/g,'\\,').replace(/;/g,'\\;').replace(/\n/g,'\\n')}
+function icsDateTime(date,hour=9){
+  return `${date.getFullYear()}${String(date.getMonth()+1).padStart(2,'0')}${String(date.getDate()).padStart(2,'0')}T${String(hour).padStart(2,'0')}0000`;
+}
+function downloadReminderICS(){
+  const rows=scheduledRows();
+  if(!rows.length){alert('Add due days first, then export reminders.');return}
+  const nowStamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const events=rows.map(r=>{
+    const date=nextDueDate(r);
+    const summary=`Payment due: ${r.name} (${fmt(monthlyObligation(r))})`;
+    const desc=`${r.section}\\nAmount: ${fmt(monthlyObligation(r))}\\nDue day: ${dueDayNumber(r.dueDay)}\\nNotes: ${r.notes||''}`;
+    return [
+      'BEGIN:VEVENT',
+      `UID:${r.id}@family-finance-planner`,
+      `DTSTAMP:${nowStamp}`,
+      `DTSTART:${icsDateTime(date,9)}`,
+      `DURATION:PT15M`,
+      `RRULE:FREQ=MONTHLY;COUNT=60`,
+      `SUMMARY:${icsEscape(summary)}`,
+      `DESCRIPTION:${icsEscape(desc)}`,
+      `ORGANIZER:mailto:${reminderEmail()}`,
+      'BEGIN:VALARM',
+      'TRIGGER:-P1D',
+      'ACTION:DISPLAY',
+      `DESCRIPTION:${icsEscape(summary)}`,
+      'END:VALARM',
+      'BEGIN:VALARM',
+      'TRIGGER:-P1D',
+      'ACTION:EMAIL',
+      `SUMMARY:${icsEscape(summary)}`,
+      `DESCRIPTION:${icsEscape(desc)}`,
+      `ATTENDEE:mailto:${reminderEmail()}`,
+      'END:VALARM',
+      'END:VEVENT'
+    ].join('\r\n');
+  }).join('\r\n');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Family Finance Planner//Payment Reminders//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',events,'END:VCALENDAR'].join('\r\n');
+  const blob=new Blob([ics],{type:'text/calendar'});
+  const a=document.createElement('a'),url=URL.createObjectURL(blob);
+  a.href=url;a.download='family-payment-reminders.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast('Reminder calendar exported');
+}
+function planHealth(){
+  const monthly=activeRows().filter(r=>monthlyObligation(r)>0),loans=activeRows().filter(r=>isLoan(r)&&rawBalance(r)>0);
+  const dueReady=monthly.length?monthly.filter(r=>dueDayNumber(r.dueDay)).length/monthly.length:1;
+  const rateReady=loans.length?loans.filter(r=>n(r.interestRate)>0).length/loans.length:1;
+  const outgoing=monthlyPlanCost(),income=expectedIncome(),cashCoverage=outgoing?Math.min(income/outgoing,1):1;
+  const emergency=(state.goals||[]).find(g=>String(g.category).toLowerCase()==='safety'||String(g.name).toLowerCase().includes('emergency'));
+  const checks=[
+    {label:'Income sources added',done:getRows('income').some(r=>n(r.expected)>0),tab:'assets'},
+    {label:'Monthly due dates complete',done:dueReady===1,tab:'planner'},
+    {label:'Loan interest rates complete',done:rateReady===1,tab:'topay'},
+    {label:'Living costs entered',done:monthlyLivingCost()>0,tab:'settings'},
+    {label:'Emergency reserve started',done:!!emergency&&n(emergency.current)>0,tab:'goals'},
+    {label:'Recent backup exported',done:!!state.profile.lastExportAt,tab:'settings'}
+  ];
+  const score=Math.round(dueReady*20+rateReady*15+(checks[0].done?15:0)+(checks[3].done?10:0)+cashCoverage*20+(checks[4].done?10:0)+(checks[5].done?10:0));
+  return {score:Math.min(score,100),checks,dueReady,rateReady,cashCoverage};
+}
+function smartActions(){
+  const actions=[],gap=expectedIncome()-monthlyPlanCost(),missingDue=unscheduledRows(),missingRates=activeRows().filter(r=>isLoan(r)&&rawBalance(r)>0&&!n(r.interestRate)),oneTime=activeOneTimeRows();
+  const emergency=(state.goals||[]).find(g=>String(g.category).toLowerCase()==='safety'||String(g.name).toLowerCase().includes('emergency'));
+  if(gap<0)actions.push({level:'Urgent',title:'Close the monthly cash-flow gap',text:`Planned outflow exceeds expected income by ${fmt(Math.abs(gap))} per month. Review obligations or add confirmed income before using extra cash.`,tab:'planner',cta:'Review plan'});
+  if(!monthlyLivingCost())actions.push({level:'Setup',title:'Add normal family living costs',text:'Cash-flow and scenario results currently include obligations but no groceries, utilities, transport, or other living costs.',tab:'settings',cta:'Add costs'});
+  if(missingDue.length)actions.push({level:'Setup',title:`Schedule ${missingDue.length} monthly payments`,text:'Missing due days prevent reliable reminders and make the payment calendar incomplete.',tab:'planner',cta:'Add dates'});
+  if(missingRates.length)actions.push({level:'Data',title:`Add ${missingRates.length} missing interest rates`,text:'Rates are required to rank debt repayment accurately and estimate interest savings.',tab:'topay',cta:'Add rates'});
+  if(oneTime.length)actions.push({level:'Priority',title:`Plan ${fmt(oneTime.reduce((a,r)=>a+balance(r),0))} of one-time commitments`,text:'These responsibilities have no monthly schedule. Assign a funding source or target date.',tab:'analysis',cta:'Model options'});
+  if(emergency&&n(emergency.current)<n(emergency.target))actions.push({level:'Safety',title:'Build the emergency reserve',text:`The reserve is ${fmt(Math.max(n(emergency.target)-n(emergency.current),0))} below its target.`,tab:'goals',cta:'Update goal'});
+  if(!selectedChits().length&&activeRows().some(isChit))actions.push({level:'Decision',title:'Enter expected chit payout cash',text:'A payout amount lets the planner compare clearing one-time commitments, education loans, vehicle loans, or other balances.',tab:'chit',cta:'Add payout'});
+  if(!state.profile.lastExportAt)actions.push({level:'Safety',title:'Export the first backup',text:'Keep a separate JSON backup even when cloud sync is active.',tab:'settings',cta:'Back up'});
+  if(!actions.length)actions.push({level:'On track',title:'Your core plan is complete',text:'Keep payment activity current and review the scenario lab when income or obligations change.',tab:'log',cta:'Log activity'});
+  return actions;
+}
+function actionListHTML(limit=5){return smartActions().slice(0,limit).map((a,i)=>`<div class="actionCard"><div class="actionNum">${String(i+1).padStart(2,'0')}</div><div><div class="actionTitle">${esc(a.title)}</div><div class="actionText">${esc(a.text)}</div></div><button class="secondary" onclick="activeTab='${a.tab}';render()">${esc(a.cta)}</button></div>`).join('')}
+function planHealthHTML(){const h=planHealth();return `<div class="scorePanel"><div class="scoreRing" style="--score:${h.score}"><strong>${h.score}</strong><span>Plan score</span></div><div class="checklist">${h.checks.map(c=>`<div class="checkItem ${c.done?'done':''}"><span class="checkIcon">${c.done?'✓':'!'}</span><span>${esc(c.label)}</span>${c.done?'<span class="small">Done</span>':`<button class="ghost" onclick="activeTab='${c.tab}';render()">Fix</button>`}</div>`).join('')}</div></div>`}
+function plannerHTML(){
+  const now=new Date(); const view=new Date(now.getFullYear(),now.getMonth()+plannerMonthOffset,1);
+  const year=view.getFullYear(),month=view.getMonth(),last=daysInMonth(year,month),leading=view.getDay();
+  const rows=scheduledRows(); const cells=[];
+  const todayItems=paymentsDueInRange(0,0),tomorrowItems=paymentsDueInRange(1,1),next7Items=paymentsDueInRange(0,7);
+  const monthlyRows=activeRows().filter(r=>monthlyObligation(r)>0),coverage=monthlyRows.length?Math.round(rows.length/monthlyRows.length*100):100;
+  for(let i=0;i<42;i++){
+    const raw=i-leading+1; const cellDate=new Date(year,month,raw); const inMonth=cellDate.getMonth()===month;
+    const day=cellDate.getDate();
+    const items=inMonth?rows.filter(r=>Math.min(dueDayNumber(r.dueDay),last)===day):[];
+    const isToday=cellDate.toDateString()===now.toDateString();
+    cells.push(`<div class="calDay ${inMonth?'':'muted'} ${isToday?'today':''}"><span class="calNum">${day}</span>${items.slice(0,3).map(r=>`<div class="calItem ${r.priority==='High'?'warn':''}" title="${esc(r.name)} — ${fmt(monthlyObligation(r))}">${esc(r.name)} · ${fmt(monthlyObligation(r))}</div>`).join('')}${items.length>3?`<div class="listMeta">+${items.length-3} more</div>`:''}</div>`);
+  }
+  return `<div class="grid">
+    ${kpi('Due today',fmt(paymentAmount(todayItems)),todayItems.length?'bad':'good',todayItems.length+' payment'+(todayItems.length===1?'':'s'))}
+    ${kpi('Due tomorrow',fmt(paymentAmount(tomorrowItems)),tomorrowItems.length?'warn':'good',tomorrowItems.length?'Email reminder ready':'No reminder needed')}
+    ${kpi('Due next 7 days',fmt(paymentAmount(next7Items)),next7Items.length?'blue':'good',next7Items.length+' scheduled payments')}
+    ${kpi('Calendar coverage',coverage+'%',coverage===100?'good':'warn',unscheduledRows().length+' monthly items missing due days')}
+    <section class="card span8">
+      <div class="calendarHead"><div><h2>${view.toLocaleDateString(undefined,{month:'long',year:'numeric'})}</h2><div class="sub">Recurring monthly payment calendar</div></div><div class="actions"><button class="secondary" onclick="changePlannerMonth(-1)" aria-label="Previous month">‹</button><button class="secondary" onclick="plannerMonthOffset=0;render()">Today</button><button class="secondary" onclick="changePlannerMonth(1)" aria-label="Next month">›</button></div></div>
+      <div class="calendarScroll"><div class="calendar">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="calDow">${d}</div>`).join('')}${cells.join('')}</div></div>
+    </section>
+    <section class="card span4"><div class="sectionTitle"><div><h2>Next payments</h2><p>Upcoming scheduled obligations</p></div><button class="ghost" onclick="focusMissingDueDates()" ${unscheduledRows().length?'':'disabled'}>Fix missing</button></div>${upcomingListHTML(7)}</section>
+    <section class="card span12">${reminderSetupHTML(tomorrowItems)}</section>
+    <section class="card span12">${calendarConnectionHTML()}</section>
+    <section class="card span12"><div class="sectionTitle"><div><h2>Planner payment editor</h2><p>Edit due day and amount from the calendar view. Anything with a valid due day appears on the calendar automatically.</p></div></div>${plannerPaymentEditorHTML()}</section>
+    <section class="card span12" id="missingDueDates"><div class="sectionTitle"><div><h2>Missing due dates</h2><p>Only obligations already missing from the calendar appear here. Add a due day and they move into the planner automatically.</p></div><button class="secondary" onclick="activeTab='topay';render()">Add new obligation</button></div>${unscheduledTableHTML()}</section>
+  </div>`;
+}
+function changePlannerMonth(step){plannerMonthOffset+=step;render()}
+function focusMissingDueDates(){document.getElementById('missingDueDates')?.scrollIntoView({behavior:'smooth',block:'start'})}
+function calendarConnectionHTML(){
+  const missing=unscheduledRows(),scheduled=scheduledRows();
+  const important=missing.filter(r=>r.priority==='High').slice(0,5);
+  return `<div class="sectionTitle"><div><h2>Calendar connection status</h2><p>The calendar is automatic: every active payment with a monthly amount and a valid due day number appears here.</p></div><span class="pill">${scheduled.length} scheduled · ${missing.length} missing dates</span></div>
+  ${important.length?`<div class="alert orange"><b>Not shown on calendar yet:</b> ${important.map(r=>`${esc(r.name)} (${fmt(monthlyObligation(r))})`).join(', ')}. Reason: due day is missing or says “Need date”. Enter a day number like 5, 10, or 14 and it will appear automatically.</div>`:'<div class="alert green">All high-priority monthly payments with amounts have due days.</div>'}
+  <div class="alert blue"><b>Example:</b> if a chit has due day 10, it will show on the 10th every month in the calendar and in Next payments. If it says “Need date,” the app cannot guess the correct day.</div>`;
+}
+function reminderSetupHTML(tomorrowItems=paymentsDueInRange(1,1)){
+  return `<div class="sectionTitle"><div><h2>Email reminder setup</h2><p>Reminder recipient: <b>${esc(reminderEmail())}</b></p></div><div class="actions"><button class="secondary" onclick="openTomorrowReminderEmail()" ${tomorrowItems.length?'':'disabled'}>Create tomorrow email</button><button class="primary" onclick="downloadReminderICS()">Download monthly reminders</button></div></div>
+  <div class="alert orange"><b>Important:</b> this is a local HTML planner, so it cannot silently send email while closed. Use “Create tomorrow email” to open a ready email, or import the calendar file into Google/Apple/Outlook calendar for one-day-before alarms. True automatic emails require a small backend or Google Apps Script.</div>
+  ${tomorrowItems.length?`<div class="tableWrap"><table><tr><th>Due tomorrow</th><th>Amount</th><th>Type</th><th>Action</th></tr>${tomorrowItems.map(({r})=>`<tr><td><b>${esc(r.name)}</b></td><td>${fmt(monthlyObligation(r))}</td><td>${esc(r.section)}</td><td><button class="secondary" onclick="openPaymentReminderEmail('${r.id}')">Create email</button></td></tr>`).join('')}</table></div>`:'<div class="alert green">No payments are due tomorrow.</div>'}`;
+}
+function plannerPaymentEditorHTML(){
+  const rows=activeRows().filter(r=>monthlyObligation(r)>0).map(r=>({r,ri:getRows('toPay').indexOf(r),date:nextDueDate(r)})).sort((a,b)=>(a.date||0)-(b.date||0)||monthlyObligation(b.r)-monthlyObligation(a.r));
+  if(!rows.length)return '<div class="emptyState">No monthly payments are active.</div>';
+  return `<div class="tableWrap"><table><thead><tr><th>Payment</th><th>Type</th><th>Amount ₹</th><th>Due day</th><th>Next due</th><th>Months done / left</th><th>Reminder</th></tr></thead><tbody>${rows.map(({r,ri,date})=>`<tr><td><b>${esc(r.name)}</b>${groupMetaHTML(r)}</td><td>${esc(r.section)}</td><td class="edit right" contenteditable="true" onblur="editCell('toPay',${ri},'monthlyDue',this.innerText)">${monthlyObligation(r)||''}</td><td><input type="number" min="1" max="31" value="${dueDayNumber(r.dueDay)||''}" placeholder="1–31" onchange="editCell('toPay',${ri},'dueDay',this.value)"></td><td>${date?date.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}):'<span class="orangeText">Missing</span>'}</td><td>${n(r.totalMonths)?`${monthsDoneDisplay(r)} done / ${monthsLeft(r)} left`:'—'}</td><td>${date?`<button class="secondary" onclick="openPaymentReminderEmail('${r.id}')">Email</button>`:'Add due day'}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function unscheduledTableHTML(){
+  const rows=unscheduledRows(); if(!rows.length) return '<div class="alert green">Every monthly payment has a due date.</div>';
+  return `<div class="tableWrap"><table><thead><tr><th>Payment</th><th>Type</th><th>Monthly amount</th><th>Why not on calendar</th><th>Due day</th><th>Action</th></tr></thead><tbody>${rows.map(r=>{const ri=getRows('toPay').indexOf(r);return `<tr><td><b>${esc(r.name)}</b></td><td>${esc(r.section)}</td><td>${fmt(monthlyObligation(r))}</td><td><span class="badge high">Missing due day</span><div class="listMeta">Enter 1–31 to auto-place it monthly.</div></td><td><input type="number" min="1" max="31" placeholder="1–31" aria-label="Due day for ${esc(r.name)}" onchange="editCell('toPay',${ri},'dueDay',this.value)"></td><td><button class="danger" onclick="deleteRow('toPay',${ri})" aria-label="Remove ${esc(r.name)} from the planner">Remove</button></td></tr>`}).join('')}</tbody></table></div>`;
+}
+function dashboardHTML(){
+  syncStatusFromCashLog();
+  const nl=notLiftedSummary(), lf=liftedSummary(), ps=paySummary(), ms=monthlySummary();
+  const totalMonthly = ms.loans + ms.notLifted + ms.lifted + ms.other;
+  const oneRows=activeOneTimeRows();
+  const oneTimeTotal=oneRows.reduce((a,r)=>a+balance(r),0);
+  const income=expectedIncome(),free=income-totalMonthly-monthlyLivingCost(),assets=grossAssets(),netWorth=assets-ps.total;
+  const planCost=totalMonthly+monthlyLivingCost(),coverage=planCost?Math.round(income/planCost*100):100;
+  const health=planHealth();
+  return `<div class="grid">
+    ${health.score<90?`<div class="span12 setupBanner"><div><b>Complete the plan to unlock more reliable recommendations</b><p>Your plan score is ${health.score}/100. Add missing dates, loan rates, a reserve balance, and a backup.</p></div><button class="primary" onclick="activeTab='suggestions';render()">Continue setup</button></div>`:''}
+    <section class="card span12 hero"><div class="heroGrid"><div><div class="pageEyebrow" style="color:#6ee7b7">${new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}</div><h1>${esc(state.profile.planName||'Family financial plan')}</h1><div class="sub">One connected plan for cash flow, obligations, chits, wealth, and goals.</div><div class="heroActions"><button class="primary" onclick="activeTab='planner';render()">Open planner</button><button class="ghost" onclick="activeTab='analysis';render()">Run a scenario</button></div></div><div class="heroMetric"><span>Estimated net worth</span><b>${fmt(netWorth)}</b></div><div class="heroMetric"><span>Monthly cash after payments</span><b>${fmt(free)}</b></div><div class="heroMetric"><span>Income coverage</span><b>${coverage}%</b></div></div></section>
+    ${kpi('Expected monthly income',fmt(income),'good','From '+getRows('income').length+' income sources')}
+    ${kpi('Monthly obligations',fmt(totalMonthly),free>=0?'blue':'bad',monthlyLivingCost()?`Plus ${fmt(monthlyLivingCost())} living costs`:'Living costs not entered')}
+    ${kpi('Total outstanding',fmt(ps.total),'bad','Loans, chits, and one-time items')}
+    ${kpi('Chit cash available',fmt(chitPlan().usable),'warn','Entered payout cash for payoff planning')}
+
+    <section class="card span4"><div class="sectionTitle"><div><h2>Plan health</h2><p>Completeness and financial readiness</p></div></div>${planHealthHTML()}</section>
+    <section class="card span8"><div class="sectionTitle"><div><h2>Next best actions</h2><p>Automatically ranked from your live plan</p></div><button class="ghost" onclick="activeTab='suggestions';render()">View all</button></div>${actionListHTML(4)}</section>
+
+    <section class="card span8">
+      <div class="sectionTitle"><div><h2>Monthly payment mix</h2><p>Where recurring cash is committed</p></div></div>
+      <canvas id="barMonthlySplit"></canvas>
+    </section>
+    <section class="card span4">
+      <div class="sectionTitle"><div><h2>Upcoming payments</h2><p>Based on entered due days</p></div><button class="ghost" onclick="activeTab='planner';render()">View calendar</button></div>
+      ${upcomingListHTML(5)}
+    </section>
+
+    <section class="card span6">
+      <div class="sectionTitle"><div><h2>Income coverage</h2><p>Expected income compared with recurring payments</p></div></div>
+      <canvas id="barIncome"></canvas>
+    </section>
+    <section class="card span6">
+      <div class="sectionTitle"><div><h2>One-time priorities</h2><p>Remaining one-off responsibilities</p></div></div>
+      <canvas id="barOneTime"></canvas>
+    </section>
+  </div>`;
+}
+function allocationMini(rows){return rows.length?`<table><tr><th>Name</th><th>Pay</th><th>Result</th></tr>${rows.map(x=>`<tr><td>${esc(x.name)}</td><td><b>${fmt(x.pay)}</b></td><td><span class="badge ${x.status==='Full Clear'?'ok':'medium'}">${x.status}</span></td></tr>`).join('')}</table>`:'<div class="alert orange">No chit cash available yet. In Chit Plan, enter a payout amount to test payoff options.</div>'}
+
+function cellEditable(t,ri,key,val,extra=''){
+  return `<td class="edit" contenteditable="true" onblur="editCell('${t}',${ri},'${key}',this.innerText)" ${extra}>${esc(val)}</td>`;
+}
+function selectCell(t,ri,key,val,options){
+  return `<td class="edit"><select onchange="editCell('${t}',${ri},'${key}',this.value)">${options.map(o=>`<option ${String(val)===o?'selected':''}>${o}</option>`).join('')}</select></td>`;
+}
+function toPayHTML(){
+  syncStatusFromCashLog();
+  const rows=getRows('toPay');
+  const groups=obligationNameGroups(rows),duplicateGroups=duplicateObligationGroups();
+  const active=activeRows(),loanBalance=active.filter(isLoan).reduce((a,r)=>a+balance(r),0),chitCommitment=active.filter(isChit).reduce((a,r)=>a+balance(r),0),missingRows=active.filter(r=>missingFieldsForObligation(r).length).length;
+  const loanInfos=active.filter(isLoan).map(r=>({r,info:loanPayoffInfo(r)})).filter(x=>x.info.status==='ok'),longestLoan=loanInfos.sort((a,b)=>b.info.months-a.info.months)[0];
+  const orderedRows=rows.map((r,ri)=>({r,ri})).sort((a,b)=>(Number(isDone(a.r))-Number(isDone(b.r)))||(monthlyObligation(a.r)-monthlyObligation(b.r))||(balance(a.r)-balance(b.r))||String(a.r.name||'').localeCompare(String(b.r.name||'')));
+  return `<div class="grid">
+    ${kpi('Monthly obligation load',fmt(monthlyOutgoing()),monthlyOutgoing()>expectedIncome()?'bad':'blue','Recurring EMI/chit payments due monthly')}
+    ${kpi('Loan balance',fmt(loanBalance),loanBalance?'bad':'good','Loan / EMI balances only')}
+    ${kpi('Chit commitment',fmt(chitCommitment),chitCommitment?'warn':'good','Remaining chit EMIs; no chit interest rate needed')}
+    ${kpi('Longest loan payoff',longestLoan?formatDuration(longestLoan.info.months):'—',longestLoan?'warn':'good',longestLoan?`${esc(longestLoan.r.name)} · ${loanPayoffDate(longestLoan.info.months)}`:'No active loan payoff estimate')}
+    ${obligationExplanationHTML(loanBalance,chitCommitment)}
+    <section class="card span4"><div class="sectionTitle"><div><h2>Balance by category</h2><p>What makes up the outstanding amount.</p></div></div><canvas id="obligationBalanceChart" class="chartSmall"></canvas></section>
+    <section class="card span4"><div class="sectionTitle"><div><h2>Monthly burden</h2><p>Where monthly cash is going.</p></div></div><canvas id="obligationMonthlyChart" class="chartSmall"></canvas></section>
+    <section class="card span4"><div class="sectionTitle"><div><h2>Top balances</h2><p>Largest items to watch first.</p></div></div><canvas id="obligationTopChart" class="chartSmall"></canvas></section>
+    <div class="card span12">
+      <div class="sectionTitle"><div><h2>Payment register</h2><p>Edit values directly. Dashboard totals update automatically.</p></div><div class="actions">
+        <button class="secondary" onclick="downloadTableCSV('toPay')">Export CSV</button>
+        <button class="primary" onclick="openObligationModal()">+ Add payment</button>
+      </div></div>
+      <div class="alert blue">Names are connected by record ID. If you correct a name here or in Chit plan, linked payment history follows it. If multiple rows have the exact same name, the planner shows a grouped combined balance/monthly total without deleting any row.</div>
+      <div class="tableToolbar"><input class="search" id="paymentSearch" type="search" placeholder="Search payments…" oninput="filterPaymentRows()"><select id="paymentTypeFilter" onchange="filterPaymentRows()"><option value="All">All payment types</option>${[...new Set(rows.map(r=>r.section))].filter(Boolean).map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select><span class="pill" id="paymentCount">${rows.length} records</span></div>
+      <div class="tableWrap"><table><thead><tr>
+        <th>Payment</th><th>Type</th><th>Current balance</th><th>Monthly</th><th>Due day</th><th>Months</th><th>Interest / commission</th><th>Payoff estimate</th><th>Data needed</th><th>Priority</th><th>Status</th><th>Actions</th>
+      </tr></thead><tbody>
+        ${orderedRows.map(({r,ri})=>`<tr class="paymentRow" data-search="${esc((r.name+' '+r.section+' '+(r.notes||'')).toLowerCase())}" data-section="${esc(r.section)}">
+          <td>${cellInnerEditable('toPay',ri,'name',r.name)}<div class="listMeta">${esc(r.notes||'')}</div>${groupMetaHTML(r)}</td>
+          ${cellEditable('toPay',ri,'section',r.section)}
+          <td class="calc right">${fmt(balance(r))}</td>
+          <td class="edit right" contenteditable="true" onblur="editCell('toPay',${ri},'monthlyDue',this.innerText)">${monthlyObligation(r)||''}</td>
+          ${cellEditable('toPay',ri,'dueDay',r.dueDay||'')}
+          <td class="calc">${n(r.totalMonths)?`${monthsDoneDisplay(r)} done / ${monthsLeft(r)} left`:'—'}</td>
+          ${obligationCostCell(ri,r)}
+          ${payoffEstimateCell(r)}
+          <td>${missingBadgeHTML(r)}</td>
+          ${selectCell('toPay',ri,'priority',r.priority||'Medium',['High','Medium','Low'])}
+          ${selectCell('toPay',ri,'status',r.status||'Active',['Active','Done'])}
+          <td><div class="actions">${!isDone(r)?`<button class="secondary" onclick="openActivityFor('${r.id}')">Log</button>`:''}<button class="danger" onclick="deleteRow('toPay',${ri})" aria-label="Delete ${esc(r.name)}">×</button></div></td>
+        </tr>`).join('')}
+      </tbody></table></div>
+    </div>
+  </div>`;
+}
+function cellInnerEditable(t,ri,key,val){return `<div class="edit" contenteditable="true" onblur="editCell('${t}',${ri},'${key}',this.innerText)">${esc(val)}</div>`}
+function obligationCostCell(ri,r){
+  if(isChit(r))return `<td class="calc"><b>${pct(commissionRateForChit(r))}</b><div class="listMeta">${esc(r.chitOrganizer||defaultChitOrganizer(r))} commission model</div></td>`;
+  if(isLoan(r))return cellEditable('toPay',ri,'interestRate',r.interestRate||'');
+  return '<td class="calc">N/A<div class="listMeta">No interest needed</div></td>';
+}
+function payoffEstimateCell(r){
+  if(isLoan(r)){
+    const info=loanPayoffInfo(r);
+    if(info.status==='unpayable')return `<td class="calc"><span class="redText">EMI too low</span><div class="listMeta">Monthly interest alone is ${fmt(info.firstInterest)}</div></td>`;
+    if(info.status==='missing-emi')return '<td class="calc"><span class="orangeText">Add EMI</span><div class="listMeta">Needed for payoff date</div></td>';
+    if(info.status==='ok')return `<td class="calc"><b>${loanPayoffLabel(info)}</b><div class="listMeta">Est. interest ${fmt(info.interest)}</div></td>`;
+  }
+  if(isChit(r))return `<td class="calc"><b>${monthsLeft(r)||0} months left</b><div class="listMeta">${fmt(balance(r))} commitment</div></td>`;
+  if(isOneTime(r))return '<td class="calc">When paid<div class="listMeta">One-time responsibility</div></td>';
+  return '<td class="calc">—</td>';
+}
+function obligationExplanationHTML(loanBalance,chitCommitment){
+  const loanNames=activeRows().filter(isLoan).map(r=>r.name).slice(0,4);
+  const chitNames=activeRows().filter(isChit).map(r=>r.name).slice(0,4);
+  return `<section class="card span12"><div class="sectionTitle"><div><h2>How these obligation numbers are calculated</h2><p>Transparent formulas for the tiles and current balance column.</p></div></div>
+    <div class="helpGrid">
+      <div class="alert blue"><b>Loan balance = ${fmt(loanBalance)}</b><br>Includes active rows where Type contains “Loan”. Examples currently counted: ${loanNames.length?loanNames.map(esc).join(', '):'none'}. Formula: current balance − opening paid − linked payments.</div>
+      <div class="alert blue"><b>Chit commitment = ${fmt(chitCommitment)}</b><br>Includes active Chit Not Lifted and Chit Lifted rows. Formula: months left × monthly EMI. No interest rate is requested because chit cost is handled by commission and payout cash.</div>
+      <div class="alert blue"><b>Loan payoff estimate</b><br>For loans, the app needs current balance, monthly EMI, annual interest %, and due day. Example: ₹20,00,000 at ₹25,000/month and 7% annual interest takes about ${formatDuration(loanPayoffInfo({section:'Loan / EMI',amount:2000000,monthlyDue:25000,interestRate:7,status:'Active'}).months)}.</div>
+      <div class="alert blue"><b>Current balance examples</b><br>Loan example: ₹11,00,000 balance − ₹1,00,000 paid = ₹10,00,000 left. Chit example: 20 total months − 5 paid = 15 left; 15 × ₹10,000 EMI = ₹1,50,000 commitment.</div>
+    </div>
+    <div class="alert orange"><b>Calendar rule:</b> any active obligation or chit with monthly amount and due day 1–31 appears in Planner automatically. “Need date” means it is intentionally not scheduled yet.</div></section>`;
+}
+function filterPaymentRows(){
+  const q=String(document.getElementById('paymentSearch')?.value||'').toLowerCase().trim();
+  const type=document.getElementById('paymentTypeFilter')?.value||'All'; let shown=0;
+  document.querySelectorAll('.paymentRow').forEach(row=>{const visible=(!q||row.dataset.search.includes(q))&&(type==='All'||row.dataset.section===type);row.classList.toggle('hidden',!visible);if(visible)shown++});
+  const count=document.getElementById('paymentCount');if(count)count.textContent=shown+' records';
+}
+function openActivityFor(id){activeTab='log';render();setTimeout(()=>{const select=document.getElementById('activityObligation');if(select){select.value=id;syncActivityAmount();document.getElementById('activityAmount')?.focus()}},30)}
+function toPayCell(ri,key,val){
+  if(key==='liftPlan') return selectCell('toPay',ri,key,val,['Yes','No']);
+  if(key==='priority') return selectCell('toPay',ri,key,val,['High','Medium','Low']);
+  if(key==='status') return selectCell('toPay',ri,key,val||'Active',['Active','Done']);
+  if(key==='chitType') return selectCell('toPay',ri,key,val||'Manual',['Manual','1 Lakh Chit','2 Lakh Chit']);
+  return cellEditable('toPay',ri,key,val);
+}
+function missingFieldsForObligation(r){
+  const items=[];
+  if(!n(r.amount)&&!isChit(r))items.push('current balance');
+  if(isLoan(r)&&!monthlyObligation(r))items.push('monthly EMI');
+  if(isChit(r)&&!n(r.amount))items.push('face value');
+  if(isChit(r)&&!monthlyObligation(r))items.push('monthly EMI');
+  if(monthlyObligation(r)>0&&!dueDayNumber(r.dueDay))items.push('due day');
+  if(isLoan(r)&&balance(r)>0&&!n(r.interestRate))items.push('interest %');
+  if((isChit(r)||n(r.totalMonths)>0)&&!n(r.totalMonths))items.push('total months');
+  if(isChit(r)&&!n(r.monthsDone)&&!n(r.monthsDoneBase))items.push('months done');
+  return items;
+}
+function missingBadgeHTML(r){
+  const items=missingFieldsForObligation(r);
+  return items.length?items.map(x=>`<span class="badge high">${esc(x)}</span>`).join(' '):'<span class="badge ok">Complete</span>';
+}
+function obligationDataGuideHTML(){
+  const rows=activeRows(),missing=rows.map(r=>({r,items:missingFieldsForObligation(r)})).filter(x=>x.items.length);
+  return `<section class="card span12"><div class="sectionTitle"><div><h2>What still needs to be filled?</h2><p>These fields make reminders, balances, and payoff suggestions reliable.</p></div></div>
+    ${missing.length?`<div class="tableWrap"><table><thead><tr><th>Payment</th><th>Missing / weak data</th><th>Why it matters</th></tr></thead><tbody>${missing.slice(0,8).map(({r,items})=>`<tr><td><b>${esc(r.name)}</b><div class="listMeta">${esc(r.section)}</div></td><td>${items.map(x=>`<span class="badge high">${esc(x)}</span>`).join(' ')}</td><td>${esc(explainMissingItems(items))}</td></tr>`).join('')}</tbody></table></div>`:'<div class="alert green">Core obligation data is complete.</div>'}
+    <div class="helpGrid" style="margin-top:14px">
+      <div class="alert blue"><b>Current balance / face value</b><br>For loans, enter amount still pending. Example: vehicle loan = ₹11,00,000. For chit, enter face value. Example: ₹2,00,000 chit.</div>
+      <div class="alert blue"><b>Monthly amount</b><br>Enter the actual EMI/payment due every month. Example: education loan = ₹94,000; a ₹2L chit usually = ₹10,000.</div>
+      <div class="alert blue"><b>Due day</b><br>Enter only the day number. Example: 10 means due on the 10th every month, reminder email on the 9th.</div>
+      <div class="alert blue"><b>Interest %</b><br>Annual loan rate. Example: if a lender charges 18% yearly, enter 18. This helps rank which debt to clear first.</div>
+      <div class="alert blue"><b>Total months / months done</b><br>Use this when a payment has a fixed duration. Example: 26 total months and 5 done means 21 left. The app auto-increases months done as months pass.</div>
+      <div class="alert blue"><b>Status</b><br>Use Active until fully paid. Use Done only when the obligation is actually closed.</div>
+    </div></section>`;
+}
+function explainMissingItems(items){
+  if(items.includes('due day'))return 'Needed for calendar placement and one-day-before reminder email.';
+  if(items.includes('interest %'))return 'Needed to estimate interest savings and prioritize high-cost debt.';
+  if(items.includes('total months')||items.includes('months done'))return 'Needed to auto-calculate months left as time passes.';
+  return 'Needed for clean balance and monthly cash-flow calculations.';
+}
+function addToPayRow(section){
+  openObligationModal(section);
+}
+function openObligationModal(section='Loan / EMI'){
+  const modal=document.getElementById('obligationModal'); const form=document.getElementById('obligationForm');
+  if(!modal||!form)return; form.reset(); document.getElementById('obSection').value=[...document.getElementById('obSection').options].some(o=>o.value===section)?section:'Other';
+  document.getElementById('obPriority').value='Medium'; modal.classList.remove('hidden'); setTimeout(()=>document.getElementById('obName').focus(),30);
+}
+function closeObligationModal(){document.getElementById('obligationModal')?.classList.add('hidden')}
+function saveObligation(event){
+  event.preventDefault(); const section=document.getElementById('obSection').value;
+  const months=n(document.getElementById('obMonths').value);
+  const row={id:'obl_'+uid(),section,name:document.getElementById('obName').value.trim(),amount:n(document.getElementById('obAmount').value),chitType:isChit({section})?'':(isLoan({section})?'Loan':'Other'),chitOrganizer:isChit({section})?'Local / private chit':'',openingPaid:0,monthlyDue:n(document.getElementById('obMonthly').value),afterLiftMonthly:0,postLiftMonths:0,frequency:'Monthly',dueDay:document.getElementById('obDueDay').value,totalMonths:months,monthsDone:0,liftMonth:'',payoutStart:0,payoutIncrease:0,expectedPayout:0,foremanCommissionRate:isChit({section})?5:'',liftPlan:'No',interestRate:document.getElementById('obRate').value,priority:document.getElementById('obPriority').value,status:'Active',notes:document.getElementById('obNotes').value.trim()};
+  if(!row.name)return; prepareChitRow(row); state.tables.toPay.rows.push(row); closeObligationModal(); autoSave(); render(); toast('Payment added');
+}
+document.addEventListener('keydown',event=>{if(event.key==='Escape')closeObligationModal()});
+
+
+function chitHTML(){
+  const all=getRows('toPay'), chits=all.filter(isChit), not=all.filter(isNotLiftedChit), lifted=all.filter(isLiftedChit);
+  const nl=notLiftedSummary(), lf=liftedSummary(), cp=chitPlan();
+  const commissionTotal=selectedChits().reduce((a,r)=>a+chitMath(r).commission,0);
+  const chitMonthly=activeRows().filter(isChit).reduce((a,r)=>a+monthlyObligation(r),0);
+  const chitRemaining=activeRows().filter(isChit).reduce((a,r)=>a+balance(r),0);
+  return `<div class="grid">
+    ${kpi('Chit cash available',fmt(cp.usable),cp.usable?'good':'warn','Payout amounts entered in chit rows')}
+    ${kpi('Monthly chit EMI',fmt(chitMonthly),'blue','Active chit monthly payments')}
+    ${kpi('Chit amount remaining',fmt(chitRemaining),'bad','EMI × months left')}
+    ${kpi('Commission estimate',fmt(commissionTotal),'warn','2.5% company / 5% local on payout rows')}
+    ${chitDataGuideHTML()}
+
+    <div class="card span12">
+      <div class="sectionTitle"><div><h2>Chit register</h2><p>Track face value, EMI, months paid/left, payout cash, and commission.</p></div><div class="actions">
+        <button class="primary" onclick="addToPayRow('Chit Not Lifted')">Add Chit Not Lifted</button>
+        <button class="primary" onclick="addToPayRow('Chit Lifted')">Add Chit Lifted</button>
+      </div></div>
+      <div class="alert blue"><b>Simple rule:</b> if you enter a payout amount, the planner treats it as cash available in your pocket and shows how to use it against one-time dues and loans. If payout is blank, it is tracked as a normal chit commitment only.</div>
+      <div class="tableWrap"><table><thead><tr>
+        <th>Chit</th><th>Stage</th><th>Organizer</th><th>Face value</th><th>Monthly EMI</th><th>Total months</th><th>Months paid</th><th>Months left</th><th>Payout cash</th><th>Commission</th><th>Cash after remaining EMI</th><th>Due day</th><th></th>
+      </tr></thead><tbody>
+      ${chits.map(r=>chitRowHTML(all.indexOf(r),r)).join('')}</tbody></table></div>
+    </div>
+    <section class="card span12"><div class="sectionTitle"><div><h2>Cash in pocket from chits</h2><p>Payout cash available for loans, one-time dues, or other priorities.</p></div></div>${selectedChitTableHTML()}</section>
+    <section class="card span12"><div class="sectionTitle"><div><h2>Suggested use of chit cash</h2><p>Automatically prioritizes promises, high-interest loans, and high-priority balances.</p></div></div><div class="tableWrap">${allocationTable()}</div></section>
+  </div>`;
+}
+function chitRowHTML(ri,r){
+  const m=chitMath(r);
+  return `<tr>
+    <td><b>${cellInnerEditable('toPay',ri,'name',r.name)}</b><div class="listMeta">${esc(r.notes||'')}</div>${groupMetaHTML(r)}</td>
+    ${selectCell('toPay',ri,'section',r.section,['Chit Not Lifted','Chit Lifted'])}
+    ${selectCell('toPay',ri,'chitOrganizer',r.chitOrganizer||defaultChitOrganizer(r),['Chit fund company','Local / private chit'])}
+    ${cellEditable('toPay',ri,'amount',r.amount||'')}
+    ${cellEditable('toPay',ri,'monthlyDue',r.monthlyDue||'')}
+    ${cellEditable('toPay',ri,'totalMonths',r.totalMonths||'')}
+    <td class="edit right"><b>${monthsDoneDisplay(r)}</b><div class="listMeta">edit base below</div><div contenteditable="true" onblur="editCell('toPay',${ri},'monthsDone',this.innerText)">${esc(r.monthsDone||'')}</div></td>
+    <td class="calc right"><b>${monthsLeft(r)}</b></td>
+    ${isLiftedChit(r)?'<td class="calc"><b>₹0</b><div class="listMeta">Cash already used after lift</div></td>':cellEditable('toPay',ri,'expectedPayout',r.expectedPayout||'')}
+    <td class="edit right"><b>${fmt(m.commission)}</b><div class="listMeta">${pct(m.commissionRate)} of face value</div><div contenteditable="true" onblur="editCell('toPay',${ri},'foremanCommissionRate',this.innerText)">${esc(r.foremanCommissionRate||m.commissionRate)}</div></td>
+    <td class="calc right"><b class="${m.netAfterFuture>=0?'greenText':'redText'}">${fmt(m.netAfterFuture)}</b><div class="listMeta">payout − remaining EMI</div></td>
+    ${cellEditable('toPay',ri,'dueDay',r.dueDay||'')}
+    <td><button class="danger" onclick="deleteRow('toPay',${ri})" aria-label="Delete ${esc(r.name)}">×</button></td>
+  </tr>`;
+}
+function selectedChitTableHTML(){
+  const rows=selectedChits();
+  if(!rows.length)return '<div class="emptyState">Enter payout cash on a chit row when you receive or expect to receive money. It will appear here as available cash.</div>';
+  return `<div class="tableWrap"><table><thead><tr><th>Chit</th><th>Payout cash</th><th>Remaining chit EMI</th><th>Commission estimate</th><th>Cash after remaining EMI</th><th>What this means</th></tr></thead><tbody>${rows.map(r=>{const m=chitMath(r);return `<tr><td><b>${esc(r.name)}</b></td><td><b>${fmt(m.payout)}</b></td><td>${fmt(m.payAfter)}<div class="listMeta">${m.payAfterMonths} months × ${fmt(m.afterDue)}</div></td><td>${fmt(m.commission)}<div class="listMeta">${pct(m.commissionRate)} commission</div></td><td class="${m.netAfterFuture>=0?'greenText':'redText'}">${fmt(m.netAfterFuture)}</td><td>${m.netAfterFuture>=0?'This chit can create surplus cash after remaining EMIs.':'Future EMIs are larger than the payout, so do not treat all cash as free.'}</td></tr>`}).join('')}</tbody></table></div>`;
+}
+function chitDataGuideHTML(){
+  const rows=getRows('toPay').filter(isChit),missing=rows.map(r=>({r,items:missingFieldsForObligation(r)})).filter(x=>x.items.length);
+  return `<section class="card span12"><div class="sectionTitle"><div><h2>How to fill chit fields</h2><p>Use this when reading a company chit sheet or tracking a local/private chit.</p></div></div>
+    ${missing.length?`<div class="alert orange"><b>${missing.length} chit rows need attention.</b> Check missing badges in the table below: ${missing.slice(0,4).map(x=>esc(x.r.name)).join(', ')}${missing.length>4?'…':''}</div>`:'<div class="alert green">Chit fields are complete enough for planning.</div>'}
+    <div class="helpGrid">
+      <div class="alert blue"><b>Face value</b><br>Total chit value. Example: a 2 lakh chit = ₹2,00,000.</div>
+      <div class="alert blue"><b>Monthly EMI</b><br>The amount you pay every month. Example: ₹10,000 for a ₹2L chit.</div>
+      <div class="alert blue"><b>Total months</b><br>Full chit duration. Example: 20 months or 25 months.</div>
+      <div class="alert blue"><b>Months paid</b><br>How many months already paid. The planner auto-increases this as months pass.</div>
+      <div class="alert blue"><b>Months left</b><br>Calculated automatically: total months − months paid.</div>
+      <div class="alert blue"><b>Payout cash</b><br>Enter the cash you get or expect to get. Example: if you receive ₹40,00,000, enter 4000000. This becomes cash available for payoff planning.</div>
+      <div class="alert blue"><b>Organizer / commission</b><br>Chit fund company defaults to 2.5%; local/private chit defaults to 5%. Edit commission % only if the real sheet differs.</div>
+      <div class="alert blue"><b>Stage</b><br>Use Not Lifted before receiving cash. Use Lifted after receiving cash but still paying monthly EMI.</div>
+    </div></section>`;
+}
+function liftedRowHTML(ri,r){
+  return chitRowHTML(ri,r);
+}
+function setAllChits(v){getRows('toPay').filter(isNotLiftedChit).forEach(r=>r.liftPlan=v);autoSave();render()}
+
+function allocationTable(){
+  const plan=allocationPlan(); const cp=chitPlan();
+  return `<div class="${cp.leftAfterOneTime>=0?'alert green':'alert red'}">
+    Available chit cash: <b>${fmt(cp.usable)}</b>. One-time pending: <b>${fmt(cp.oneTime)}</b>. 
+    Cash left after one-time payments: <b>${fmt(cp.leftAfterOneTime)}</b>.
+    ${cp.leftAfterOneTime>0?'Suggested next: reduce the highest-interest loan first.':'Need more cash if you want to clear all one-time pending.'}
+  </div>
+  <table><tr><th>Pay Order</th><th>Name</th><th>Section</th><th>Current Balance</th><th>Suggested Pay</th><th>Result</th><th>Cash Left</th><th>Reason</th></tr>
+    ${plan.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.name)}</td><td>${esc(x.section)}</td><td>${fmt(x.balance)}</td><td><b>${fmt(x.pay)}</b></td><td><span class="badge ${x.status==='Full Clear'?'ok':x.status==='Partial'?'medium':'high'}">${x.status}</span></td><td>${fmt(x.cashLeft)}</td><td>${reasonFor(x)}</td></tr>`).join('')}
+  </table>`;
+}
+function reasonFor(x){
+  if(String(x.section).includes('One-Time')) return 'Clear promised one-time responsibility first';
+  if(x.interestRate>0) return 'Higher entered interest rate';
+  return 'High priority / remaining balance';
+}
+
+function projectionItems(){return activeRows().map(r=>({id:r.id,name:r.name,section:r.section,balance:remainingCommitment(r),monthly:monthlyObligation(r),rate:isLoan(r)?n(r.interestRate):0,priority:r.priority||'Medium'})).filter(x=>x.balance>0)}
+function projectionPriority(item){return (String(item.section).includes('One-Time')?1000:0)+item.rate*20+(item.priority==='High'?100:item.priority==='Medium'?50:0)}
+function simulateDebt(extraMonthly=0,lumpSum=0){
+  const items=projectionItems().map(x=>({...x})),series=[items.reduce((a,x)=>a+x.balance,0)]; let interest=0,month=0,lump=Math.max(n(lumpSum),0);
+  const payPool=pool=>{for(const item of items.filter(x=>x.balance>0).sort((a,b)=>projectionPriority(b)-projectionPriority(a))){if(pool<=0)break;const pay=Math.min(pool,item.balance);item.balance-=pay;pool-=pay}return pool};
+  payPool(lump);
+  for(month=1;month<=360&&items.some(x=>x.balance>.5);month++){
+    items.forEach(item=>{if(item.balance<=0)return;const charge=item.balance*item.rate/1200;item.balance+=charge;interest+=charge});
+    items.forEach(item=>{if(item.balance<=0)return;const pay=Math.min(item.monthly,item.balance);item.balance-=pay});
+    payPool(Math.max(n(extraMonthly),0));
+    if(month%12===0||!items.some(x=>x.balance>.5))series.push(items.reduce((a,x)=>a+Math.max(x.balance,0),0));
+  }
+  const remaining=items.reduce((a,x)=>a+Math.max(x.balance,0),0),paidOff=remaining<1,payoffMonths=paidOff?Math.max(Math.min(month-1,360),0):361;
+  return {payoffMonths,paidOff,interest,remaining,series};
+}
+function formatDuration(months){if(months>360)return '30+ years';if(months<12)return months+' months';const y=Math.floor(months/12),m=months%12;return y+'y'+(m?' '+m+'m':'')}
+function debtFreeDate(months){if(months>360)return 'Beyond projection';const d=new Date();d.setMonth(d.getMonth()+months);return d.toLocaleDateString(undefined,{month:'short',year:'numeric'})}
+function updateScenario(key,value){state.scenario[key]=n(value);autoSave();render()}
+function useChitProceeds(){state.scenario.lumpSum=Math.round(chitPlan().usable);autoSave();render()}
+function analysisHTML(){
+  const cp=chitPlan(),s=state.scenario,current=simulateDebt(0,0),planned=simulateDebt(s.extraMonthly,s.lumpSum);
+  const scenarioCash=expectedIncome()+n(s.incomeChange)-monthlyPlanCost()-n(s.extraMonthly),monthsSaved=current.payoffMonths>360?(planned.payoffMonths<=360?'Creates a funded payoff plan':'Still unfunded'):Math.max(current.payoffMonths-planned.payoffMonths,0)+' months faster';
+  const modeledDebt=projectionItems().reduce((a,x)=>a+x.balance,0),oneTimePending=activeOneTimeRows().reduce((a,r)=>a+balance(r),0);
+  return `<div class="grid">
+    ${kpi('Modeled payoff balance',fmt(modeledDebt),modeledDebt?'bad':'good','Loans, chits, and one-time obligations in scenario')}
+    ${kpi('Available chit cash',fmt(cp.usable),cp.usable?'good':'warn','Only Not Lifted chits with payout cash entered')}
+    ${kpi('One-time commitments',fmt(oneTimePending),oneTimePending?'warn':'good','Promises to clear before optional investing')}
+    ${kpi('Scenario monthly surplus',fmt(scenarioCash),scenarioCash>=0?'good':'bad','After obligations, living cost, and extra payoff')}
+    <section class="card span12"><div class="sectionTitle"><div><h2>Compare a better path before committing cash</h2><p>Change one assumption and every projection updates immediately.</p></div><span class="pill">Live scenario</span></div><div class="metricRow"><div class="metricCell"><span>Connected obligations</span><strong>${projectionItems().length}</strong><small>${fmt(projectionItems().reduce((a,x)=>a+x.balance,0))} modeled</small></div><div class="metricCell"><span>Available chit cash</span><strong>${fmt(cp.usable)}</strong><small>${selectedChits().length} payout rows entered</small></div><div class="metricCell"><span>Scenario cash after plan</span><strong class="${scenarioCash>=0?'greenText':'redText'}">${fmt(scenarioCash)}</strong><small>Income − payments − extra payoff</small></div></div></section>
+    <section class="card span4"><div class="sectionTitle"><div><h2>Scenario controls</h2><p>Model extra cash without changing your real records.</p></div></div><div class="scenarioControls">
+      <div class="rangeField"><label><span>Extra monthly debt payment</span><b>${fmt(s.extraMonthly)}</b></label><input type="range" min="0" max="500000" step="5000" value="${n(s.extraMonthly)}" onchange="updateScenario('extraMonthly',this.value)"></div>
+      <div class="rangeField"><label><span>One-time lump sum</span><b>${fmt(s.lumpSum)}</b></label><input type="range" min="0" max="5000000" step="25000" value="${n(s.lumpSum)}" onchange="updateScenario('lumpSum',this.value)"></div>
+      <div class="rangeField"><label><span>Monthly income change</span><b>${fmt(s.incomeChange)}</b></label><input type="range" min="-200000" max="500000" step="5000" value="${n(s.incomeChange)}" onchange="updateScenario('incomeChange',this.value)"></div>
+      ${cp.usable>0?`<button class="secondary" onclick="useChitProceeds()">Use ${fmt(cp.usable)} available chit cash</button>`:''}
+    </div><div class="assumption">Projection assumes entered monthly payments continue, entered loan rates remain constant, and extra cash follows one-time commitments then higher-rate/high-priority balances. Chit obligations use remaining installments. This is a planning estimate, not financial advice.</div></section>
+    <section class="card span8"><div class="sectionTitle"><div><h2>Current plan vs scenario</h2><p>Estimated obligation balance over time</p></div><span class="pill">${esc(monthsSaved)}</span></div><canvas id="projectionChart"></canvas><div class="chartLegend"><span>● Current path</span><span class="greenText">● Scenario path</span></div></section>
+    <section class="card span12"><div class="sectionTitle"><div><h2>Outcome comparison</h2><p>Use these estimates to decide whether the scenario deserves a closer review.</p></div></div><div class="compareGrid"><div class="compareCard"><div class="tag">Current path</div><div class="compareValue">${formatDuration(current.payoffMonths)}</div><div class="delta">Estimated debt-free date: ${debtFreeDate(current.payoffMonths)} · Modeled interest: ${fmt(current.interest)}</div></div><div class="compareCard recommended"><div class="tag">Scenario path</div><div class="compareValue">${formatDuration(planned.payoffMonths)}</div><div class="delta">Estimated debt-free date: ${debtFreeDate(planned.payoffMonths)} · Modeled interest: ${fmt(planned.interest)}</div></div></div></section>
+    <section class="card span12"><div class="sectionTitle"><div><h2>Suggested use of available chit cash</h2><p>Priority order based on promises, entered interest rates, and balances.</p></div></div><div class="tableWrap">${allocationTable()}</div></section>
+  </div>`;
+}
+function interestSavingHTML(){
+  const loans=getRows('toPay').filter(r=>isLoan(r)&&balance(r)>0);
+  const bestRate=Math.max(...loans.map(r=>n(r.interestRate)),0);
+  return `<div class="small">Enter interest rate % in To Pay. Saving estimate = payment × rate ÷ 12. This is approximate.</div>
+  <table><tr><th>Loan</th><th>Rate</th><th>If Pay</th><th>Approx Monthly Interest Saving</th></tr>
+  ${loans.map(r=>{let suggested=bestRate>0&&n(r.interestRate)===bestRate?Math.max(Math.min(chitPlan().leftAfterOneTime,balance(r)),0):0;let saving=suggested*n(r.interestRate)/100/12;return `<tr><td>${esc(r.name)}</td><td>${r.interestRate?pct(r.interestRate):'<span class="orangeText">Missing</span>'}</td><td>${fmt(suggested)}</td><td>${r.interestRate?fmt(saving):'Add rate'}</td></tr>`}).join('')}</table>`;
+}
+function suggestionsHTML(){
+  const h=planHealth(),actions=smartActions(),top=actions[0],cp=chitPlan();
+  const urgent=actions.filter(a=>['Urgent','Priority'].includes(a.level)).length,setup=actions.filter(a=>['Setup','Data','Safety','Decision'].includes(a.level)).length;
+  return `<div class="grid">
+    ${kpi('Plan score',h.score+'/100',h.score>=85?'good':h.score>=65?'warn':'bad','Completeness and cash-flow readiness')}
+    ${kpi('Priority actions',String(urgent),urgent?'bad':'good','Items that affect payments or commitments')}
+    ${kpi('Setup gaps',String(setup),setup?'warn':'good','Data needed for reliable planning')}
+    ${kpi('Cash after commitments',fmt(cp.leftAfterOneTime),cp.leftAfterOneTime>=0?'good':'bad','Chit cash after one-time dues')}
+    <section class="card span4 coach"><div class="sectionTitle"><div><h2>Plan coach</h2><p class="sub">Computed from your connected records</p></div><span class="pill">Score ${h.score}</span></div><div class="coachBubble">Start with <b>${esc(top.title)}</b>. ${esc(top.text)} Once this changes, the action list will automatically reorder.</div><div class="assumption" style="border-color:#334155;color:#94a3b8">This coach uses transparent rules, not a bank connection or investment prediction.</div></section>
+    <section class="card span8"><div class="sectionTitle"><div><h2>Prioritized action plan</h2><p>${actions.length} live recommendations · updates whenever your plan changes</p></div></div>${actionListHTML(10)}</section>
+    <section class="card span6"><div class="sectionTitle"><div><h2>Plan completeness</h2><p>Fix missing inputs before relying on long-range estimates.</p></div></div>${planHealthHTML()}</section>
+    <section class="card span6"><div class="sectionTitle"><div><h2>Chit cash snapshot</h2><p>Entered payout cash compared with one-time commitments.</p></div><button class="ghost" onclick="activeTab='chit';render()">Edit chits</button></div><div class="metricRow"><div class="metricCell"><span>Available chit cash</span><strong>${fmt(cp.usable)}</strong></div><div class="metricCell"><span>One-time pending</span><strong>${fmt(cp.oneTime)}</strong></div><div class="metricCell"><span>After commitments</span><strong class="${cp.leftAfterOneTime>=0?'greenText':'redText'}">${fmt(cp.leftAfterOneTime)}</strong></div></div></section>
+    <section class="card span12"><div class="sectionTitle"><div><h2>Family planning notes</h2><p>Add decisions or context that should stay with this plan.</p></div><button class="primary" onclick="addSuggestion()">+ Add note</button></div>${(state.customSuggestions||[]).length?(state.customSuggestions||[]).map((s,i)=>`<div class="alert blue"><b class="edit" contenteditable="true" onblur="state.customSuggestions[${i}].title=this.innerText;autoSave()">${esc(s.title)}</b><br><span class="edit" contenteditable="true" onblur="state.customSuggestions[${i}].text=this.innerText;autoSave()">${esc(s.text)}</span> <button class="danger" onclick="state.customSuggestions.splice(${i},1);autoSave();render()">Delete</button></div>`).join(''):'<div class="emptyState">No planning notes yet.</div>'}</section>
+  </div>`;
+}
+function addSuggestion(){state.customSuggestions=state.customSuggestions||[];state.customSuggestions.push({title:'New suggestion',text:'Write your note here'});autoSave();render()}
+
+function goalsHTML(){
+  const goals=state.goals||[];
+  const target=goals.reduce((a,g)=>a+n(g.target),0),current=goals.reduce((a,g)=>a+n(g.current),0),remaining=Math.max(target-current,0);
+  const safety=goals.find(g=>String(g.category).toLowerCase()==='safety'||String(g.name).toLowerCase().includes('emergency'));
+  return `<div class="grid">
+    ${kpi('Goals tracked',String(goals.length),goals.length?'blue':'warn','Family goals with target amounts')}
+    ${kpi('Goal funding',fmt(current),current?'good':'warn','Total current amount across goals')}
+    ${kpi('Remaining target',fmt(remaining),remaining?'warn':'good','Target minus current funding')}
+    ${kpi('Emergency reserve',fmt(safety?n(safety.current):0),safety&&n(safety.current)>0?'good':'warn','Safety goal feeds plan health')}
+    <section class="card span12"><div class="sectionTitle"><div><h2>Turn intentions into funded goals</h2><p>Goal progress feeds the plan-health score and action engine.</p></div></div><form class="activityForm" onsubmit="addGoalFromForm(event)"><div class="field"><label>Goal name</label><input id="goalName" required placeholder="e.g. Six-month emergency reserve"></div><div class="field"><label>Category</label><select id="goalCategory"><option>Safety</option><option>Debt payoff</option><option>Family</option><option>Property</option><option>Education</option><option>Other</option></select></div><div class="field"><label>Target ₹</label><input id="goalTarget" type="number" min="0" required placeholder="0"></div><div class="field"><label>Target date</label><input id="goalDeadline" type="date"></div><button class="primary" type="submit">Add goal</button></form></section>
+    ${goals.map((g,i)=>{const progress=n(g.target)?Math.min(n(g.current)/n(g.target)*100,100):0;return `<section class="goalCard span4"><div class="goalTop"><div><span class="pill">${esc(g.category||'Goal')}</span><h2 style="margin-top:10px">${esc(g.name)}</h2></div><button class="danger" onclick="deleteGoal('${g.id}')" aria-label="Delete ${esc(g.name)}">×</button></div><div class="goalValue">${fmt(g.current)} <span class="small">of ${fmt(g.target)}</span></div><div class="progressTrack"><div class="progressFill" style="width:${progress}%"></div></div><div class="listMeta" style="margin-top:7px">${Math.round(progress)}% funded${g.deadline?' · target '+new Date(g.deadline+'T00:00:00').toLocaleDateString(undefined,{month:'short',year:'numeric'}):''}</div><div class="goalGrid"><div class="field"><label>Current amount ₹</label><input type="number" min="0" value="${n(g.current)}" onchange="updateGoalField('${g.id}','current',this.value)"></div><div class="field"><label>Target amount ₹</label><input type="number" min="0" value="${n(g.target)}" onchange="updateGoalField('${g.id}','target',this.value)"></div></div></section>`}).join('')}
+  </div>`;
+}
+function addGoalFromForm(event){event.preventDefault();state.goals.push({id:'goal_'+uid(),name:document.getElementById('goalName').value.trim(),category:document.getElementById('goalCategory').value,target:n(document.getElementById('goalTarget').value),current:0,deadline:document.getElementById('goalDeadline').value,notes:''});autoSave();render();toast('Goal added')}
+function updateGoalField(id,key,value){const goal=state.goals.find(g=>g.id===id);if(!goal)return;goal[key]=key==='current'||key==='target'?n(value):value;if(String(goal.category).toLowerCase()==='safety'&&key==='current')state.profile.emergencyFund=n(value);autoSave();render()}
+function deleteGoal(id){if(confirm('Delete this goal?')){state.goals=state.goals.filter(g=>g.id!==id);autoSave();render()}}
+
+function activityHTML(){
+  const obligations=activeRows(),logs=[...getRows('cashLog')].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+  const completed=logs.filter(l=>String(l.status).toLowerCase()==='done').reduce((a,l)=>a+n(l.amount),0);
+  const start=new Date();start.setDate(1);const monthStart=isoDate(start);
+  const thisMonth=logs.filter(l=>String(l.date||'')>=monthStart&&String(l.status).toLowerCase()==='done').reduce((a,l)=>a+n(l.amount),0);
+  const closed=logs.filter(l=>l.closesObligation).length,unlinked=logs.filter(l=>!linkedObligation(l)).length;
+  return `<div class="grid">
+    ${kpi('This month recorded',fmt(thisMonth),thisMonth?'good':'warn','Done payments logged since month start')}${kpi('Lifetime recorded',fmt(completed),'blue',logs.length+' payment records')}${kpi('Closed obligations',String(closed),closed?'good':'blue','Final payment records')}${kpi('Unlinked activity',String(unlinked),unlinked?'bad':'good','Legacy entries needing a link')}
+    <section class="card span12"><div class="sectionTitle"><div><h2>Record a payment</h2><p>Choose an obligation once; balances, projections, and status update everywhere.</p></div></div>${obligations.length?`<form class="activityForm" onsubmit="logPayment(event)"><div class="field"><label>Linked obligation</label><select id="activityObligation" required onchange="syncActivityAmount()"><option value="">Select a payment…</option>${obligations.map(r=>`<option value="${r.id}">${esc(r.name)} · ${fmt(balance(r))} left</option>`).join('')}</select></div><div class="field"><label>Date</label><input id="activityDate" type="date" required value="${new Date().toISOString().slice(0,10)}"></div><div class="field"><label>Amount ₹</label><input id="activityAmount" type="number" min="1" required placeholder="0"></div><div class="field"><label>Payment type</label><select id="activityKind"><option value="Regular">Regular payment</option><option value="Final">Final / close balance</option></select></div><div class="field"><label>Note</label><input id="activityNote" placeholder="Optional"></div><button class="primary" type="submit">Record</button></form>`:'<div class="alert green">No active obligations remain.</div>'}</section>
+    <section class="card span12"><div class="sectionTitle"><div><h2>Connected payment history</h2><p>Deleting a payment recalculates its linked obligation.</p></div><button class="secondary" onclick="downloadTableCSV('cashLog')">Export CSV</button></div>${logs.length?`<div class="tableWrap"><table><thead><tr><th>Date</th><th>Obligation</th><th>Type</th><th>Amount</th><th>Status</th><th>Notes</th><th></th></tr></thead><tbody>${logs.map(log=>`<tr><td>${esc(log.date)}</td><td><b>${esc(log.name)}</b><div>${linkedObligation(log)?'<span class="linkedBadge">↗ Linked</span>':'<span class="badge high">Unlinked</span>'}</div></td><td>${log.closesObligation?'Final payment':esc(log.type||'Payment')}</td><td class="activityAmount"><b>${fmt(log.amount)}</b></td><td><span class="badge ${String(log.status).toLowerCase()==='done'?'ok':'medium'}">${esc(log.status||'Pending')}</span></td><td>${esc(log.notes||'')}</td><td><button class="danger" onclick="deleteTransaction('${log.id}')">×</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="emptyState">No payment activity yet.</div>'}</section>
+  </div>`;
+}
+function syncActivityAmount(){const id=document.getElementById('activityObligation')?.value,row=getRows('toPay').find(r=>r.id===id),input=document.getElementById('activityAmount');if(row&&input)input.value=monthlyObligation(row)||balance(row)}
+function logPayment(event){
+  event.preventDefault();const id=document.getElementById('activityObligation').value,row=getRows('toPay').find(r=>r.id===id);if(!row)return;
+  const finalPayment=document.getElementById('activityKind').value==='Final',amount=finalPayment?(isChit(row)?remainingCommitment(row):rawBalance(row)):n(document.getElementById('activityAmount').value);
+  if(amount<=0){alert('Enter a payment amount greater than zero.');return}
+  getRows('cashLog').push({id:'txn_'+uid(),obligationId:row.id,date:document.getElementById('activityDate').value,type:'Payment',section:row.section,name:row.name,amount,status:'Done',closesObligation:finalPayment,notes:document.getElementById('activityNote').value.trim()});
+  syncStatusFromCashLog();autoSave();render();toast(finalPayment?'Obligation closed':'Payment recorded');
+}
+function deleteTransaction(id){if(!confirm('Delete this payment record?'))return;const index=getRows('cashLog').findIndex(l=>l.id===id);if(index<0)return;const log=getRows('cashLog')[index];getRows('cashLog').splice(index,1);const row=getRows('toPay').find(r=>r.id===log.obligationId);if(row&&rawBalance(row)>0)row.status='Active';syncStatusFromCashLog();autoSave();render()}
+
+function tablePageHTML(tableKey,title,showComputed){
+  const t=state.tables[tableKey];
+  return `<div class="card">
+    <div class="sectionTitle"><h2>${esc(title)}</h2><div class="actions">
+      <button class="primary" onclick="addRow('${tableKey}')">Add Row</button>
+      <button class="secondary" onclick="addColumn('${tableKey}')">Add Column</button>
+      <button class="secondary" onclick="downloadTableCSV('${tableKey}')">Export CSV</button>
+    </div></div>
+    <div class="tableWrap"><table><thead><tr>
+      ${t.columns.map((col,ci)=>`<th class="edit" contenteditable="true" onblur="editColLabel('${tableKey}',${ci},this.innerText)">${esc(col.label)}</th>`).join('')}
+      ${showComputed?'<th>Paid Logged</th><th>Live Balance</th><th>Months Left</th>':''}<th>Action</th>
+    </tr></thead><tbody>
+      ${t.rows.map((r,ri)=>`<tr>
+        ${t.columns.map(col=>genericCell(tableKey,ri,col.key,r[col.key])).join('')}
+        ${showComputed?`<td class="calc right">${fmt(paidLogged(r))}</td><td class="calc right"><b>${fmt(balance(r))}</b></td><td class="calc right">${n(r.totalMonths)?monthsLeft(r):''}</td>`:''}
+        <td><button class="danger" onclick="deleteRow('${tableKey}',${ri})">Delete</button></td>
+      </tr>`).join('')}
+    </tbody></table></div></div>`;
+}
+function genericCell(t,ri,key,val){
+  if(key==='date'||key==='valuationDate') return `<td class="edit"><input type="date" value="${esc(val)}" onchange="editCell('${t}',${ri},'${key}',this.value)"></td>`;
+  if(t==='assets'&&key==='liquidity')return selectCell(t,ri,key,val||'Medium',['High','Medium','Low']);
+  if(t==='assets'&&key==='status')return selectCell(t,ri,key,val||'Hold',['Hold','Review','For Sale','Sold']);
+  if(t==='assets'&&key==='monthlyIncome'){
+    const asset=state.tables.assets.rows[ri],linked=linkedIncomeRows(asset);
+    if(linked.length)return `<td class="calc right"><b>${fmt(assetMonthlyIncome(asset))}</b><div class="listMeta">From ${linked.length} linked income source${linked.length===1?'':'s'}</div></td>`;
+  }
+  if(t==='income'&&key==='linkedAssetId')return linkedAssetSelectCell(ri,val);
+  if(t==='income'&&key==='stability')return selectCell(t,ri,key,val||'Medium',['High','Medium','Low']);
+  return cellEditable(t,ri,key,val);
+}
+function linkedAssetSelectCell(ri,value){return `<td class="edit"><select onchange="editCell('income',${ri},'linkedAssetId',this.value)"><option value="">Not linked</option>${getRows('assets').map(asset=>`<option value="${asset.id}" ${String(value)===asset.id?'selected':''}>${esc(asset.name)}</option>`).join('')}</select></td>`}
+function groupedValues(rows,key,valueKey){return rows.reduce((out,row)=>{const label=String(row[key]||'Unclassified').trim()||'Unclassified';out[label]=(out[label]||0)+n(row[valueKey]);return out},{})}
+function wealthAnalytics(){
+  const rows=activeAssets(),gross=grossAssets(),debts=totalPending(),categories=groupedValues(rows,'category','value'),liquidity=groupedValues(rows,'liquidity','value'),assetIncome=rows.reduce((a,r)=>a+assetMonthlyIncome(r),0);
+  const largest=[...rows].sort((a,b)=>n(b.value)-n(a.value))[0],largestShare=gross&&largest?n(largest.value)/gross*100:0,lowShare=gross?n(liquidity.Low)/gross*100:0;
+  const required=['name','category','value','liquidity','valuationDate'],filled=rows.reduce((sum,r)=>sum+required.filter(k=>String(r[k]??'').trim()!==''&&!(k==='value'&&!n(r[k]))).length,0),dataScore=rows.length?Math.round(filled/(rows.length*required.length)*100):0;
+  const incomeRows=getRows('income').filter(r=>n(r.expected)>0),linkedIncomeCount=incomeRows.filter(r=>r.linkedAssetId&&getRows('assets').some(asset=>asset.id===r.linkedAssetId)).length,topIncome=[...incomeRows].sort((a,b)=>n(b.expected)-n(a.expected))[0],incomeShare=expectedIncome()&&topIncome?n(topIncome.expected)/expectedIncome()*100:0;
+  return {rows,gross,debts,net:gross-debts,categories,liquidity,assetIncome,largest,largestShare,lowShare,dataScore,topIncome,incomeShare,incomeRows,linkedIncomeCount};
+}
+function wealthInsightsHTML(){
+  const a=wealthAnalytics(),items=[];
+  if(a.largest&&a.largestShare>=30)items.push({title:'High concentration in '+a.largest.name,text:`${a.largest.name} represents ${Math.round(a.largestShare)}% of gross assets. A change in one valuation can materially move net worth.`});
+  if(a.lowShare>=35)items.push({title:'Large low-liquidity allocation',text:`${Math.round(a.lowShare)}% of asset value is marked Low liquidity. Property wealth may not be available quickly for monthly obligations.`});
+  const missingDates=a.rows.filter(r=>!r.valuationDate).length;if(missingDates)items.push({title:`Add ${missingDates} valuation dates`,text:'Without valuation dates, the dashboard cannot identify stale property or gold estimates.'});
+  if(!a.assetIncome)items.push({title:'Link income-producing assets',text:'Enter monthly income for rentals, land, or machinery to measure gross yield and identify idle assets.'});
+  const unlinkedIncome=a.incomeRows.length-a.linkedIncomeCount;if(unlinkedIncome)items.push({title:`Link ${unlinkedIncome} income source${unlinkedIncome===1?'':'s'} to assets`,text:'Use the Linked Asset dropdown in Income Sources so the same amount appears consistently in both places.'});
+  if(a.topIncome&&a.incomeShare>=50)items.push({title:'Income depends heavily on '+a.topIncome.name,text:`This source provides ${Math.round(a.incomeShare)}% of expected monthly income. Add stability and growth assumptions to stress-test it.`});
+  if(!monthlyLivingCost())items.push({title:'Add normal living costs',text:'Net-worth strength does not show whether liquid cash can cover day-to-day family spending.'});
+  return items.slice(0,7).map((item,i)=>`<div class="actionCard"><div class="actionNum">${String(i+1).padStart(2,'0')}</div><div><div class="actionTitle">${esc(item.title)}</div><div class="actionText">${esc(item.text)}</div></div></div>`).join('');
+}
+function assetsIncomeHTML(){
+  const a=wealthAnalytics(),yieldRate=a.gross?a.assetIncome*12/a.gross*100:0;
+  return `<div class="grid">
+    ${kpi('Gross asset value',fmt(a.gross),'good',a.rows.length+' recorded assets')}${kpi('Estimated net worth',fmt(a.net),a.net>=0?'good':'bad','Assets minus connected obligations')}${kpi('Low-liquidity exposure',Math.round(a.lowShare)+'%',a.lowShare>50?'warn':'blue',fmt(n(a.liquidity.Low))+' marked Low')}${kpi('Wealth data completeness',a.dataScore+'%',a.dataScore>=80?'good':'warn','Add valuation dates and classifications')}
+    <section class="card span6"><div class="sectionTitle"><div><h2>Asset allocation</h2><p>Share of gross wealth by category</p></div></div><canvas id="wealthAllocationChart"></canvas></section>
+    <section class="card span6"><div class="sectionTitle"><div><h2>Liquidity profile</h2><p>How quickly asset value may be accessible</p></div></div><canvas id="wealthLiquidityChart"></canvas></section>
+    <section class="card span7"><div class="sectionTitle"><div><h2>Net-worth composition</h2><p>Gross assets compared with connected obligations</p></div></div><canvas id="wealthNetWorthChart"></canvas></section>
+    <section class="card span5"><div class="sectionTitle"><div><h2>Income mix</h2><p>Expected monthly income by source</p></div></div><canvas id="wealthIncomeChart"></canvas></section>
+    <section class="card span12"><div class="sectionTitle"><div><h2>Asset productivity</h2><p>Shows whether your assets generate income, not only their estimated value.</p></div></div><div class="metricRow two"><div class="metricCell"><span>Asset-linked monthly income</span><strong>${fmt(a.assetIncome)}</strong><small>Example: a rented house earning ₹25,000 per month.</small></div><div class="metricCell"><span>Gross annual yield</span><strong>${yieldRate.toFixed(2)}%</strong><small>Example: ₹25,000 × 12 ÷ ₹50,00,000 property value = 6%.</small></div></div></section>
+    <section class="card span12"><div class="sectionTitle"><div><h2>What is missing from the wealth plan?</h2><p>Automatically generated from incomplete or concentrated data.</p></div></div>${wealthInsightsHTML()}</section>
+    <section class="card span12">${tableMiniHTML('assets','Asset register')}</section>
+    <section class="card span12">${tableMiniHTML('income','Income sources')}</section>
+  </div>`;
+}
+function tableMiniHTML(t,title){
+  const table=state.tables[t];
+  return `<div class="sectionTitle"><h2>${title}</h2><div class="actions"><button class="primary" onclick="addRow('${t}')">Add Row</button><button class="secondary" onclick="addColumn('${t}')">Add Column</button></div></div>
+  <div class="tableWrap"><table><tr>${table.columns.map((c,ci)=>`<th class="edit" contenteditable="true" onblur="editColLabel('${t}',${ci},this.innerText)">${esc(c.label)}</th>`).join('')}<th>Action</th></tr>
+  ${table.rows.map((r,ri)=>`<tr>${table.columns.map(c=>genericCell(t,ri,c.key,r[c.key])).join('')}<td><button class="danger" onclick="deleteRow('${t}',${ri})">Delete</button></td></tr>`).join('')}</table></div>`;
+}
+function settingsHTML(){
+  const backedUp=!!state.profile.lastExportAt,auto=state.automation?.autoCompletePaid!==false,hasEmail=!!reminderEmail(),hasLiving=monthlyLivingCost()>0,cloudMode=isCloudMode();
+  return `<div class="grid">
+    ${kpi('Reminder email',hasEmail?'Set':'Missing',hasEmail?'good':'warn',hasEmail?reminderEmail():'Add email for reminders')}
+    ${kpi('Monthly living cost',fmt(monthlyLivingCost()),hasLiving?'good':'warn',hasLiving?'Included in cash-flow':'Add normal family expenses')}
+    ${kpi('Cloud sync',cloudMode?'On':(localOnly?'Local only':'Login needed'),cloudMode?'good':'warn',cloudMode?'Saved to Supabase under your login':(localOnly?'This browser only':'Sign in to save cloud data'))}
+    ${kpi('Backup status',backedUp?'Exported':'Not exported',backedUp?'good':'bad',backedUp?new Date(state.profile.lastExportAt).toLocaleDateString():'Export JSON backup')}
+    <div class="card span6"><div class="sectionTitle"><div><h2>Plan identity</h2><p>Make this workspace clear to everyone in the family.</p></div></div><div class="formGrid"><div class="field"><label>Family name</label><input value="${esc(state.profile.familyName)}" onchange="updateProfileField('familyName',this.value)"></div><div class="field"><label>Plan name</label><input value="${esc(state.profile.planName)}" onchange="updateProfileField('planName',this.value)"></div><div class="field full"><label>Reminder email</label><input type="email" value="${esc(reminderEmail())}" onchange="updateProfileField('reminderEmail',this.value)" placeholder="name@example.com"></div><div class="field"><label>Monthly living cost ₹</label><input type="number" min="0" value="${n(state.profile.monthlyLivingCost)}" onchange="updateProfileField('monthlyLivingCost',this.value)"></div><div class="field"><label>Emergency cash ₹</label><input type="number" min="0" value="${n(state.profile.emergencyFund)}" onchange="updateProfileField('emergencyFund',this.value)"></div></div></div>
+    <div class="card span6"><div class="sectionTitle"><div><h2>Automation</h2><p>Control how linked payment activity affects obligations.</p></div></div><label class="alert green" style="display:flex;gap:10px;align-items:center"><input style="width:auto" type="checkbox" ${state.automation.autoCompletePaid?'checked':''} onchange="state.automation.autoCompletePaid=this.checked;syncStatusFromCashLog();autoSave();render()"><span><b>Auto-complete fully paid obligations</b><br><span class="small">When linked payments reduce the balance to zero, mark the obligation Done.</span></span></label><div class="alert blue"><b>Connected-data rule</b><br>A normal payment reduces only its linked balance. A final payment closes the obligation. Matching by display name is used only to migrate old activity.</div></div>
+    <div class="card span6"><div class="sectionTitle"><div><h2>Backup & restore</h2><p>Manage the planner data stored locally and in Supabase.</p></div></div>
+      <div class="toolbar"><button class="primary" onclick="saveNow()">Save now</button><button class="secondary" onclick="exportBackup()">Export backup</button><button class="secondary" onclick="document.getElementById('importFile').click()">Import backup</button></div>
+      <div class="alert ${cloudMode?'green':'orange'}">${cloudMode?'Cloud sync is active. A local browser cache is also kept for backup.':'Cloud sync is not active in this session. Sign in to store data in Supabase.'} Export JSON backups before large edits.${state.profile.lastExportAt?` Last export: <b>${new Date(state.profile.lastExportAt).toLocaleString()}</b>.`:''}</div>
+    </div>
+    <div class="card span6"><div class="sectionTitle"><div><h2>Privacy</h2><p>Keep credentials out of financial notes.</p></div></div><div class="alert red">Do not store UPI PINs, Aadhaar or PAN numbers, banking passwords, card numbers, or account login details here.</div></div>
+    <div class="card span12"><div class="sectionTitle"><div><h2>Danger zone</h2><p>This permanently removes locally saved planner data.</p></div><button class="danger" onclick="resetApp()">Reset all data</button></div></div>
+  </div>`;
+}
+function updateProfileField(key,value){state.profile[key]=key==='monthlyLivingCost'||key==='emergencyFund'?n(value):value;if(key==='emergencyFund'){const goal=state.goals.find(g=>String(g.category).toLowerCase()==='safety');if(goal)goal.current=n(value)}autoSave();render()}
+
+function editCell(t,ri,key,val){
+  const previous=state.tables[t].rows[ri][key];
+  state.tables[t].rows[ri][key]=val;
+  if(t==='toPay' && key==='chitType') applyChitTypeDefaults(ri);
+  if(t==='toPay') prepareChitRow(state.tables[t].rows[ri]);
+  if(t==='toPay' && key==='chitOrganizer')state.tables[t].rows[ri].foremanCommissionRate=commissionRateForOrganizer(val);
+  if(t==='toPay' && key==='section' && isLiftedChit(state.tables[t].rows[ri]))state.tables[t].rows[ri].expectedPayout=0;
+  if(t==='toPay' && key==='monthsDone')resetMonthTracking(state.tables[t].rows[ri]);
+  if(t==='toPay' && key==='totalMonths')initMonthTracking(state.tables[t].rows[ri]);
+  if(t==='toPay' && key==='name')syncObligationDisplayName(state.tables[t].rows[ri],previous);
+  if(t==='toPay' && key==='section')getRows('cashLog').forEach(log=>{if(log.obligationId===state.tables[t].rows[ri].id)log.section=val});
+  if(t==='toPay' && key==='status' && String(val).toLowerCase()==='done'){
+    ensureCashLogDoneEntry(state.tables[t].rows[ri]);
+  }
+  if(t==='toPay'&&key==='status'&&String(val).toLowerCase()==='active'){
+    const row=state.tables[t].rows[ri];state.tables.cashLog.rows=state.tables.cashLog.rows.filter(log=>!(log.obligationId===row.id&&String(log.notes||'').includes('Auto-created from To Pay status Done')));
+  }
+  if(t==='cashLog')syncStatusFromCashLog();
+  if(t==='assets'&&key==='monthlyIncome')ensureAssetIncomeLink(state.tables.assets.rows[ri]);
+  if(t==='assets'&&key==='name')linkedIncomeRows(state.tables.assets.rows[ri]).forEach(income=>income.name=val);
+  if(t==='income'&&key==='linkedAssetId'){
+    refreshAssetIncome(previous);const income=state.tables.income.rows[ri],asset=getRows('assets').find(row=>row.id===val);if(asset)income.name=asset.name;refreshAssetIncome(val);
+  }
+  if(t==='income'&&key==='expected')refreshAssetIncome(state.tables.income.rows[ri].linkedAssetId);
+  autoSave(); setTimeout(render,50)
+}
+function editColLabel(t,ci,val){state.tables[t].columns[ci].label=val; autoSave()}
+function addRow(t){let row={id:(t==='assets'?'ast_':t==='income'?'inc_':t==='cashLog'?'txn_':'row_')+uid()};state.tables[t].columns.forEach(c=>row[c.key]='');if(t==='assets'){row.liquidity='Medium';row.status='Hold'}if(t==='income')row.stability='Medium';state.tables[t].rows.push(row);autoSave();render()}
+function deleteRow(t,ri){
+  if(!confirm('Delete this row?'))return;const row=state.tables[t].rows[ri],linkedAssetId=t==='income'?row.linkedAssetId:'';
+  if(t==='toPay'&&row?.id)getRows('cashLog').forEach(log=>{if(log.obligationId===row.id)log.obligationId=''});
+  if(t==='assets'&&row?.id)getRows('income').forEach(income=>{if(income.linkedAssetId===row.id)income.linkedAssetId=''});
+  state.tables[t].rows.splice(ri,1);if(linkedAssetId)refreshAssetIncome(linkedAssetId);autoSave();render();
+}
+function addColumn(t){
+  const label=prompt('Column name?'); if(!label) return;
+  const key='custom_'+label.toLowerCase().replace(/[^a-z0-9]+/g,'_')+'_'+uid().slice(0,4);
+  state.tables[t].columns.push({key,label});
+  state.tables[t].rows.forEach(r=>r[key]='');
+  autoSave();render();
+}
+function downloadTableCSV(t){
+  const table=state.tables[t]; const rows=[table.columns.map(c=>c.label)];
+  table.rows.forEach(r=>rows.push(table.columns.map(c=>String(r[c.key]??'').replace(/"/g,'""'))));
+  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=t+'.csv'; a.click();
+}
+function resetApp(){if(confirm('This will delete saved browser data. Export backup first. Continue?')){localStorage.removeItem(APP_KEY); OLD_KEYS.forEach(k=>localStorage.removeItem(k)); location.reload()}}
+
+function drawCharts(){
+  if(activeTab==='analysis'){drawProjectionChart();return}
+  if(activeTab==='assets'){drawWealthCharts();return}
+  if(activeTab==='topay'){drawObligationCharts();return}
+  if(activeTab!=='dashboard') return;
+  syncStatusFromCashLog();
+  const ms=monthlySummary();
+
+  // 1) Monthly Payment Split
+  drawBar('barMonthlySplit',
+    ['Loan EMI','Not-Lifted Chits','Lifted Chits'],
+    [ms.loans,ms.notLifted,ms.lifted]
+  );
+
+  // 2) Income vs Monthly Payment
+  drawBar('barIncome',
+    ['Expected Income','High Income','Planned Outflow'],
+    [expectedIncome(),highIncome(),ms.loans+ms.notLifted+ms.lifted+ms.other+monthlyLivingCost()]
+  );
+
+  // 3) One-Time Responsibilities
+  const ones=activeOneTimeRows();
+  if(ones.length){
+    drawBar('barOneTime',ones.map(r=>r.name),ones.map(balance),true);
+  }else{
+    drawEmptyChart('barOneTime','No active one-time responsibilities');
+  }
+}
+function drawObligationCharts(){
+  const ps=paySummary(),ms=monthlySummary();
+  drawBar('obligationBalanceChart',
+    ['Loans','Not-lifted chits','Lifted chits','One-time','Other'],
+    [ps.loan,ps.notLifted,ps.lifted,ps.oneTime,ps.other]
+  );
+  drawBar('obligationMonthlyChart',
+    ['Loans','Not-lifted chits','Lifted chits','Other'],
+    [ms.loans,ms.notLifted,ms.lifted,ms.other]
+  );
+  const top=activeRows().filter(r=>balance(r)>0).sort((a,b)=>balance(b)-balance(a)).slice(0,8);
+  top.length?drawBar('obligationTopChart',top.map(r=>r.name),top.map(r=>balance(r)),true):drawEmptyChart('obligationTopChart','No active balances');
+}
+function topGroups(grouped,limit=5){const entries=Object.entries(grouped).sort((a,b)=>b[1]-a[1]);if(entries.length<=limit)return entries;const shown=entries.slice(0,limit),other=entries.slice(limit).reduce((a,x)=>a+x[1],0);return [...shown,['Other',other]]}
+function drawWealthCharts(){
+  const a=wealthAnalytics(),categories=topGroups(a.categories),liquidity=['High','Medium','Low','Unclassified'].map(label=>[label,n(a.liquidity[label])]),income=getRows('income').filter(r=>n(r.expected)>0).sort((x,y)=>n(y.expected)-n(x.expected));
+  categories.length?drawDonut('wealthAllocationChart',categories.map(x=>x[0]),categories.map(x=>x[1]),a.gross):drawEmptyChart('wealthAllocationChart','Add assets to see allocation');
+  drawBar('wealthLiquidityChart',liquidity.map(x=>x[0]),liquidity.map(x=>x[1]));
+  drawBar('wealthNetWorthChart',['Gross Assets','Obligations','Net Worth'],[a.gross,a.debts,Math.max(a.net,0)]);
+  income.length?drawBar('wealthIncomeChart',income.map(r=>r.name),income.map(r=>n(r.expected)),true):drawEmptyChart('wealthIncomeChart','Add income sources to see the mix');
+}
+function drawDonut(id,labels,values,totalValue){
+  const canvas=document.getElementById(id);if(!canvas)return;const dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=Math.max(w*dpr,1);canvas.height=Math.max(h*dpr,1);const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
+  const total=values.reduce((a,b)=>a+n(b),0)||1,cx=w*.31,cy=h*.5,r=Math.min(h*.31,w*.2),colors=['#04a974','#3566a8','#e29045','#7c6fb0','#d45959','#5b8f85'],lineWidth=Math.max(r*.34,18),segments=[];let start=-Math.PI/2;
+  values.forEach((value,i)=>{const angle=n(value)/total*Math.PI*2,end=start+angle;segments.push({start,end,label:labels[i],value:n(value),color:colors[i%colors.length]});ctx.beginPath();ctx.arc(cx,cy,r,start,end);ctx.strokeStyle=colors[i%colors.length];ctx.lineWidth=lineWidth;ctx.stroke();start=end});
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#15231c';ctx.font='800 16px Inter, system-ui, sans-serif';ctx.fillText(compactMoney(totalValue),cx,cy-6);ctx.fillStyle='#66736b';ctx.font='10px Inter, system-ui, sans-serif';ctx.fillText('GROSS ASSETS',cx,cy+13);
+  ctx.textAlign='left';labels.forEach((label,i)=>{const y=35+i*30;ctx.fillStyle=colors[i%colors.length];ctx.fillRect(w*.59,y-6,10,10);ctx.fillStyle='#334139';ctx.font='11px Inter, system-ui, sans-serif';const short=String(label).length>18?String(label).slice(0,17)+'…':label;ctx.fillText(short,w*.59+17,y);ctx.fillStyle='#718078';ctx.font='10px Inter, system-ui, sans-serif';ctx.fillText(Math.round(n(values[i])/total*100)+'%',w*.88,y)});
+  canvas.style.cursor='default';canvas.setAttribute('aria-label','Asset allocation chart. Hover over a segment to see its amount.');
+  canvas.onpointermove=event=>{const rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,dx=x-cx,dy=y-cy,distance=Math.sqrt(dx*dx+dy*dy);let angle=Math.atan2(dy,dx);if(angle< -Math.PI/2)angle+=Math.PI*2;const segment=distance>=r-lineWidth/2&&distance<=r+lineWidth/2?segments.find(s=>angle>=s.start&&angle<=s.end):null;const tip=getChartTooltip();if(segment){canvas.style.cursor='pointer';tip.innerHTML=`<b>${esc(segment.label)}</b>${fmt(segment.value)} <span>· ${Math.round(segment.value/total*100)}%</span>`;tip.style.display='block';tip.style.left=Math.min(event.clientX+14,window.innerWidth-210)+'px';tip.style.top=(event.clientY+14)+'px'}else{canvas.style.cursor='default';tip.style.display='none'}};
+  canvas.onpointerleave=()=>{const tip=document.getElementById('chartTooltip');if(tip)tip.style.display='none'};
+}
+function getChartTooltip(){let tip=document.getElementById('chartTooltip');if(!tip){tip=document.createElement('div');tip.id='chartTooltip';tip.className='chartTooltip';document.body.appendChild(tip)}return tip}
+function drawProjectionChart(){
+  const canvas=document.getElementById('projectionChart');if(!canvas)return;const dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=Math.max(w*dpr,1);canvas.height=Math.max(h*dpr,1);const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+  const current=simulateDebt(0,0).series,planned=simulateDebt(state.scenario.extraMonthly,state.scenario.lumpSum).series,max=Math.max(...current,...planned,1),count=Math.max(current.length,planned.length,2),left=54,right=18,top=22,bottom=36,plotW=w-left-right,plotH=h-top-bottom;
+  ctx.clearRect(0,0,w,h);ctx.font='10px Inter, system-ui, sans-serif';ctx.fillStyle='#718078';ctx.textAlign='right';ctx.textBaseline='middle';
+  for(let i=0;i<=4;i++){const y=top+plotH*i/4,value=max*(1-i/4);ctx.strokeStyle='#edf0ee';ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();ctx.fillText(compactMoney(value),left-7,y)}
+  const line=(series,color)=>{ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineJoin='round';ctx.beginPath();series.forEach((v,i)=>{const x=left+plotW*i/(count-1),y=top+plotH*(1-v/max);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()};
+  line(current,'#64748b');line(planned,'#04a974');ctx.textAlign='center';ctx.fillStyle='#718078';[0,Math.floor((count-1)/2),count-1].forEach(i=>ctx.fillText('Year '+i,left+plotW*i/(count-1),h-14));
+}
+function drawEmptyChart(id,msg){
+  const canvas=document.getElementById(id); if(!canvas)return;
+  const dpr=window.devicePixelRatio||1; canvas.width=canvas.clientWidth*dpr; canvas.height=canvas.clientHeight*dpr;
+  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  const w=canvas.clientWidth,h=canvas.clientHeight;
+  ctx.clearRect(0,0,w,h);
+  ctx.font='16px Arial';
+  ctx.fillStyle='#667085';
+  ctx.fillText(msg,24,h/2);
+}
+function drawBar(id,labels,values,horizontal=false){
+  const canvas=document.getElementById(id); if(!canvas)return; const dpr=window.devicePixelRatio||1; const w=canvas.clientWidth,h=canvas.clientHeight; canvas.width=Math.max(w*dpr,1); canvas.height=Math.max(h*dpr,1); const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,w,h); const max=Math.max(...values,1); const colors=['#2f8061','#4f77ad','#ca7a36','#b74a45','#7a6aa6'];
+  ctx.font='11px Inter, system-ui, sans-serif'; ctx.fillStyle='#66736b'; ctx.textBaseline='middle';
+  if(horizontal){
+    const labelW=Math.min(145,w*.38),plotW=Math.max(w-labelW-82,40),barH=Math.min(26,Math.max(15,(h-34)/Math.max(labels.length,1)-12));
+    labels.forEach((lab,i)=>{const y=20+i*((h-32)/Math.max(labels.length,1));const bw=plotW*values[i]/max;ctx.fillStyle='#eef2ef';roundRect(ctx,labelW,y,plotW,barH,5);ctx.fill();ctx.fillStyle=colors[i%colors.length];roundRect(ctx,labelW,y,Math.max(bw,2),barH,5);ctx.fill();ctx.fillStyle='#35443b';ctx.textAlign='left';ctx.fillText(String(lab).length>19?String(lab).slice(0,18)+'…':lab,6,y+barH/2);ctx.fillStyle='#536158';ctx.fillText(compactMoney(values[i]),Math.min(labelW+bw+7,w-68),y+barH/2)});
+  }else{
+    const left=20,right=12,top=28,bottom=54,plotH=h-top-bottom,slot=(w-left-right)/Math.max(values.length,1),bw=Math.min(slot*.55,70);
+    [0,.25,.5,.75,1].forEach(t=>{const y=top+plotH*(1-t);ctx.strokeStyle='#edf0ee';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke()});
+    values.forEach((v,i)=>{const x=left+i*slot+(slot-bw)/2,bh=plotH*v/max,y=top+plotH-bh;ctx.fillStyle=colors[i%colors.length];roundRect(ctx,x,y,bw,Math.max(bh,2),6);ctx.fill();ctx.textAlign='center';ctx.fillStyle='#334139';ctx.fillText(compactMoney(v),x+bw/2,Math.max(y-10,10));ctx.fillStyle='#68756d';const lab=String(labels[i]);ctx.fillText(lab.length>16?lab.slice(0,15)+'…':lab,x+bw/2,h-28)});
+  }
+}
+function roundRect(ctx,x,y,w,h,r){const radius=Math.min(r,Math.abs(w)/2,Math.abs(h)/2);ctx.beginPath();ctx.roundRect?ctx.roundRect(x,y,w,h,radius):(ctx.rect(x,y,w,h));return ctx}
+function compactMoney(value){const v=n(value),a=Math.abs(v);if(a>=10000000)return '₹'+(v/10000000).toFixed(1)+'Cr';if(a>=100000)return '₹'+(v/100000).toFixed(1)+'L';if(a>=1000)return '₹'+(v/1000).toFixed(0)+'K';return '₹'+v.toFixed(0)}
+function drawPie(id,labels,values){
+  const canvas=document.getElementById(id); if(!canvas)return; const dpr=window.devicePixelRatio||1; canvas.width=canvas.clientWidth*dpr; canvas.height=canvas.clientHeight*dpr; const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  const w=canvas.clientWidth,h=canvas.clientHeight; ctx.clearRect(0,0,w,h); const total=values.reduce((a,b)=>a+b,0)||1; let start=-Math.PI/2; const cx=w*.35,cy=h*.5,r=Math.min(w,h)*.32; const colors=['#157347','#155eef','#b54708','#b42318','#7a5af8','#0e9384'];
+  values.forEach((v,i)=>{let ang=v/total*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+ang); ctx.closePath(); ctx.fillStyle=colors[i%colors.length]; ctx.fill(); start+=ang;});
+  ctx.font='12px Arial'; labels.forEach((lab,i)=>{let y=35+i*26; ctx.fillStyle=colors[i%colors.length]; ctx.fillRect(w*.62,y-12,14,14); ctx.fillStyle='#102033'; ctx.fillText(lab.replaceAll('_',' ')+': '+Math.round(values[i]/total*100)+'%',w*.62+22,y);});
+}
+window.addEventListener('resize',()=>drawCharts());
+window.addEventListener('DOMContentLoaded',startApp);
+</script>
+</body>
+</html>
