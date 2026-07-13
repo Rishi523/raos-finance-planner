@@ -4,26 +4,30 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Rao's Financial Planning — Private Family Office Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f4f6f3; --card:#fff; --ink:#15231c; --muted:#66736b;
-  --green:#04a974; --green-dark:#087a58; --green2:#e7f8f1; --blue:#3566a8; --blue2:#edf3fb;
-  --red:#b23a34; --red2:#fcebea; --orange:#a85a18; --orange2:#fdf1e5;
-  --yellow:#fff8dc; --border:#dfe6e1; --soft:#f8faf8; --shadow:0 10px 30px rgba(25,52,38,.07);
+  --bg:#f7f9fb; --card:#fff; --ink:#191c1e; --muted:#5d6468;
+  --green:#006c49; --green-dark:#004d34; --green2:#dcfbe9; --blue:#315a9c; --blue2:#edf3fb;
+  --red:#ba1a1a; --red2:#ffdad6; --orange:#a85a18; --orange2:#fff0df;
+  --yellow:#fff8dc; --border:#e0e3e5; --soft:#f2f4f6; --shadow:0 4px 20px rgba(15,23,42,.055);
   --sidebar:264px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+body{margin:0;font-family:"Work Sans",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 button,input,select,textarea{font:inherit}
-button{border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+button{border:0;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:700;transition:transform .15s ease,box-shadow .15s ease,background .15s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 button:hover{transform:translateY(-1px)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[contenteditable]:focus-visible{outline:3px solid rgba(23,107,77,.2);outline-offset:1px}
-.primary{background:var(--green);color:white;box-shadow:0 5px 14px rgba(23,107,77,.18)}.primary:hover{background:var(--green-dark)}
-.secondary{background:#edf1ee;color:#24352b}.danger{background:var(--red2);color:var(--red)}.ghost{background:transparent;color:var(--green);border:1px solid #9fc5b4}
+.primary{background:#0c1116;color:white;box-shadow:0 8px 22px rgba(15,23,42,.16)}.primary:hover{background:#20262c}
+.secondary{background:#eef2f4;color:#191c1e;border:1px solid #dde3e5}.danger{background:var(--red2);color:var(--red)}.ghost{background:white;color:var(--green);border:1px solid var(--border)}
+.material-symbols-outlined{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;font-size:20px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 450,'GRAD' 0,'opsz' 24}
 .appShell{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr)}
 .sidebar{background:#0f172a;color:white;padding:24px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;z-index:20;overflow-y:auto}
 .brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(145deg,#53b889,#1d7958);display:flex;align-items:center;justify-content:center;color:white;font-size:22px;font-weight:900;box-shadow:inset 0 1px rgba(255,255,255,.3)}
-.brandName{font-size:16px;font-weight:800;letter-spacing:-.01em}.brandMeta{font-size:11px;color:#b9d0c6;margin-top:2px}
+.brandName{font-family:"Manrope",sans-serif;font-size:16px;font-weight:800;letter-spacing:-.01em}.brandMeta{font-size:11px;color:#b9d0c6;margin-top:2px}
 .sidebar .brand{padding:0 8px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
 .navLabel{font-size:10px;color:#8fb2a3;text-transform:uppercase;letter-spacing:.13em;font-weight:800;padding:24px 11px 8px}
 .tabs{display:flex;flex-direction:column;gap:4px}.tab{display:flex;align-items:center;gap:11px;width:100%;background:transparent;color:#bfd2c9;text-align:left;padding:11px 12px;border-radius:10px;font-size:13px}.tab:hover{background:rgba(255,255,255,.07);color:white;transform:none}.tab.active{background:#f5fbf8;color:#123d2d;box-shadow:0 8px 20px rgba(0,0,0,.12)}
@@ -31,10 +35,10 @@ button:hover{transform:translateY(-1px)}button:focus-visible,input:focus-visible
 .main{min-width:0}.top{height:82px;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;gap:18px;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:15}
 .pageEyebrow{font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:.1em;font-weight:800}.pageTitle{font-size:21px;line-height:1.2;margin:3px 0 0;letter-spacing:-.025em}.top .actions{align-items:center}
 .wrap{max-width:1540px;margin:0 auto;padding:26px 32px 48px}
-h1,h2,h3{letter-spacing:-.025em}h1{font-size:24px;margin:0}h2{font-size:17px;margin:0}h3{font-size:14px;margin:0}.sub{color:var(--muted);font-size:13px;margin-top:3px}
-.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+h1,h2,h3{font-family:"Manrope",sans-serif;letter-spacing:-.025em}h1{font-size:24px;margin:0}h2{font-size:17px;margin:0}h3{font-size:14px;margin:0}.sub{color:var(--muted);font-size:13px;margin-top:3px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.card{background:var(--card);border:1px solid rgba(198,198,205,.45);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
 .span3{grid-column:span 3}.span4{grid-column:span 4}.span5{grid-column:span 5}.span6{grid-column:span 6}.span7{grid-column:span 7}.span8{grid-column:span 8}.span12{grid-column:span 12}
-.kpi{min-height:136px;position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;width:92px;height:92px;border-radius:50%;right:-34px;bottom:-44px;background:currentColor;opacity:.055}.kpi .label{font-size:12px;color:var(--muted);font-weight:750}.kpi .value{font-size:27px;font-weight:850;margin-top:13px;letter-spacing:-.04em}.kpi .hint{font-size:11px;color:var(--muted);margin-top:6px}.kpi.good{background:linear-gradient(145deg,#fff,var(--green2));color:var(--green)}.kpi.warn{background:linear-gradient(145deg,#fff,var(--orange2));color:var(--orange)}.kpi.bad{background:linear-gradient(145deg,#fff,var(--red2));color:var(--red)}.kpi.blue{background:linear-gradient(145deg,#fff,var(--blue2));color:var(--blue)}
+.kpi{min-height:146px;position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;width:104px;height:104px;border-radius:50%;right:-38px;bottom:-50px;background:currentColor;opacity:.055}.kpiIcon{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:rgba(0,108,73,.09);color:var(--green);margin-bottom:14px}.kpi .label{font-size:11px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.055em}.kpi .value{font-family:"Manrope",sans-serif;font-size:28px;font-weight:700;margin-top:9px;letter-spacing:-.045em}.kpi .hint{font-size:11px;color:var(--muted);margin-top:6px}.kpi.good{background:linear-gradient(145deg,#fff,#effcf6);color:var(--green)}.kpi.warn{background:linear-gradient(145deg,#fff,var(--orange2));color:var(--orange)}.kpi.bad{background:linear-gradient(145deg,#fff,#fff4f2);color:var(--red)}.kpi.blue{background:linear-gradient(145deg,#fff,var(--blue2));color:var(--blue)}
 .sectionTitle{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}.sectionTitle p{margin:4px 0 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}
 .tableToolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 14px}.tableToolbar .search{min-width:230px;flex:1}.tableToolbar select{width:auto;min-width:150px}
 table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}th,td{border-bottom:1px solid #edf0ee;padding:11px 12px;vertical-align:middle}
@@ -82,7 +86,7 @@ canvas{display:block;width:100%;height:260px;background:white;border-radius:10px
         <div class="publicKicker">Private · Connected · Cloud synced</div>
         <h1 id="authTitle">A private command center for family finance.</h1>
         <p class="publicLead">Track obligations, loans, chits, due dates, assets, income, and goals in one protected workspace. Public visitors see this homepage. Only your logged-in account can open the financial dashboard.</p>
-        <div class="publicCtas"><button class="primary" onclick="document.getElementById('authEmail')?.focus()">Login to dashboard</button><button class="ghost" onclick="document.getElementById('private-platform')?.scrollIntoView({behavior:'smooth'})">See what is inside</button></div>
+        <div class="publicCtas"><button class="primary" onclick="document.getElementById('authEmail')?.focus()"><span class="material-symbols-outlined">login</span> Login to dashboard</button><button class="ghost" onclick="document.getElementById('private-platform')?.scrollIntoView({behavior:'smooth'})"><span class="material-symbols-outlined">explore</span> See what is inside</button></div>
         <div class="publicProof">
           <div class="proofCard"><b>Supabase Auth</b><span>Email/password login with browser password-manager support.</span></div>
           <div class="proofCard"><b>Private data</b><span>Actual finance records are not stored in public GitHub code.</span></div>
@@ -98,7 +102,7 @@ canvas{display:block;width:100%;height:260px;background:white;border-radius:10px
             <div class="field full"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Your private password" required></div>
             <div class="field full"><div id="authMessage" class="small">First time here? Enter email/password and click Create account. After login, import your backup from Settings.</div></div>
           </div>
-          <div class="authActions"><button type="submit" class="primary">Sign in</button><button type="button" class="secondary" onclick="signUpUser()">Create account</button><button type="button" class="ghost fullButton" onclick="sendPasswordReset()">Forgot password / reset by email</button></div>
+          <div class="authActions"><button type="submit" class="primary"><span class="material-symbols-outlined">lock_open</span> Sign in</button><button type="button" class="secondary" onclick="signUpUser()">Create account</button><button type="button" class="ghost fullButton" onclick="sendPasswordReset()">Forgot password / reset by email</button></div>
         </form>
         <div class="authNote">Passwords are handled by Supabase Auth. This website never stores your password in the app data or GitHub source.</div>
       </aside>
@@ -108,10 +112,10 @@ canvas{display:block;width:100%;height:260px;background:white;border-radius:10px
     <div class="publicSectionsInner">
       <div class="sectionTitle"><div><h2>Built like a serious planning platform</h2><p>Not a spreadsheet lookalike. It behaves like a connected financial operating system.</p></div></div>
       <div class="featureGrid">
-        <div class="featureCard"><div class="featureIcon">01</div><h3>Planner calendar</h3><p>Monthly due dates flow automatically from obligations and chits into the planner calendar.</p></div>
-        <div class="featureCard"><div class="featureIcon">02</div><h3>Obligation engine</h3><p>Loan balances, EMI payoff estimates, months done, months left, and payment activity stay linked.</p></div>
-        <div class="featureCard"><div class="featureIcon">03</div><h3>Chit intelligence</h3><p>Face value, EMI, payout cash, commission, and remaining commitments are modeled separately.</p></div>
-        <div class="featureCard"><div class="featureIcon">04</div><h3>Wealth dashboard</h3><p>Asset allocation, liquidity, income links, and net-worth visuals help you see the full picture.</p></div>
+        <div class="featureCard"><div class="featureIcon"><span class="material-symbols-outlined">calendar_month</span></div><h3>Planner calendar</h3><p>Monthly due dates flow automatically from obligations and chits into the planner calendar.</p></div>
+        <div class="featureCard"><div class="featureIcon"><span class="material-symbols-outlined">payments</span></div><h3>Obligation engine</h3><p>Loan balances, EMI payoff estimates, months done, months left, and payment activity stay linked.</p></div>
+        <div class="featureCard"><div class="featureIcon"><span class="material-symbols-outlined">receipt_long</span></div><h3>Chit intelligence</h3><p>Face value, EMI, payout cash, commission, and remaining commitments are modeled separately.</p></div>
+        <div class="featureCard"><div class="featureIcon"><span class="material-symbols-outlined">account_balance</span></div><h3>Wealth dashboard</h3><p>Asset allocation, liquidity, income links, and net-worth visuals help you see the full picture.</p></div>
       </div>
       <div class="publicStrip" id="security"><div><h2>Security model</h2><p>Public GitHub hosts only the app shell. Private records are saved to Supabase under your authenticated user ID with Row Level Security.</p></div><button class="primary" onclick="document.getElementById('authEmail')?.focus()">Login now</button></div>
     </div>
@@ -210,7 +214,7 @@ const defaultState={
 };
 
 const tabList=[
-  ['dashboard','Overview','⌂'],['planner','Planner','▦'],['topay','Obligations','₹'],['chit','Chit plan','◫'],['analysis','Scenarios','↗'],['suggestions','Action plan','◇'],['goals','Goals','◎'],['assets','Wealth','◉'],['log','Activity','≡'],['settings','Settings','⚙']
+  ['dashboard','Overview','dashboard'],['planner','Planner','calendar_month'],['topay','Obligations','payments'],['chit','Chit plan','receipt_long'],['analysis','Scenarios','monitoring'],['suggestions','Action plan','auto_awesome'],['goals','Goals','flag'],['assets','Wealth','account_balance'],['log','Activity','history'],['settings','Settings','settings']
 ];
 const pageTitles={dashboard:'Financial overview',planner:'Monthly payment planner',topay:'Payments & obligations',chit:'Chit lift plan',analysis:'Scenario lab',suggestions:'Smart action plan',goals:'Financial goals',assets:'Assets & income',log:'Payment activity',settings:'Plan settings'};
 let plannerMonthOffset=0;
@@ -759,7 +763,7 @@ function render(){
   if(activeTab==='settings') c.innerHTML=settingsHTML();
   drawCharts();
 }
-function renderTabs(){document.getElementById('tabs').innerHTML=tabList.map(([id,label,icon])=>`<button class="tab ${activeTab===id?'active':''}" aria-current="${activeTab===id?'page':'false'}" onclick="activeTab='${id}';render()"><span class="tabIcon">${icon}</span><span>${label}</span></button>`).join('')}
+function renderTabs(){document.getElementById('tabs').innerHTML=tabList.map(([id,label,icon])=>`<button class="tab ${activeTab===id?'active':''}" aria-current="${activeTab===id?'page':'false'}" onclick="activeTab='${id}';render()"><span class="tabIcon material-symbols-outlined">${icon}</span><span>${label}</span></button>`).join('')}
 function updateHeaderPrimaryAction(){
   const btn=document.getElementById('headerPrimaryButton'); if(!btn)return;
   if(activeTab==='planner'){
@@ -773,7 +777,19 @@ function updateHeaderPrimaryAction(){
 }
 function headerPrimaryAction(){if(activeTab==='planner')focusMissingDueDates();else openObligationModal()}
 
-function kpi(label,value,kind,hint=''){return `<div class="card kpi span3 ${kind}"><div class="label">${label}</div><div class="value">${value}</div>${hint?`<div class="hint">${hint}</div>`:''}</div>`}
+function kpiIcon(label){
+  const l=String(label||'').toLowerCase();
+  if(l.includes('income'))return 'trending_up';
+  if(l.includes('obligation')||l.includes('outstanding')||l.includes('loan'))return 'payments';
+  if(l.includes('chit'))return 'receipt_long';
+  if(l.includes('wealth')||l.includes('asset')||l.includes('net worth'))return 'account_balance';
+  if(l.includes('cloud'))return 'cloud_done';
+  if(l.includes('backup'))return 'download';
+  if(l.includes('email'))return 'mail';
+  if(l.includes('living'))return 'home';
+  return 'monitoring';
+}
+function kpi(label,value,kind,hint=''){return `<div class="card kpi span3 ${kind}"><div class="kpiIcon"><span class="material-symbols-outlined">${kpiIcon(label)}</span></div><div class="label">${label}</div><div class="value">${value}</div>${hint?`<div class="hint">${hint}</div>`:''}</div>`}
 
 
 function te(label){
