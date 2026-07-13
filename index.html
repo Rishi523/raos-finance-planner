@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MyFamily Finance — Planner</title>
+<title>Rao's Financial Planning — Private Family Office Dashboard</title>
 <style>
 :root{
   --bg:#f4f6f3; --card:#fff; --ink:#15231c; --muted:#66736b;
@@ -54,7 +54,8 @@ canvas{display:block;width:100%;height:260px;background:white;border-radius:10px
 .progressTrack{height:7px;background:#e8edea;border-radius:999px;overflow:hidden}.progressFill{height:100%;background:var(--green);border-radius:inherit}.list{display:flex;flex-direction:column}.listItem{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #edf0ee}.listItem:last-child{border-bottom:0}.dateBox{background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center;padding:5px 3px;line-height:1.05}.dateBox b{display:block;font-size:15px}.dateBox span{font-size:9px;color:var(--muted);text-transform:uppercase}.listTitle{font-weight:750;font-size:13px}.listMeta{font-size:11px;color:var(--muted);margin-top:2px}.listAmount{font-weight:800;text-align:right}.emptyState{padding:32px;text-align:center;color:var(--muted);font-size:13px}
 .calendarHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--border);border-radius:12px;overflow:hidden}.calDow{background:#f5f8f6;padding:9px;text-align:center;font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase}.calDay{min-height:105px;padding:8px;border-top:1px solid var(--border);border-right:1px solid var(--border);background:white}.calDay:nth-child(7n){border-right:0}.calDay.muted{background:#fafbfa;color:#abb3ae}.calNum{font-size:11px;font-weight:800}.calDay.today .calNum{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;background:var(--green);color:white}.calItem{margin-top:6px;padding:5px 6px;border-radius:6px;background:var(--green2);color:var(--green-dark);font-size:9px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.calItem.warn{background:var(--orange2);color:var(--orange)}
 .modal{position:fixed;inset:0;background:rgba(10,28,20,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}.modalCard{background:white;width:min(680px,100%);max-height:90vh;overflow:auto;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.25)}.modalHead{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--border)}.modalBody{padding:22px}.formGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.field label{display:block;font-size:11px;font-weight:800;color:#4f5e55;margin-bottom:6px}.field.full{grid-column:1/-1}.modalFoot{display:flex;justify-content:flex-end;gap:8px;padding:16px 22px;border-top:1px solid var(--border)}.iconButton{width:34px;height:34px;padding:0;border-radius:9px;background:#f0f3f1;color:#46564d}
-.authGate{z-index:120;background:linear-gradient(135deg,rgba(15,23,42,.92),rgba(10,28,20,.76))}.authCard{width:min(520px,100%)}.authHero{padding:26px 26px 18px;background:#0f172a;color:white}.authHero h2{font-size:22px;margin-bottom:6px}.authHero .sub{color:#bcc7d8}.authActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.cloudPill{max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cloudPill{max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.publicLanding{min-height:100vh;background:#07120f;color:#eefdf7;overflow:hidden}.publicLanding button{border-radius:999px}.publicNav{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:1220px;margin:0 auto;padding:22px 26px}.publicBrand{display:flex;gap:12px;align-items:center}.publicMark{width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,#d6b76c,#0ea878);display:grid;place-items:center;color:#06110e;font-size:22px;font-weight:950;box-shadow:0 14px 40px rgba(4,169,116,.22)}.publicBrand b{display:block;font-size:15px;letter-spacing:.02em}.publicBrand span{display:block;color:#a8bcb3;font-size:11px}.publicNavLinks{display:flex;gap:18px;align-items:center;color:#b7c8c0;font-size:12px;font-weight:800}.publicNavLinks a{color:inherit;text-decoration:none}.publicHero{position:relative;min-height:740px;display:grid;align-items:center}.publicHeroImage{position:absolute;inset:0}.publicHeroImage img{width:100%;height:100%;object-fit:cover}.publicHeroImage:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#07120f 0%,rgba(7,18,15,.94) 24%,rgba(7,18,15,.58) 52%,rgba(7,18,15,.28) 100%),radial-gradient(circle at 26% 34%,rgba(4,169,116,.26),transparent 32%)}.publicHeroInner{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:38px 26px 86px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.62fr);gap:46px;align-items:center}.publicCopy{max-width:730px}.publicKicker{display:inline-flex;gap:8px;align-items:center;border:1px solid rgba(214,183,108,.34);background:rgba(214,183,108,.09);color:#f4d990;border-radius:999px;padding:8px 12px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.publicCopy h1{font-size:64px;line-height:.95;margin:22px 0 18px;color:white;letter-spacing:-.07em}.publicLead{font-size:18px;color:#c7d7d0;max-width:650px;line-height:1.7}.publicCtas{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.publicCtas .primary{padding:13px 20px}.publicCtas .ghost{color:#eafff7;border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.04);padding:12px 18px}.publicProof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:34px;max-width:700px}.proofCard{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border-radius:17px;padding:15px}.proofCard b{display:block;font-size:18px;color:white}.proofCard span{display:block;margin-top:3px;color:#abc0b7;font-size:11px}.loginPanel{background:rgba(248,252,249,.96);color:#14231d;border:1px solid rgba(255,255,255,.62);box-shadow:0 30px 90px rgba(0,0,0,.34);border-radius:28px;padding:26px}.loginPanel h2{font-size:24px;margin:0}.loginPanel .sub{font-size:12px}.loginPanel .formGrid{grid-template-columns:1fr;gap:13px;margin-top:18px}.loginPanel input{height:46px;border-radius:12px}.loginPanel .authActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.loginPanel .authActions .fullButton{grid-column:1/-1}.loginPanel .ghost{color:#0b7b59;background:#edf7f2}.authNote{font-size:11px;color:#69776f;line-height:1.55;margin-top:14px}.publicSections{position:relative;z-index:2;background:#f5f7f4;color:#14231d;padding:42px 26px 70px}.publicSectionsInner{max-width:1220px;margin:0 auto}.featureGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.featureCard{background:white;border:1px solid #dde7e0;border-radius:20px;padding:20px;box-shadow:0 16px 45px rgba(15,35,28,.06)}.featureIcon{width:38px;height:38px;border-radius:12px;background:#e7f8f1;color:#087a58;display:grid;place-items:center;font-weight:950;margin-bottom:14px}.featureCard h3{font-size:15px;margin-bottom:7px}.featureCard p{font-size:12px;color:#69776f;margin:0;line-height:1.55}.publicStrip{margin-top:18px;border-radius:24px;padding:20px;background:linear-gradient(135deg,#0f172a,#102c24);color:white;display:flex;gap:20px;align-items:center;justify-content:space-between}.publicStrip p{margin:4px 0 0;color:#b9c8c1;font-size:12px}.publicStrip button{white-space:nowrap}
 .scorePanel{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}.scoreRing{--score:0;width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) calc(var(--score)*1%),#e8eeea 0);position:relative}.scoreRing:before{content:"";position:absolute;inset:10px;border-radius:50%;background:white}.scoreRing strong{position:relative;font-size:28px;letter-spacing:-.05em}.scoreRing span{position:absolute;top:67px;font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:800}.checklist{display:grid;gap:8px}.checkItem{display:grid;grid-template-columns:20px 1fr auto;gap:9px;align-items:center;font-size:12px}.checkIcon{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#eef2ef;color:#7b8980;font-size:10px;font-weight:900}.checkItem.done .checkIcon{background:var(--green2);color:var(--green-dark)}.checkItem button{padding:5px 8px;font-size:10px}
 .actionCard{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:13px;align-items:flex-start;padding:15px 0;border-bottom:1px solid #edf0ee}.actionCard:last-child{border-bottom:0}.actionNum{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:var(--green2);color:var(--green-dark);font-weight:850;font-size:12px}.actionTitle{font-size:13px;font-weight:800}.actionText{font-size:11px;color:var(--muted);margin-top:3px}.actionCard button{padding:7px 10px;font-size:10px}
 .metricRow{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}.metricRow.two{grid-template-columns:repeat(2,1fr)}.metricCell{background:white;padding:16px}.metricCell span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:750}.metricCell strong{display:block;margin-top:7px;font-size:20px;letter-spacing:-.035em}.metricCell small{display:block;color:var(--muted);margin-top:3px}
@@ -63,15 +64,63 @@ canvas{display:block;width:100%;height:260px;background:white;border-radius:10px
 .goalCard{padding:18px;border:1px solid var(--border);border-radius:13px;background:white}.goalTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.goalValue{font-size:18px;font-weight:850;margin:14px 0 8px}.goalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.goalGrid .field label{font-size:9px}.setupBanner{display:flex;justify-content:space-between;align-items:center;gap:18px;background:#f0faf6;border:1px solid #b9e4d3;border-radius:14px;padding:15px 17px}.setupBanner b{font-size:13px}.setupBanner p{font-size:11px;color:var(--muted);margin:2px 0 0}.setupBanner button{white-space:nowrap}
 .activityForm{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1.4fr auto;gap:10px;align-items:end}.activityForm .field label{font-size:9px}.activityAmount{font-variant-numeric:tabular-nums}.linkedBadge{display:inline-flex;gap:5px;align-items:center;color:var(--green-dark);background:var(--green2);border-radius:999px;padding:4px 7px;font-size:9px;font-weight:800}.assumption{font-size:10px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;margin-top:12px}.coach{background:#0f172a;color:white}.coach .sub{color:#aab5c6}.coachBubble{background:#1d293d;border:1px solid #334155;border-radius:12px;padding:15px;margin-top:15px;font-size:12px;line-height:1.6}.coachBubble b{color:#6ee7b7}.miniBars{display:grid;gap:10px}.miniBarHead{display:flex;justify-content:space-between;gap:10px;font-size:11px;margin-bottom:5px}
 .mobileNavToggle{display:none}.desktopOnly{display:inline-flex}
-@media(max-width:1100px){.span3{grid-column:span 6}.heroGrid{grid-template-columns:1fr 1fr}.heroMetric:nth-child(2){border-left:0;padding-left:0}.appShell{grid-template-columns:220px}.sidebar{padding-left:12px;padding-right:12px}}
-@media(max-width:760px){.appShell{display:block}.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;height:68px;padding:7px 8px;background:#0f172a}.sidebar .brand,.navLabel,.sidebarFoot{display:none}.tabs{height:100%;display:flex;flex-direction:row;overflow-x:auto;gap:3px}.tab{min-width:68px;flex:1;display:flex;flex-direction:column;gap:2px;justify-content:center;text-align:center;padding:5px 7px;font-size:9px}.tabIcon{font-size:15px}.top{height:auto;min-height:70px;padding:12px 16px}.top .pageEyebrow{display:none}.pageTitle{font-size:18px}.top .actions .secondary{display:none}.wrap{padding:18px 14px 94px}.span3,.span4,.span5,.span6,.span7,.span8{grid-column:span 12}.heroGrid{display:block}.heroMetric{border:0;border-top:1px solid rgba(255,255,255,.15);padding:12px 0 0;margin-top:12px}.calendar{min-width:700px}.calendarScroll{overflow:auto}.formGrid,.helpGrid{grid-template-columns:1fr}.field.full{grid-column:auto}.desktopOnly{display:none}.metricRow,.metricRow.two,.compareGrid{grid-template-columns:1fr}.activityForm{grid-template-columns:1fr 1fr}.activityForm .field:first-child{grid-column:1/-1}.scorePanel{grid-template-columns:1fr;text-align:center}.scoreRing{margin:auto}.actionCard{grid-template-columns:34px 1fr}.actionCard button{grid-column:2;justify-self:start}.setupBanner{align-items:flex-start;flex-direction:column}}
+@media(max-width:1100px){.span3{grid-column:span 6}.heroGrid{grid-template-columns:1fr 1fr}.heroMetric:nth-child(2){border-left:0;padding-left:0}.appShell{grid-template-columns:220px}.sidebar{padding-left:12px;padding-right:12px}.publicHeroInner{grid-template-columns:1fr}.loginPanel{max-width:560px}.featureGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.publicCopy h1{font-size:54px}}
+@media(max-width:760px){.appShell{display:block}.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;height:68px;padding:7px 8px;background:#0f172a}.sidebar .brand,.navLabel,.sidebarFoot{display:none}.tabs{height:100%;display:flex;flex-direction:row;overflow-x:auto;gap:3px}.tab{min-width:68px;flex:1;display:flex;flex-direction:column;gap:2px;justify-content:center;text-align:center;padding:5px 7px;font-size:9px}.tabIcon{font-size:15px}.top{height:auto;min-height:70px;padding:12px 16px}.top .pageEyebrow{display:none}.pageTitle{font-size:18px}.top .actions .secondary{display:none}.wrap{padding:18px 14px 94px}.span3,.span4,.span5,.span6,.span7,.span8{grid-column:span 12}.heroGrid{display:block}.heroMetric{border:0;border-top:1px solid rgba(255,255,255,.15);padding:12px 0 0;margin-top:12px}.calendar{min-width:700px}.calendarScroll{overflow:auto}.formGrid,.helpGrid{grid-template-columns:1fr}.field.full{grid-column:auto}.desktopOnly{display:none}.metricRow,.metricRow.two,.compareGrid{grid-template-columns:1fr}.activityForm{grid-template-columns:1fr 1fr}.activityForm .field:first-child{grid-column:1/-1}.scorePanel{grid-template-columns:1fr;text-align:center}.scoreRing{margin:auto}.actionCard{grid-template-columns:34px 1fr}.actionCard button{grid-column:2;justify-self:start}.setupBanner{align-items:flex-start;flex-direction:column}.publicNav{padding:16px}.publicNavLinks a:not(:last-child){display:none}.publicHero{min-height:auto}.publicHeroInner{padding:22px 16px 54px;gap:24px}.publicCopy h1{font-size:40px;line-height:1.02}.publicLead{font-size:15px}.publicProof,.featureGrid{grid-template-columns:1fr}.loginPanel{border-radius:22px;padding:20px}.publicStrip{align-items:flex-start;flex-direction:column}.publicSections{padding:30px 16px 60px}}
 @media print{.sidebar,.top,.actions,.toolbar,.modal{display:none!important}.appShell{display:block}.card{box-shadow:none}.wrap{max-width:none;padding:0}}
 </style>
 </head>
 <body>
-<div id="app" class="appShell">
+<div id="authGate" class="publicLanding" role="main" aria-labelledby="authTitle">
+  <nav class="publicNav" aria-label="Public navigation">
+    <div class="publicBrand"><div class="publicMark">₹</div><div><b>Rao's Financial Planning</b><span>Private family office workspace</span></div></div>
+    <div class="publicNavLinks"><a href="#private-platform">Platform</a><a href="#security">Security</a><a href="#login">Login</a></div>
+  </nav>
+  <section class="publicHero">
+    <div class="publicHeroImage"><img src="assets/rao-finance-hero.png" alt="Premium private finance planning desk with dashboard and planner"></div>
+    <div class="publicHeroInner">
+      <div class="publicCopy">
+        <div class="publicKicker">Private · Connected · Cloud synced</div>
+        <h1 id="authTitle">A private command center for family finance.</h1>
+        <p class="publicLead">Track obligations, loans, chits, due dates, assets, income, and goals in one protected workspace. Public visitors see this homepage. Only your logged-in account can open the financial dashboard.</p>
+        <div class="publicCtas"><button class="primary" onclick="document.getElementById('authEmail')?.focus()">Login to dashboard</button><button class="ghost" onclick="document.getElementById('private-platform')?.scrollIntoView({behavior:'smooth'})">See what is inside</button></div>
+        <div class="publicProof">
+          <div class="proofCard"><b>Supabase Auth</b><span>Email/password login with browser password-manager support.</span></div>
+          <div class="proofCard"><b>Private data</b><span>Actual finance records are not stored in public GitHub code.</span></div>
+          <div class="proofCard"><b>Live planner</b><span>Due dates, balances, chits, activity, and wealth views stay connected.</span></div>
+        </div>
+      </div>
+      <aside class="loginPanel" id="login" aria-label="Secure login panel">
+        <h2>Access your dashboard</h2>
+        <div class="sub">Use your Supabase account credentials. Your browser can save the password securely if you choose.</div>
+        <form id="authForm" onsubmit="signInUser(event)">
+          <div class="formGrid">
+            <div class="field full"><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+            <div class="field full"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Your private password" required></div>
+            <div class="field full"><div id="authMessage" class="small">First time here? Enter email/password and click Create account. After login, import your backup from Settings.</div></div>
+          </div>
+          <div class="authActions"><button type="submit" class="primary">Sign in</button><button type="button" class="secondary" onclick="signUpUser()">Create account</button><button type="button" class="ghost fullButton" onclick="sendPasswordReset()">Forgot password / reset by email</button></div>
+        </form>
+        <div class="authNote">Passwords are handled by Supabase Auth. This website never stores your password in the app data or GitHub source.</div>
+      </aside>
+    </div>
+  </section>
+  <section class="publicSections" id="private-platform">
+    <div class="publicSectionsInner">
+      <div class="sectionTitle"><div><h2>Built like a serious planning platform</h2><p>Not a spreadsheet lookalike. It behaves like a connected financial operating system.</p></div></div>
+      <div class="featureGrid">
+        <div class="featureCard"><div class="featureIcon">01</div><h3>Planner calendar</h3><p>Monthly due dates flow automatically from obligations and chits into the planner calendar.</p></div>
+        <div class="featureCard"><div class="featureIcon">02</div><h3>Obligation engine</h3><p>Loan balances, EMI payoff estimates, months done, months left, and payment activity stay linked.</p></div>
+        <div class="featureCard"><div class="featureIcon">03</div><h3>Chit intelligence</h3><p>Face value, EMI, payout cash, commission, and remaining commitments are modeled separately.</p></div>
+        <div class="featureCard"><div class="featureIcon">04</div><h3>Wealth dashboard</h3><p>Asset allocation, liquidity, income links, and net-worth visuals help you see the full picture.</p></div>
+      </div>
+      <div class="publicStrip" id="security"><div><h2>Security model</h2><p>Public GitHub hosts only the app shell. Private records are saved to Supabase under your authenticated user ID with Row Level Security.</p></div><button class="primary" onclick="document.getElementById('authEmail')?.focus()">Login now</button></div>
+    </div>
+  </section>
+</div>
+
+<div id="app" class="appShell hidden">
   <aside class="sidebar">
-    <div class="brand"><div class="logo">₹</div><div><div class="brandName">MyFamily Finance</div><div class="brandMeta">Private planning workspace</div></div></div>
+    <div class="brand"><div class="logo">₹</div><div><div class="brandName">Rao's Finance</div><div class="brandMeta">Private family office</div></div></div>
     <div class="navLabel">Workspace</div>
     <nav class="tabs" id="tabs" aria-label="Main navigation"></nav>
     <div class="sidebarFoot">Cloud sync uses Supabase when signed in.<br>Export a backup before major edits.</div>
@@ -90,20 +139,6 @@ canvas{display:block;width:100%;height:260px;background:white;border-radius:10px
     </header>
     <div class="wrap"><div id="content"></div></div>
   </main>
-</div>
-
-<div id="authGate" class="modal authGate hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-  <div class="modalCard authCard">
-    <div class="authHero"><h2 id="authTitle">Secure finance planner login</h2><div class="sub">Sign in to store your planner in Supabase. The public website source contains no real family finance data.</div></div>
-    <form id="authForm" onsubmit="signInUser(event)">
-      <div class="modalBody"><div class="formGrid">
-        <div class="field full"><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div>
-        <div class="field full"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Minimum 6 characters" required></div>
-        <div class="field full"><div id="authMessage" class="small">Use Supabase Auth. If this is your first time, create an account, then import your backup from Settings.</div></div>
-      </div></div>
-      <div class="modalFoot authActions"><button type="submit" class="primary">Sign in</button><button type="button" class="secondary" onclick="signUpUser()">Create account</button><button type="button" class="ghost" onclick="continueLocalOnly()">Continue local only</button></div>
-    </form>
-  </div>
 </div>
 
 <div id="obligationModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="if(event.target===this)closeObligationModal()">
@@ -368,8 +403,17 @@ function initSupabase(){
   return supabaseClient;
 }
 function isCloudMode(){return !!supabaseClient && !!currentUser && !localOnly}
-function showAuthGate(){const gate=document.getElementById('authGate'); if(gate) gate.classList.remove('hidden')}
-function hideAuthGate(){const gate=document.getElementById('authGate'); if(gate) gate.classList.add('hidden')}
+function showAuthGate(){
+  const gate=document.getElementById('authGate'),app=document.getElementById('app');
+  if(gate) gate.classList.remove('hidden');
+  if(app) app.classList.add('hidden');
+  window.scrollTo({top:0,behavior:'auto'});
+}
+function hideAuthGate(){
+  const gate=document.getElementById('authGate'),app=document.getElementById('app');
+  if(gate) gate.classList.add('hidden');
+  if(app) app.classList.remove('hidden');
+}
 function setAuthMessage(msg,isError=false){
   const el=document.getElementById('authMessage');
   if(el){el.textContent=msg;el.className=isError?'alert red':'small'}
@@ -401,8 +445,12 @@ async function startApp(){
   normalizeState();
   render();
   updateCloudStatus();
-  saveNow(false);
-  if(!currentUser && !localOnly) showAuthGate();
+  if(currentUser || localOnly){
+    hideAuthGate();
+    saveNow(false);
+  }else{
+    showAuthGate();
+  }
 }
 async function loadCloudState(){
   try{
@@ -451,11 +499,11 @@ async function signInUser(event){
   if(error){setAuthMessage(error.message,true);return}
   currentUser=data.user;
   localOnly=false;
-  hideAuthGate();
   await loadCloudState();
   normalizeState();
   render();
   updateCloudStatus();
+  hideAuthGate();
   saveNow(false);
   toast('Signed in');
 }
@@ -471,15 +519,24 @@ async function signUpUser(){
   currentUser=data.session?.user||data.user||null;
   if(data.session){
     localOnly=false;
-    hideAuthGate();
     loadPlainState();
     normalizeState();
     render();
     updateCloudStatus();
+    hideAuthGate();
     saveNow(true);
     return;
   }
   setAuthMessage('Account created. If email confirmation is enabled in Supabase, confirm the email and then sign in.');
+}
+async function sendPasswordReset(){
+  initSupabase();
+  if(!supabaseClient){setAuthMessage('Supabase library is not available. Check internet connection or CDN access.',true);return}
+  const email=document.getElementById('authEmail')?.value.trim();
+  if(!email){setAuthMessage('Enter your email first, then click reset.',true);document.getElementById('authEmail')?.focus();return}
+  const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:location.href.split('#')[0]});
+  if(error){setAuthMessage(error.message,true);return}
+  setAuthMessage('Password reset email sent. Open the email link, set a new password, then sign in here.');
 }
 async function signOutUser(){
   if(supabaseClient) await supabaseClient.auth.signOut();

@@ -6,6 +6,9 @@ create table if not exists public.finance_plans (
 
 alter table public.finance_plans enable row level security;
 
+grant usage on schema public to authenticated;
+grant select, insert, update on public.finance_plans to authenticated;
+
 drop policy if exists "Users can read own finance plan" on public.finance_plans;
 create policy "Users can read own finance plan"
 on public.finance_plans
