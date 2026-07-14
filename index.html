@@ -304,6 +304,7 @@ function resetMonthTracking(row){
   if(!row)return;
   row.monthsDoneBase=n(row.monthsDone);
   row.monthTrackingStart=monthKey();
+  row.monthsManualOverride=true;
 }
 
 function normalizeState(){
@@ -811,12 +812,14 @@ function dateToMonthKey(value){
   return '';
 }
 function loanMonthsDone(r){
+  if(r.monthsManualOverride)return n(r.totalMonths)?autoMonthsDone(r):manualMonthsDone(r)+elapsedTrackedMonths(r);
   const from=dateToMonthKey(r.loanStartDate);
   if(from)return monthDiff(from);
   return n(r.totalMonths)?monthsDoneDisplay(r):n(r.monthsDone);
 }
 function loanTotalMonths(r){
   const info=loanPayoffInfo(r),done=loanMonthsDone(r);
+  if(n(r.totalMonths))return n(r.totalMonths);
   if(info.status==='ok')return done+info.months;
   return n(r.totalMonths)||'';
 }
@@ -1268,7 +1271,7 @@ function toPayHTML(){
 	          ${outstandingBalanceCell(ri,r)}
 	          <td class="edit right" contenteditable="true" onblur="editCell('toPay',${ri},'monthlyDue',this.innerText)">${monthlyObligation(r)||''}</td>
 	          ${cellEditable('toPay',ri,'dueDay',r.dueDay||'')}
-	          <td class="calc">${monthsSummaryCell(r)}</td>
+	          <td class="calc">${monthsSummaryCell(ri,r)}</td>
 	          ${obligationCostCell(ri,r)}
 	          ${remainingToCompleteCell(r)}
 	          ${payoffEndCell(r)}
@@ -1290,12 +1293,13 @@ function toPayHTML(){
 	  if(!isLoan(r))return '';
 	  return `<div class="loanMini listMeta">Start <input type="month" value="${esc(dateToMonthKey(r.loanStartDate))}" onchange="editCell('toPay',${ri},'loanStartDate',this.value)"> Original ₹ <input type="number" min="0" value="${n(r.originalPrincipal)||n(r.amount)||''}" onchange="editCell('toPay',${ri},'originalPrincipal',this.value)"></div>`;
 	}
-	function monthsSummaryCell(r){
+	function monthsSummaryCell(ri,r){
 	  if(isLoan(r)){
-	    const done=loanMonthsDone(r),total=loanTotalMonths(r),left=loanPayoffInfo(r).months;
-	    return total?`<b>${done}</b> done / <b>${total}</b> total<div class="listMeta">${isFinite(left)?left+' months left':'needs review'}</div>`:'—';
+	    const done=loanMonthsDone(r),total=loanTotalMonths(r),left=total?Math.max(n(total)-n(done),0):loanPayoffInfo(r).months;
+	    return `<div class="loanMini">Done <input type="number" min="0" value="${done!==''?done:''}" onchange="editCell('toPay',${ri},'monthsDone',this.value)"> Total <input type="number" min="0" value="${total||''}" onchange="editCell('toPay',${ri},'totalMonths',this.value)"></div><div class="listMeta">${isFinite(left)?left+' months left':'needs review'}${r.monthsManualOverride?' · manual count':''}</div>`;
 	  }
-	  return n(r.totalMonths)?`${monthsDoneDisplay(r)} done / ${n(r.totalMonths)} total<div class="listMeta">${monthsLeft(r)} left</div>`:'—';
+	  const done=monthsDoneDisplay(r),total=n(r.totalMonths),left=total?Math.max(total-done,0):'';
+	  return `<div class="loanMini">Done <input type="number" min="0" value="${done!==''?done:''}" onchange="editCell('toPay',${ri},'monthsDone',this.value)"> Total <input type="number" min="0" value="${total||''}" onchange="editCell('toPay',${ri},'totalMonths',this.value)"></div><div class="listMeta">${left!==''?left+' months left':'add total months'}</div>`;
 	}
 	function obligationCostCell(ri,r){
 	  if(isChit(r))return `<td class="calc"><b>${pct(commissionRateForChit(r))}</b><div class="listMeta">${esc(r.chitOrganizer||defaultChitOrganizer(r))} commission model</div></td>`;
