@@ -76,6 +76,55 @@ canvas{display:block;width:100%;height:260px;background:white;border-radius:10px
 @media(max-width:760px){.publicImmersive{padding:44px 16px}.immersiveIntro{display:block}.immersiveIntro h2{font-size:28px;margin-bottom:10px}.cinemaPanel{padding:16px;border-radius:22px;transform:none!important}.cinemaImage{height:220px;border-radius:18px}.cinemaText h3{font-size:22px}}
 @media(max-width:760px){.fieldHelpGrid,.allocationVisual,.analysisHero{grid-template-columns:1fr}.allocationStep{grid-template-columns:30px 1fr}.allocationStepPay{grid-column:2;text-align:left}.paymentNameCol,.chitNameCol{min-width:230px}.paymentIdentity,.chitIdentity{grid-template-columns:36px minmax(0,1fr)}.paymentAvatar,.chitAvatar{width:36px;height:36px;border-radius:13px}}
 #app .metricCell,#app .compareCard,#app .goalCard,#app .dateBox,#app .calDay,#app .modalCard{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);color:#f8fafc}#app .calDow{background:#0d1320;color:#aebccd}#app .calendar{border-color:rgba(255,255,255,.12)}#app .calDay{border-color:rgba(255,255,255,.09)}#app .calDay.muted{background:rgba(255,255,255,.035);color:#64748b}#app .modalHead,#app .modalFoot{border-color:rgba(255,255,255,.1)}#app .scoreRing:before{background:#0d1320}#app .kpi.good{background:linear-gradient(145deg,rgba(52,211,153,.2),rgba(255,255,255,.045));color:#34d399}#app .kpi.warn{background:linear-gradient(145deg,rgba(248,223,153,.18),rgba(255,255,255,.045));color:#f8df99}#app .kpi.bad{background:linear-gradient(145deg,rgba(248,113,113,.2),rgba(255,255,255,.045));color:#fb7185}#app .kpi.blue{background:linear-gradient(145deg,rgba(96,165,250,.2),rgba(255,255,255,.045));color:#60a5fa}#app .compareCard.recommended{background:linear-gradient(145deg,rgba(52,211,153,.18),rgba(255,255,255,.05));border-color:rgba(52,211,153,.28)}#app .compareCard .tag{color:#f8df99}#app .compareValue{color:#f8fafc}
+/* Zelect-inspired clarity layer: solid SaaS surfaces, no blur, high contrast. */
+#app{background:#f7f5ff;color:#14121f}
+#app .main{background:radial-gradient(circle at 10% 0%,rgba(111,75,255,.16),transparent 26%),radial-gradient(circle at 92% 12%,rgba(255,112,67,.12),transparent 28%),linear-gradient(180deg,#fbfaff 0%,#f3f0ff 42%,#ffffff 100%)}
+#app .sidebar{background:#ffffff;color:#171427;border-right:1px solid #e4defd;box-shadow:18px 0 50px rgba(65,48,148,.08)}
+#app .sidebar .brand{border-bottom:1px solid #ebe6ff}.logo{background:linear-gradient(145deg,#6d5dfc,#ff7a59);box-shadow:0 14px 35px rgba(109,93,252,.24)}
+#app .brandName{color:#171427}#app .brandMeta,#app .sidebarFoot,#app .navLabel{color:#6b6680}
+#app .tab{color:#504b67;background:transparent;border:1px solid transparent}
+#app .tab:hover{background:#f1edff;color:#231b5b;transform:none}
+#app .tab.active{background:linear-gradient(135deg,#6d5dfc,#8f7bff);color:#ffffff;box-shadow:0 14px 32px rgba(109,93,252,.26)}
+#app .top{background:#ffffff;border-bottom:1px solid #e4defd;box-shadow:0 10px 30px rgba(65,48,148,.06);backdrop-filter:none}
+#app .pageTitle,#app h1,#app h2,#app h3,#app .paymentTitle .edit,#app .chitTitle .edit,#app .fieldHelpCard b,#app .allocationStepTitle,#app .metricCell strong,#app .compareValue{color:#171427}
+#app .pageEyebrow{color:#6d5dfc}
+#app .card,#app .metricCell,#app .compareCard,#app .goalCard,#app .dateBox,#app .calDay,#app .modalCard{background:#ffffff;color:#171427;border:1px solid #e5dfff;box-shadow:0 18px 45px rgba(65,48,148,.08);backdrop-filter:none}
+#app .card:hover{transform:translateY(-3px);box-shadow:0 22px 60px rgba(65,48,148,.13);border-color:#cfc4ff}
+#app .card:before{display:none}
+#app .sub,#app .sectionTitle p,#app .listMeta,#app .small,#app .hint,#app .metricCell small,#app .actionText,#app .fieldHelpCard span,#app .allocationStepMeta,#app .registerAmount{color:#625d76}
+#app .primary{background:linear-gradient(135deg,#6d5dfc,#8f7bff);color:#ffffff;box-shadow:0 14px 34px rgba(109,93,252,.28)}
+#app .secondary,#app .ghost{background:#f3f0ff;color:#2b2268;border-color:#ded7ff}
+#app .danger{background:#fff0ee;color:#b42318;border:1px solid #ffd1ca}
+#app .pill,.miniBadge{background:#f4f1ff;color:#4c3ea8;border:1px solid #ded7ff}
+#app .miniBadge.gold{background:#fff3e9;color:#a14310;border-color:#ffd8be}
+#app .greenText{color:#087f5b}.redText{color:#b42318}.orangeText{color:#a14310}.blueText{color:#3157d5}
+#app .kpi .value,#app .heroMetric b{background:none;-webkit-background-clip:initial;background-clip:initial;color:#171427}
+#app .kpi.good,#app .kpi.warn,#app .kpi.bad,#app .kpi.blue{background:#ffffff;color:#171427}
+#app .kpi.good .kpiIcon{background:#e9fbf3;color:#087f5b}#app .kpi.warn .kpiIcon{background:#fff3e9;color:#a14310}#app .kpi.bad .kpiIcon{background:#fff0ee;color:#b42318}#app .kpi.blue .kpiIcon{background:#eef2ff;color:#3157d5}
+#app .dashboardCommand,#app .hero,#app .obligationPremiumIntro,#app .chitPremiumIntro,#app .analysisHero{background:linear-gradient(135deg,#ffffff 0%,#f2eeff 54%,#fff4ed 100%);color:#171427;border:1px solid #ded7ff;box-shadow:0 24px 70px rgba(65,48,148,.12)}
+#app .dashboardCommand p,#app .obligationPremiumIntro p,#app .chitPremiumIntro p,#app .analysisHero p,#app .hero .sub{color:#625d76}
+#app .publicKicker{background:#efeaff;color:#5744d4;border-color:#d5ccff}
+#app .commandStat,.chitChip,.allocationChartCard,.allocationStep,.fieldHelpCard,.helpReveal{background:#ffffff;color:#171427;border-color:#e5dfff;box-shadow:0 12px 32px rgba(65,48,148,.06)}
+#app .commandStat span,#app .chitChip span{color:#625d76}#app .commandStat b,#app .chitChip b{color:#171427}
+#app .obligationsScene,#app .chitScene,#app .analysisScene{background:linear-gradient(180deg,#faf8ff,#ffffff);border:1px solid #e9e3ff}
+#app .obligationsScene:before,#app .chitScene:before{display:none}
+#app .tableWrap{background:#ffffff;border-color:#e5dfff;box-shadow:0 14px 34px rgba(65,48,148,.07)}
+#app table{border-collapse:separate;border-spacing:0 7px;font-size:13px}
+#app th{background:#f2eeff;color:#4a4264;border-bottom:0;font-size:11px}
+#app td,#app td.edit,#app td.calc{background:#ffffff;color:#171427;border-top:1px solid #eee9ff;border-bottom:1px solid #eee9ff}
+#app tbody tr td:first-child{border-left:1px solid #eee9ff;border-radius:14px 0 0 14px}
+#app tbody tr td:last-child{border-right:1px solid #eee9ff;border-radius:0 14px 14px 0}
+#app tbody tr:hover td{background:#faf8ff}
+#app input,#app select,#app textarea,#app .inlineInput{background:#ffffff;border-color:#d9d1ff;color:#171427;box-shadow:none}
+#app input:focus,#app select:focus,#app textarea:focus,#app .inlineInput:focus{border-color:#6d5dfc;box-shadow:0 0 0 3px rgba(109,93,252,.14);outline:0}
+#app input::placeholder,#app textarea::placeholder{color:#9a93ad}
+#app .paymentAvatar,#app .chitAvatar,.allocationStepNum{background:linear-gradient(145deg,#6d5dfc,#ff7a59);color:white;box-shadow:0 14px 34px rgba(109,93,252,.22)}
+#app .alert{background:#ffffff;color:#171427;border-color:#e5dfff}
+#app .alert.blue{background:#f0f4ff;border-color:#ccd8ff}.alert.green,#app .alert.green{background:#ecfdf3;border-color:#bbf0d2}.alert.orange,#app .alert.orange{background:#fff4eb;border-color:#ffd8be}.alert.red,#app .alert.red{background:#fff0ee;border-color:#ffd1ca}
+#app canvas{background:#ffffff;border-color:#e5dfff;box-shadow:none}
+#app .calendar{border-color:#e5dfff}.calDow,#app .calDow{background:#f2eeff;color:#4a4264}.calDay,#app .calDay{background:#ffffff;border-color:#eee9ff}.calDay.muted,#app .calDay.muted{background:#faf8ff;color:#9a93ad}
+#app .scrollReveal{transform:translateY(18px);filter:none}.scrollReveal.inView{opacity:1;transform:none;filter:none}
+#app .orbitViz,#app .scenarioOrb{filter:none;box-shadow:0 18px 45px rgba(109,93,252,.18)}
 @media print{.sidebar,.top,.actions,.toolbar,.modal{display:none!important}.appShell{display:block}.card{box-shadow:none}.wrap{max-width:none;padding:0}}
 </style>
 </head>
@@ -1925,11 +1974,11 @@ function drawWealthCharts(){
 }
 function drawDonut(id,labels,values,totalValue){
   const canvas=document.getElementById(id);if(!canvas)return;const dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=Math.max(w*dpr,1);canvas.height=Math.max(h*dpr,1);const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
-  const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#080d16');bg.addColorStop(1,'#111827');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill();
-  const total=values.reduce((a,b)=>a+n(b),0)||1,cx=w*.31,cy=h*.5,r=Math.min(h*.31,w*.2),colors=['#04a974','#3566a8','#e29045','#7c6fb0','#d45959','#5b8f85'],lineWidth=Math.max(r*.34,18),segments=[];let start=-Math.PI/2;
+  const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f4f1ff');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill();
+  const total=values.reduce((a,b)=>a+n(b),0)||1,cx=w*.31,cy=h*.5,r=Math.min(h*.31,w*.2),colors=['#6d5dfc','#ff7a59','#20c997','#3157d5','#b42318','#8b5cf6'],lineWidth=Math.max(r*.34,18),segments=[];let start=-Math.PI/2;
   values.forEach((value,i)=>{const angle=n(value)/total*Math.PI*2,end=start+angle;segments.push({start,end,label:labels[i],value:n(value),color:colors[i%colors.length]});ctx.beginPath();ctx.arc(cx,cy,r,start,end);ctx.strokeStyle=colors[i%colors.length];ctx.lineWidth=lineWidth;ctx.stroke();start=end});
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#f8fafc';ctx.font='800 16px Inter, system-ui, sans-serif';ctx.fillText(compactMoney(totalValue),cx,cy-6);ctx.fillStyle='#aebccd';ctx.font='10px Inter, system-ui, sans-serif';ctx.fillText('GROSS ASSETS',cx,cy+13);
-  ctx.textAlign='left';labels.forEach((label,i)=>{const y=35+i*30;ctx.fillStyle=colors[i%colors.length];ctx.fillRect(w*.59,y-6,10,10);ctx.fillStyle='#dbe6ee';ctx.font='11px Inter, system-ui, sans-serif';const short=String(label).length>18?String(label).slice(0,17)+'…':label;ctx.fillText(short,w*.59+17,y);ctx.fillStyle='#aebccd';ctx.font='10px Inter, system-ui, sans-serif';ctx.fillText(Math.round(n(values[i])/total*100)+'%',w*.88,y)});
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#171427';ctx.font='800 16px Manrope, system-ui, sans-serif';ctx.fillText(compactMoney(totalValue),cx,cy-6);ctx.fillStyle='#625d76';ctx.font='10px Work Sans, system-ui, sans-serif';ctx.fillText('GROSS ASSETS',cx,cy+13);
+  ctx.textAlign='left';labels.forEach((label,i)=>{const y=35+i*30;ctx.fillStyle=colors[i%colors.length];ctx.fillRect(w*.59,y-6,10,10);ctx.fillStyle='#171427';ctx.font='11px Work Sans, system-ui, sans-serif';const short=String(label).length>18?String(label).slice(0,17)+'…':label;ctx.fillText(short,w*.59+17,y);ctx.fillStyle='#625d76';ctx.font='10px Work Sans, system-ui, sans-serif';ctx.fillText(Math.round(n(values[i])/total*100)+'%',w*.88,y)});
   canvas.style.cursor='default';canvas.setAttribute('aria-label','Asset allocation chart. Hover over a segment to see its amount.');
   canvas.onpointermove=event=>{const rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,dx=x-cx,dy=y-cy,distance=Math.sqrt(dx*dx+dy*dy);let angle=Math.atan2(dy,dx);if(angle< -Math.PI/2)angle+=Math.PI*2;const segment=distance>=r-lineWidth/2&&distance<=r+lineWidth/2?segments.find(s=>angle>=s.start&&angle<=s.end):null;const tip=getChartTooltip();if(segment){canvas.style.cursor='pointer';tip.innerHTML=`<b>${esc(segment.label)}</b>${fmt(segment.value)} <span>· ${Math.round(segment.value/total*100)}%</span>`;tip.style.display='block';tip.style.left=Math.min(event.clientX+14,window.innerWidth-210)+'px';tip.style.top=(event.clientY+14)+'px'}else{canvas.style.cursor='default';tip.style.display='none'}};
   canvas.onpointerleave=()=>{const tip=document.getElementById('chartTooltip');if(tip)tip.style.display='none'};
@@ -1937,19 +1986,19 @@ function drawDonut(id,labels,values,totalValue){
 function getChartTooltip(){let tip=document.getElementById('chartTooltip');if(!tip){tip=document.createElement('div');tip.id='chartTooltip';tip.className='chartTooltip';document.body.appendChild(tip)}return tip}
 function drawAllocationChart(id){
   const canvas=document.getElementById(id);if(!canvas)return;const plan=allocationPlan().slice(0,7),cp=chitPlan(),dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=Math.max(w*dpr,1);canvas.height=Math.max(h*dpr,1);const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
-  const grad=ctx.createLinearGradient(0,0,w,h);grad.addColorStop(0,'#080d16');grad.addColorStop(1,'#15110a');ctx.fillStyle=grad;roundRect(ctx,0,0,w,h,12);ctx.fill();
-  ctx.fillStyle='#f8fafc';ctx.font='800 15px Manrope, system-ui, sans-serif';ctx.fillText('Chit cash allocation',18,26);ctx.fillStyle='#aebccd';ctx.font='11px Work Sans, system-ui, sans-serif';ctx.fillText('Available '+compactMoney(cp.usable)+' · One-time '+compactMoney(cp.oneTime),18,46);
-  if(!plan.length){ctx.fillStyle='#aebccd';ctx.fillText('No allocation targets yet.',18,h/2);return}
+  const grad=ctx.createLinearGradient(0,0,w,h);grad.addColorStop(0,'#ffffff');grad.addColorStop(1,'#fff4ed');ctx.fillStyle=grad;roundRect(ctx,0,0,w,h,12);ctx.fill();
+  ctx.fillStyle='#171427';ctx.font='800 15px Manrope, system-ui, sans-serif';ctx.fillText('Chit cash allocation',18,26);ctx.fillStyle='#625d76';ctx.font='11px Work Sans, system-ui, sans-serif';ctx.fillText('Available '+compactMoney(cp.usable)+' · One-time '+compactMoney(cp.oneTime),18,46);
+  if(!plan.length){ctx.fillStyle='#625d76';ctx.fillText('No allocation targets yet.',18,h/2);return}
   const max=Math.max(...plan.map(x=>x.balance),cp.usable,1),left=18,right=18,top=68,rowH=Math.max(22,Math.min(34,(h-top-18)/plan.length));
-  plan.forEach((x,i)=>{const y=top+i*rowH,full=(w-left-right)*Math.min(x.balance/max,1),pay=(w-left-right)*Math.min(x.pay/max,1);ctx.fillStyle='rgba(255,255,255,.08)';roundRect(ctx,left,y,Math.max(full,2),rowH*.45,8);ctx.fill();ctx.fillStyle=x.status==='Full Clear'?'#34d399':x.status==='Partial'?'#f8df99':'#64748b';roundRect(ctx,left,y,Math.max(pay,2),rowH*.45,8);ctx.fill();ctx.fillStyle='#f8fafc';ctx.font='11px Work Sans, system-ui, sans-serif';ctx.fillText(String(i+1)+'. '+String(x.name||'').slice(0,24),left,y+rowH*.88);ctx.textAlign='right';ctx.fillStyle='#f8df99';ctx.fillText(compactMoney(x.pay),w-right,y+rowH*.88);ctx.textAlign='left'});
+  plan.forEach((x,i)=>{const y=top+i*rowH,full=(w-left-right)*Math.min(x.balance/max,1),pay=(w-left-right)*Math.min(x.pay/max,1);ctx.fillStyle='#eee9ff';roundRect(ctx,left,y,Math.max(full,2),rowH*.45,8);ctx.fill();ctx.fillStyle=x.status==='Full Clear'?'#20c997':x.status==='Partial'?'#ff7a59':'#8b83a7';roundRect(ctx,left,y,Math.max(pay,2),rowH*.45,8);ctx.fill();ctx.fillStyle='#171427';ctx.font='11px Work Sans, system-ui, sans-serif';ctx.fillText(String(i+1)+'. '+String(x.name||'').slice(0,24),left,y+rowH*.88);ctx.textAlign='right';ctx.fillStyle='#6d5dfc';ctx.fillText(compactMoney(x.pay),w-right,y+rowH*.88);ctx.textAlign='left'});
 }
 function drawProjectionChart(){
   const canvas=document.getElementById('projectionChart');if(!canvas)return;const dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=Math.max(w*dpr,1);canvas.height=Math.max(h*dpr,1);const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
   const current=simulateDebt(0,0).series,planned=simulateDebt(state.scenario.extraMonthly,state.scenario.lumpSum).series,max=Math.max(...current,...planned,1),count=Math.max(current.length,planned.length,2),left=54,right=18,top=22,bottom=36,plotW=w-left-right,plotH=h-top-bottom;
-  ctx.clearRect(0,0,w,h);const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#080d16');bg.addColorStop(1,'#111827');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill();ctx.font='10px Inter, system-ui, sans-serif';ctx.fillStyle='#aebccd';ctx.textAlign='right';ctx.textBaseline='middle';
-  for(let i=0;i<=4;i++){const y=top+plotH*i/4,value=max*(1-i/4);ctx.strokeStyle='rgba(148,163,184,.18)';ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();ctx.fillText(compactMoney(value),left-7,y)}
+  ctx.clearRect(0,0,w,h);const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f4f1ff');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill();ctx.font='10px Work Sans, system-ui, sans-serif';ctx.fillStyle='#625d76';ctx.textAlign='right';ctx.textBaseline='middle';
+  for(let i=0;i<=4;i++){const y=top+plotH*i/4,value=max*(1-i/4);ctx.strokeStyle='#e5dfff';ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();ctx.fillText(compactMoney(value),left-7,y)}
   const line=(series,color)=>{ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineJoin='round';ctx.beginPath();series.forEach((v,i)=>{const x=left+plotW*i/(count-1),y=top+plotH*(1-v/max);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()};
-  line(current,'#94a3b8');line(planned,'#34d399');ctx.textAlign='center';ctx.fillStyle='#aebccd';[0,Math.floor((count-1)/2),count-1].forEach(i=>ctx.fillText('Year '+i,left+plotW*i/(count-1),h-14));
+  line(current,'#8b83a7');line(planned,'#6d5dfc');ctx.textAlign='center';ctx.fillStyle='#625d76';[0,Math.floor((count-1)/2),count-1].forEach(i=>ctx.fillText('Year '+i,left+plotW*i/(count-1),h-14));
 }
 function drawEmptyChart(id,msg){
   const canvas=document.getElementById(id); if(!canvas)return;
@@ -1957,31 +2006,31 @@ function drawEmptyChart(id,msg){
   const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
   const w=canvas.clientWidth,h=canvas.clientHeight;
   ctx.clearRect(0,0,w,h);
-  const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#080d16');bg.addColorStop(1,'#111827');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill();
+  const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f4f1ff');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill();
   ctx.font='16px Arial';
-  ctx.fillStyle='#aebccd';
+  ctx.fillStyle='#625d76';
   ctx.fillText(msg,24,h/2);
 }
 function drawBar(id,labels,values,horizontal=false){
   const canvas=document.getElementById(id); if(!canvas)return; const dpr=window.devicePixelRatio||1; const w=canvas.clientWidth,h=canvas.clientHeight; canvas.width=Math.max(w*dpr,1); canvas.height=Math.max(h*dpr,1); const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
-  ctx.clearRect(0,0,w,h); const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#080d16');bg.addColorStop(1,'#111827');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill(); const max=Math.max(...values,1); const colors=['#34d399','#60a5fa','#f8df99','#fb7185','#a78bfa'];
-  ctx.font='11px Inter, system-ui, sans-serif'; ctx.fillStyle='#aebccd'; ctx.textBaseline='middle';
+  ctx.clearRect(0,0,w,h); const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f4f1ff');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill(); const max=Math.max(...values,1); const colors=['#6d5dfc','#ff7a59','#20c997','#3157d5','#b42318'];
+  ctx.font='11px Work Sans, system-ui, sans-serif'; ctx.fillStyle='#625d76'; ctx.textBaseline='middle';
   if(horizontal){
     const labelW=Math.min(145,w*.38),plotW=Math.max(w-labelW-82,40),barH=Math.min(26,Math.max(15,(h-34)/Math.max(labels.length,1)-12));
-    labels.forEach((lab,i)=>{const y=20+i*((h-32)/Math.max(labels.length,1));const bw=plotW*values[i]/max;ctx.fillStyle='rgba(255,255,255,.08)';roundRect(ctx,labelW,y,plotW,barH,5);ctx.fill();ctx.fillStyle=colors[i%colors.length];roundRect(ctx,labelW,y,Math.max(bw,2),barH,5);ctx.fill();ctx.fillStyle='#dbe6ee';ctx.textAlign='left';ctx.fillText(String(lab).length>19?String(lab).slice(0,18)+'…':lab,6,y+barH/2);ctx.fillStyle='#aebccd';ctx.fillText(compactMoney(values[i]),Math.min(labelW+bw+7,w-68),y+barH/2)});
+    labels.forEach((lab,i)=>{const y=20+i*((h-32)/Math.max(labels.length,1));const bw=plotW*values[i]/max;ctx.fillStyle='#eee9ff';roundRect(ctx,labelW,y,plotW,barH,5);ctx.fill();ctx.fillStyle=colors[i%colors.length];roundRect(ctx,labelW,y,Math.max(bw,2),barH,5);ctx.fill();ctx.fillStyle='#171427';ctx.textAlign='left';ctx.fillText(String(lab).length>19?String(lab).slice(0,18)+'…':lab,6,y+barH/2);ctx.fillStyle='#625d76';ctx.fillText(compactMoney(values[i]),Math.min(labelW+bw+7,w-68),y+barH/2)});
   }else{
     const left=20,right=12,top=28,bottom=54,plotH=h-top-bottom,slot=(w-left-right)/Math.max(values.length,1),bw=Math.min(slot*.55,70);
-    [0,.25,.5,.75,1].forEach(t=>{const y=top+plotH*(1-t);ctx.strokeStyle='rgba(148,163,184,.18)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke()});
-    values.forEach((v,i)=>{const x=left+i*slot+(slot-bw)/2,bh=plotH*v/max,y=top+plotH-bh;ctx.fillStyle=colors[i%colors.length];roundRect(ctx,x,y,bw,Math.max(bh,2),6);ctx.fill();ctx.textAlign='center';ctx.fillStyle='#f8fafc';ctx.fillText(compactMoney(v),x+bw/2,Math.max(y-10,10));ctx.fillStyle='#aebccd';const lab=String(labels[i]);ctx.fillText(lab.length>16?lab.slice(0,15)+'…':lab,x+bw/2,h-28)});
+    [0,.25,.5,.75,1].forEach(t=>{const y=top+plotH*(1-t);ctx.strokeStyle='#e5dfff';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke()});
+    values.forEach((v,i)=>{const x=left+i*slot+(slot-bw)/2,bh=plotH*v/max,y=top+plotH-bh;ctx.fillStyle=colors[i%colors.length];roundRect(ctx,x,y,bw,Math.max(bh,2),6);ctx.fill();ctx.textAlign='center';ctx.fillStyle='#171427';ctx.fillText(compactMoney(v),x+bw/2,Math.max(y-10,10));ctx.fillStyle='#625d76';const lab=String(labels[i]);ctx.fillText(lab.length>16?lab.slice(0,15)+'…':lab,x+bw/2,h-28)});
   }
 }
 function roundRect(ctx,x,y,w,h,r){const radius=Math.min(r,Math.abs(w)/2,Math.abs(h)/2);ctx.beginPath();ctx.roundRect?ctx.roundRect(x,y,w,h,radius):(ctx.rect(x,y,w,h));return ctx}
 function compactMoney(value){const v=n(value),a=Math.abs(v);if(a>=10000000)return '₹'+(v/10000000).toFixed(1)+'Cr';if(a>=100000)return '₹'+(v/100000).toFixed(1)+'L';if(a>=1000)return '₹'+(v/1000).toFixed(0)+'K';return '₹'+v.toFixed(0)}
 function drawPie(id,labels,values){
   const canvas=document.getElementById(id); if(!canvas)return; const dpr=window.devicePixelRatio||1; canvas.width=canvas.clientWidth*dpr; canvas.height=canvas.clientHeight*dpr; const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
-  const w=canvas.clientWidth,h=canvas.clientHeight; ctx.clearRect(0,0,w,h); const total=values.reduce((a,b)=>a+b,0)||1; let start=-Math.PI/2; const cx=w*.35,cy=h*.5,r=Math.min(w,h)*.32; const colors=['#157347','#155eef','#b54708','#b42318','#7a5af8','#0e9384'];
+  const w=canvas.clientWidth,h=canvas.clientHeight; ctx.clearRect(0,0,w,h); const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f4f1ff');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill(); const total=values.reduce((a,b)=>a+b,0)||1; let start=-Math.PI/2; const cx=w*.35,cy=h*.5,r=Math.min(w,h)*.32; const colors=['#6d5dfc','#ff7a59','#20c997','#3157d5','#b42318','#8b5cf6'];
   values.forEach((v,i)=>{let ang=v/total*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+ang); ctx.closePath(); ctx.fillStyle=colors[i%colors.length]; ctx.fill(); start+=ang;});
-  ctx.font='12px Arial'; labels.forEach((lab,i)=>{let y=35+i*26; ctx.fillStyle=colors[i%colors.length]; ctx.fillRect(w*.62,y-12,14,14); ctx.fillStyle='#102033'; ctx.fillText(lab.replaceAll('_',' ')+': '+Math.round(values[i]/total*100)+'%',w*.62+22,y);});
+  ctx.font='12px Work Sans, system-ui, sans-serif'; labels.forEach((lab,i)=>{let y=35+i*26; ctx.fillStyle=colors[i%colors.length]; ctx.fillRect(w*.62,y-12,14,14); ctx.fillStyle='#171427'; ctx.fillText(lab.replaceAll('_',' ')+': '+Math.round(values[i]/total*100)+'%',w*.62+22,y);});
 }
 window.addEventListener('resize',()=>drawCharts());
 window.addEventListener('DOMContentLoaded',startApp);
