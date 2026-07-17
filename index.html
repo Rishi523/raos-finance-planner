@@ -181,6 +181,22 @@ body{background:#f5f5f5;color:#111111}
 #app .calendar{border-color:#d7d7d7!important}.calDow,#app .calDow{background:#111111!important;color:#ffffff!important}.calDay,#app .calDay{background:#ffffff!important;border-color:#e1e1e1!important}.calDay.muted,#app .calDay.muted{background:#f7f7f7!important;color:#8d8d8d!important}
 #app .scoreRing:before{background:#ffffff!important}
 .scrollReveal,#app .scrollReveal,.scrollReveal.inView{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+/* Controlled accent colors for information tiles, status chips, bars, and graphs. */
+#app .kpi.good{background:linear-gradient(145deg,#ecfdf5,#ffffff)!important;border-color:#bbf7d0!important;color:#065f46!important}
+#app .kpi.warn{background:linear-gradient(145deg,#fffbeb,#ffffff)!important;border-color:#fde68a!important;color:#92400e!important}
+#app .kpi.bad{background:linear-gradient(145deg,#fff1f2,#ffffff)!important;border-color:#fecdd3!important;color:#991b1b!important}
+#app .kpi.blue{background:linear-gradient(145deg,#eff6ff,#ffffff)!important;border-color:#bfdbfe!important;color:#1e40af!important}
+#app .kpi.good .kpiIcon{background:#dcfce7!important;color:#166534!important}
+#app .kpi.warn .kpiIcon{background:#fef3c7!important;color:#92400e!important}
+#app .kpi.bad .kpiIcon{background:#fee2e2!important;color:#991b1b!important}
+#app .kpi.blue .kpiIcon{background:#dbeafe!important;color:#1d4ed8!important}
+#app .greenText{color:#15803d!important}#app .redText{color:#dc2626!important}#app .orangeText{color:#d97706!important}#app .blueText{color:#2563eb!important}
+#app .badge.high{background:#fee2e2!important;color:#991b1b!important}
+#app .badge.medium{background:#fef3c7!important;color:#92400e!important}
+#app .badge.low,#app .badge.ok{background:#dcfce7!important;color:#166534!important}
+#app .miniBadge.gold{background:#eff6ff!important;color:#1d4ed8!important;border-color:#bfdbfe!important}
+#app .allocationStepNum{background:#2563eb!important;color:#ffffff!important}
+#app .calItem{background:#dbeafe!important;color:#1e40af!important}.calItem.warn,#app .calItem.warn{background:#fef3c7!important;color:#92400e!important}
 @media print{.sidebar,.top,.actions,.toolbar,.modal{display:none!important}.appShell{display:block}.card{box-shadow:none}.wrap{max-width:none;padding:0}}
 </style>
 </head>
@@ -2031,7 +2047,7 @@ function drawWealthCharts(){
 function drawDonut(id,labels,values,totalValue){
   const canvas=document.getElementById(id);if(!canvas)return;const dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=Math.max(w*dpr,1);canvas.height=Math.max(h*dpr,1);const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
   const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f5f5f5');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill();
-  const total=values.reduce((a,b)=>a+n(b),0)||1,cx=w*.31,cy=h*.5,r=Math.min(h*.31,w*.2),colors=['#111111','#3a3a3a','#686868','#909090','#b8b8b8','#d0d0d0'],lineWidth=Math.max(r*.34,18),segments=[];let start=-Math.PI/2;
+  const total=values.reduce((a,b)=>a+n(b),0)||1,cx=w*.31,cy=h*.5,r=Math.min(h*.31,w*.2),colors=['#2563eb','#16a34a','#f59e0b','#dc2626','#7c3aed','#0891b2'],lineWidth=Math.max(r*.34,18),segments=[];let start=-Math.PI/2;
   values.forEach((value,i)=>{const angle=n(value)/total*Math.PI*2,end=start+angle;segments.push({start,end,label:labels[i],value:n(value),color:colors[i%colors.length]});ctx.beginPath();ctx.arc(cx,cy,r,start,end);ctx.strokeStyle=colors[i%colors.length];ctx.lineWidth=lineWidth;ctx.stroke();start=end});
   ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#111111';ctx.font='800 16px Manrope, system-ui, sans-serif';ctx.fillText(compactMoney(totalValue),cx,cy-6);ctx.fillStyle='#5f5f5f';ctx.font='10px Work Sans, system-ui, sans-serif';ctx.fillText('GROSS ASSETS',cx,cy+13);
   ctx.textAlign='left';labels.forEach((label,i)=>{const y=35+i*30;ctx.fillStyle=colors[i%colors.length];ctx.fillRect(w*.59,y-6,10,10);ctx.fillStyle='#111111';ctx.font='11px Work Sans, system-ui, sans-serif';const short=String(label).length>18?String(label).slice(0,17)+'…':label;ctx.fillText(short,w*.59+17,y);ctx.fillStyle='#5f5f5f';ctx.font='10px Work Sans, system-ui, sans-serif';ctx.fillText(Math.round(n(values[i])/total*100)+'%',w*.88,y)});
@@ -2046,7 +2062,7 @@ function drawAllocationChart(id){
   ctx.fillStyle='#111111';ctx.font='800 15px Manrope, system-ui, sans-serif';ctx.fillText('Chit cash allocation',18,26);ctx.fillStyle='#5f5f5f';ctx.font='11px Work Sans, system-ui, sans-serif';ctx.fillText('Available '+compactMoney(cp.usable)+' · One-time '+compactMoney(cp.oneTime),18,46);
   if(!plan.length){ctx.fillStyle='#5f5f5f';ctx.fillText('No allocation targets yet.',18,h/2);return}
   const max=Math.max(...plan.map(x=>x.balance),cp.usable,1),left=18,right=18,top=68,rowH=Math.max(22,Math.min(34,(h-top-18)/plan.length));
-  plan.forEach((x,i)=>{const y=top+i*rowH,full=(w-left-right)*Math.min(x.balance/max,1),pay=(w-left-right)*Math.min(x.pay/max,1);ctx.fillStyle='#e8e8e8';roundRect(ctx,left,y,Math.max(full,2),rowH*.45,8);ctx.fill();ctx.fillStyle=x.status==='Full Clear'?'#111111':x.status==='Partial'?'#5f5f5f':'#bdbdbd';roundRect(ctx,left,y,Math.max(pay,2),rowH*.45,8);ctx.fill();ctx.fillStyle='#111111';ctx.font='11px Work Sans, system-ui, sans-serif';ctx.fillText(String(i+1)+'. '+String(x.name||'').slice(0,24),left,y+rowH*.88);ctx.textAlign='right';ctx.fillStyle='#111111';ctx.fillText(compactMoney(x.pay),w-right,y+rowH*.88);ctx.textAlign='left'});
+  plan.forEach((x,i)=>{const y=top+i*rowH,full=(w-left-right)*Math.min(x.balance/max,1),pay=(w-left-right)*Math.min(x.pay/max,1);ctx.fillStyle='#e8e8e8';roundRect(ctx,left,y,Math.max(full,2),rowH*.45,8);ctx.fill();ctx.fillStyle=x.status==='Full Clear'?'#16a34a':x.status==='Partial'?'#f59e0b':'#bdbdbd';roundRect(ctx,left,y,Math.max(pay,2),rowH*.45,8);ctx.fill();ctx.fillStyle='#111111';ctx.font='11px Work Sans, system-ui, sans-serif';ctx.fillText(String(i+1)+'. '+String(x.name||'').slice(0,24),left,y+rowH*.88);ctx.textAlign='right';ctx.fillStyle='#2563eb';ctx.fillText(compactMoney(x.pay),w-right,y+rowH*.88);ctx.textAlign='left'});
 }
 function drawProjectionChart(){
   const canvas=document.getElementById('projectionChart');if(!canvas)return;const dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=Math.max(w*dpr,1);canvas.height=Math.max(h*dpr,1);const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
@@ -2054,7 +2070,7 @@ function drawProjectionChart(){
   ctx.clearRect(0,0,w,h);const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f5f5f5');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill();ctx.font='10px Work Sans, system-ui, sans-serif';ctx.fillStyle='#5f5f5f';ctx.textAlign='right';ctx.textBaseline='middle';
   for(let i=0;i<=4;i++){const y=top+plotH*i/4,value=max*(1-i/4);ctx.strokeStyle='#d7d7d7';ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();ctx.fillText(compactMoney(value),left-7,y)}
   const line=(series,color)=>{ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineJoin='round';ctx.beginPath();series.forEach((v,i)=>{const x=left+plotW*i/(count-1),y=top+plotH*(1-v/max);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()};
-  line(current,'#8d8d8d');line(planned,'#111111');ctx.textAlign='center';ctx.fillStyle='#5f5f5f';[0,Math.floor((count-1)/2),count-1].forEach(i=>ctx.fillText('Year '+i,left+plotW*i/(count-1),h-14));
+  line(current,'#64748b');line(planned,'#16a34a');ctx.textAlign='center';ctx.fillStyle='#5f5f5f';[0,Math.floor((count-1)/2),count-1].forEach(i=>ctx.fillText('Year '+i,left+plotW*i/(count-1),h-14));
 }
 function drawEmptyChart(id,msg){
   const canvas=document.getElementById(id); if(!canvas)return;
@@ -2069,7 +2085,7 @@ function drawEmptyChart(id,msg){
 }
 function drawBar(id,labels,values,horizontal=false){
   const canvas=document.getElementById(id); if(!canvas)return; const dpr=window.devicePixelRatio||1; const w=canvas.clientWidth,h=canvas.clientHeight; canvas.width=Math.max(w*dpr,1); canvas.height=Math.max(h*dpr,1); const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
-  ctx.clearRect(0,0,w,h); const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f5f5f5');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill(); const max=Math.max(...values,1); const colors=['#111111','#3a3a3a','#686868','#909090','#b8b8b8'];
+  ctx.clearRect(0,0,w,h); const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f5f5f5');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill(); const max=Math.max(...values,1); const colors=['#2563eb','#16a34a','#f59e0b','#dc2626','#7c3aed','#0891b2'];
   ctx.font='11px Work Sans, system-ui, sans-serif'; ctx.fillStyle='#5f5f5f'; ctx.textBaseline='middle';
   if(horizontal){
     const labelW=Math.min(145,w*.38),plotW=Math.max(w-labelW-82,40),barH=Math.min(26,Math.max(15,(h-34)/Math.max(labels.length,1)-12));
@@ -2084,7 +2100,7 @@ function roundRect(ctx,x,y,w,h,r){const radius=Math.min(r,Math.abs(w)/2,Math.abs
 function compactMoney(value){const v=n(value),a=Math.abs(v);if(a>=10000000)return '₹'+(v/10000000).toFixed(1)+'Cr';if(a>=100000)return '₹'+(v/100000).toFixed(1)+'L';if(a>=1000)return '₹'+(v/1000).toFixed(0)+'K';return '₹'+v.toFixed(0)}
 function drawPie(id,labels,values){
   const canvas=document.getElementById(id); if(!canvas)return; const dpr=window.devicePixelRatio||1; canvas.width=canvas.clientWidth*dpr; canvas.height=canvas.clientHeight*dpr; const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
-  const w=canvas.clientWidth,h=canvas.clientHeight; ctx.clearRect(0,0,w,h); const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f5f5f5');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill(); const total=values.reduce((a,b)=>a+b,0)||1; let start=-Math.PI/2; const cx=w*.35,cy=h*.5,r=Math.min(w,h)*.32; const colors=['#111111','#3a3a3a','#686868','#909090','#b8b8b8','#d0d0d0'];
+  const w=canvas.clientWidth,h=canvas.clientHeight; ctx.clearRect(0,0,w,h); const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f5f5f5');ctx.fillStyle=bg;roundRect(ctx,0,0,w,h,10);ctx.fill(); const total=values.reduce((a,b)=>a+b,0)||1; let start=-Math.PI/2; const cx=w*.35,cy=h*.5,r=Math.min(w,h)*.32; const colors=['#2563eb','#16a34a','#f59e0b','#dc2626','#7c3aed','#0891b2'];
   values.forEach((v,i)=>{let ang=v/total*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+ang); ctx.closePath(); ctx.fillStyle=colors[i%colors.length]; ctx.fill(); start+=ang;});
   ctx.font='12px Work Sans, system-ui, sans-serif'; labels.forEach((lab,i)=>{let y=35+i*26; ctx.fillStyle=colors[i%colors.length]; ctx.fillRect(w*.62,y-12,14,14); ctx.fillStyle='#111111'; ctx.fillText(lab.replaceAll('_',' ')+': '+Math.round(values[i]/total*100)+'%',w*.62+22,y);});
 }
